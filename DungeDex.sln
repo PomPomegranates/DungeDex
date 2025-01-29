@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.12.35707.178 d17.12
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DungeDex", "DungeDex\DungeDex\DungeDex.csproj", "{5BD5D2DB-5AFD-40EC-B55A-6F09436F3D0B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DungeDexFE", "DungeDex\DungeDex\DungeDexFE.csproj", "{5BD5D2DB-5AFD-40EC-B55A-6F09436F3D0B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DungeDex.Client", "DungeDex\DungeDex.Client\DungeDex.Client.csproj", "{F9555BBA-924F-4FD6-9EA9-EDEF0B239C8F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DungeDexFE.Client", "DungeDex\DungeDex.Client\DungeDexFE.Client.csproj", "{F9555BBA-924F-4FD6-9EA9-EDEF0B239C8F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DungeDexBE", "DungeDexBE\DungeDexBE.csproj", "{200DD5BA-67B1-480A-95B6-C6B29D4F4979}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{F9555BBA-924F-4FD6-9EA9-EDEF0B239C8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F9555BBA-924F-4FD6-9EA9-EDEF0B239C8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F9555BBA-924F-4FD6-9EA9-EDEF0B239C8F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{200DD5BA-67B1-480A-95B6-C6B29D4F4979}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{200DD5BA-67B1-480A-95B6-C6B29D4F4979}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{200DD5BA-67B1-480A-95B6-C6B29D4F4979}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{200DD5BA-67B1-480A-95B6-C6B29D4F4979}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
