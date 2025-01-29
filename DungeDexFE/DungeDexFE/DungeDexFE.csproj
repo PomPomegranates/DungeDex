@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DungeDex.Client\DungeDexFE.Client.csproj" />
+    <ProjectReference Include="..\DungeDexFE.Client\DungeDexFE.Client.csproj" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="8.0.12" />
   </ItemGroup>
 

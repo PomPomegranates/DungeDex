@@ -1,11 +1,14 @@
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 
-internal class Program
+namespace DungeDexFE.Client
 {
-    private static async Task Main(string[] args)
+    internal class Program
     {
-        var builder = WebAssemblyHostBuilder.CreateDefault(args);
+        static async Task Main(string[] args)
+        {
+            var builder = WebAssemblyHostBuilder.CreateDefault(args);
 
-        await builder.Build().RunAsync();
+            await builder.Build().RunAsync();
+        }
     }
 }
