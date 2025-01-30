@@ -16,6 +16,10 @@ namespace DungeDexBE
 			{
 				options.BaseAddress = new Uri("https://pokeapi.co/api/v2/");
 			});
+			builder.Services.AddHttpClient("dnd", options =>
+			{
+				options.BaseAddress = new Uri("https://www.dnd5eapi.co/api/");
+			});
 
 			builder.Services.AddScoped<IPokeApiRepository, PokeApiRepository>();
 			builder.Services.AddScoped<IPokemonService, PokemonService>();
