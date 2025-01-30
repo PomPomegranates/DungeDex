@@ -6,11 +6,7 @@
 
     [Parameter]
     public Monster Monster { get; set; } 
-    protected override async Task OnInitializedAsync()
-    {
-        var file = File.ReadAllText(".\\BareBonesMonster.json");
-        Monster = JsonSerializer.Deserialize<Monster>(file);
-    }
+    
 }
 
 <div>

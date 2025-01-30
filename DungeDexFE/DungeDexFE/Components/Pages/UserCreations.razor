@@ -1,0 +1,11 @@
+﻿@page "/UserCreations/Dave"
+<h3>UserCreations</h3>
+
+@foreach(var monster in MonsterSearch.GetUserMonsters("Dave")){
+    <MonsterDisplay Monster="monster"/>
+}
+
+
+@code {
+
+}
