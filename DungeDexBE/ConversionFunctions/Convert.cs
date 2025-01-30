@@ -4,6 +4,19 @@ namespace DungeDexBE.ConversionFunctions
 {
 	public class Convert
 	{
+		public static Monster MakeMonsterFromPokemon(Pokemon pokemon)
+		{
+			Monster monster = new Monster();
+
+			monster.Name = pokemon.Name;
+
+			ConvertBaseStats(pokemon, monster);
+
+			monster.ChallengeRating = DetermineExpectedCR(pokemon);
+
+			return monster;
+
+		}
 		public static void ConvertBaseStats(Pokemon pokemon, Monster monster)
 		{
 			ConvertAttackToStrength(pokemon, monster);
@@ -13,8 +26,8 @@ namespace DungeDexBE.ConversionFunctions
 			ConvertSpDefToWisdom(pokemon, monster);
 			ConvertDefenseToCharisma(pokemon, monster);
 			ConvertStatstoAC(pokemon, monster);
+			ConvertStatstoHitPoints(pokemon, monster);
 		}
-
 		public static void ConvertAttackToStrength(Pokemon pokemon, Monster monster)
 		{
 			if (pokemon.Attack < 11) monster.Attributes.Strength = 1;
@@ -213,10 +226,122 @@ namespace DungeDexBE.ConversionFunctions
 			if (pokemon.Defense >= 214 && pokemon.Defense < 222) monster.Attributes.Charisma = 29;
 			if (pokemon.Defense >= 222) monster.Attributes.Charisma = 30;
 		}
+		public static void ConvertStatstoHitPoints(Pokemon pokemon, Monster monster)
+		{
+			float expectedCR = DetermineExpectedCR(pokemon);
 
+			switch (expectedCR)
+			{
+				case 0:
+					monster.HitPoints = 1;
+					break;
+				case 0.125f:
+					monster.HitPoints = 7;
+					break;
+				case 0.25f:
+					monster.HitPoints = 36;
+					break;
+				case 0.5f:
+					monster.HitPoints = 50;
+					break;
+				case 1:
+					monster.HitPoints = 71;
+					break;
+				case 2:
+					monster.HitPoints = 86;
+					break;
+				case 3:
+					monster.HitPoints = 101;
+					break;
+				case 4:
+					monster.HitPoints = 116;
+					break;
+				case 5:
+					monster.HitPoints = 131;
+					break;
+				case 6:
+					monster.HitPoints = 146;
+					break;
+				case 7:
+					monster.HitPoints = 161;
+					break;
+				case 8:
+					monster.HitPoints = 176;
+					break;
+				case 9:
+					monster.HitPoints = 191;
+					break;
+				default:
+				case 10:
+					monster.HitPoints = 206;
+					break;
+				case 11:
+					monster.HitPoints = 221;
+					break;
+				case 12:
+					monster.HitPoints = 236;
+					break;
+				case 13:
+					monster.HitPoints = 251;
+					break;
+				case 14:
+					monster.HitPoints = 266;
+					break;
+				case 15:
+					monster.HitPoints = 281;
+					break;
+				case 16:
+					monster.HitPoints = 296;
+					break;
+				case 17:
+					monster.HitPoints = 311;
+					break;
+				case 18:
+					monster.HitPoints = 326;
+					break;
+				case 19:
+					monster.HitPoints = 341;
+					break;
+				case 20:
+					monster.HitPoints = 356;
+					break;
+				case 21:
+					monster.HitPoints = 401;
+					break;
+				case 22:
+					monster.HitPoints = 446;
+					break;
+				case 23:
+					monster.HitPoints = 491;
+					break;
+				case 24:
+					monster.HitPoints = 536;
+					break;
+				case 25:
+					monster.HitPoints = 581;
+					break;
+				case 26:
+					monster.HitPoints = 626;
+					break;
+				case 27:
+					monster.HitPoints = 671;
+					break;
+				case 28:
+					monster.HitPoints = 716;
+					break;
+				case 29:
+					monster.HitPoints = 761;
+					break;
+				case 30:
+					monster.HitPoints = 806;
+					break;
+			}
+
+			monster.HitPoints += monster.Attributes.Constitution;
+		}
 		public static void ConvertStatstoAC(Pokemon pokemon, Monster monster)
 		{
-			float expectedCR = DetermineExpectedCR(pokemon, monster);
+			float expectedCR = DetermineExpectedCR(pokemon);
 
 			switch (expectedCR)
 			{
@@ -251,8 +376,7 @@ namespace DungeDexBE.ConversionFunctions
 			else if (pokemon.Defense > 74) monster.ArmorClass += 1;
 
 		}
-
-		public static float DetermineExpectedCR(Pokemon pokemon, Monster monster)
+		public static float DetermineExpectedCR(Pokemon pokemon)
 		{
 			float expectedCR = 0f;
 			int BST = pokemon.HP + pokemon.Attack + pokemon.Defense + pokemon.SpecialAttack + pokemon.SpecialDefense + pokemon.Speed;
@@ -294,5 +418,8 @@ namespace DungeDexBE.ConversionFunctions
 
 			return expectedCR;
 		}
+
+		//public static void SetFinalCR(Pokemon pokemon, Monster monster) {}
+	
 	}
 }

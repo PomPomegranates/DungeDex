@@ -4,7 +4,7 @@
     {
 		public int Id { get; set; }
         public string Name { get; set; } = null!;
-		public int ChallengeRating { get; set; }
+		public float ChallengeRating { get; set; }
 		public int ArmorClass { get; set; }
         public Attributes Attributes { get; set; } = null!;
         public int HitPoints { get; set; }
