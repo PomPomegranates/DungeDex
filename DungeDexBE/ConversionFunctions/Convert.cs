@@ -12,7 +12,7 @@ namespace DungeDexBE.ConversionFunctions
 
 			ConvertBaseStats(pokemon, monster);
 
-			monster.ChallengeRating = DetermineExpectedCR(pokemon);
+			monster.ChallengeRating = DetermineExpectedCR(pokemon); // Should be something else
 
 			return monster;
 
@@ -419,7 +419,7 @@ namespace DungeDexBE.ConversionFunctions
 			return expectedCR;
 		}
 
-		//public static void SetFinalCR(Pokemon pokemon, Monster monster) {}
+		//public static void SetFinalCR(Pokemon pokemon, Monster monster) {} Needs attack data before actionable
 	
 	}
 }
