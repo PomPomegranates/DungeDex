@@ -1,4 +1,4 @@
-﻿using DungeDexBE.Enums;
+﻿using System.Net;
 using DungeDexBE.Interfaces.RepositoryInterfaces;
 using DungeDexBE.Models;
 using Newtonsoft.Json.Linq;
@@ -16,19 +16,35 @@ namespace DungeDexBE.Repositories
 
 		public async Task<Result<Pokemon>> GetPokemon(string pokemonName)
 		{
-			using var httpClient = _httpClient;
-			var response = await httpClient.GetAsync($"pokemon/{pokemonName}");
 			var result = new Result<Pokemon>();
 
-			if (!response.IsSuccessStatusCode)
+			try
 			{
-				var errorMessage = await response.Content.ReadAsStringAsync();
-				result.Outcome = Outcome.Failure;
-				result.ErrorMessage = $"An error occurred while contacting PokéAPI. Error: {errorMessage}.";
-				return result;
+				using var httpClient = _httpClient;
+				var response = await httpClient.GetAsync($"pokemon/{pokemonName}");
+				response.EnsureSuccessStatusCode();
+				var json = await response.Content.ReadAsStringAsync();
+				var pokemon = ConvertJsonToPokemon(json);
+				result.Value = pokemon;
+			}
+			catch (HttpRequestException ex)
+			{
+				result.IsSuccess = false;
+				result.StatusCode = ex.StatusCode!.Value;
+				result.ErrorMessage = $"PokéAPI {ex.Message}";
+			}
+			catch (Exception ex)
+			{
+				result.IsSuccess = false;
+				result.StatusCode = HttpStatusCode.InternalServerError;
+				result.ErrorMessage = $"An error occurred while deserializing the PokéAPI response.";
 			}
 
-			var json = await response.Content.ReadAsStringAsync();
+			return result;
+		}
+
+		private Pokemon ConvertJsonToPokemon(string json)
+		{
 			var jObj = JObject.Parse(json);
 			var pokemonStats = jObj["stats"]!.ToList();
 			var pokemon = new Pokemon()
@@ -42,8 +58,7 @@ namespace DungeDexBE.Repositories
 				Speed = ((int)pokemonStats[5]!["base_stat"]!)
 			};
 
-			result.Value = pokemon;
-			return result;
+			return pokemon;
 		}
 	}
 }

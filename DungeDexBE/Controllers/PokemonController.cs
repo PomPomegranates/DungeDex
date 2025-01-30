@@ -1,5 +1,4 @@
-﻿using DungeDexBE.Enums;
-using DungeDexBE.Interfaces.ServiceInterfaces;
+﻿using DungeDexBE.Interfaces.ServiceInterfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DungeDexBE.Controllers
@@ -20,9 +19,9 @@ namespace DungeDexBE.Controllers
 		{
 			var result = await _pokemonService.GetBasePokemonAsync(pokemonNameOrId);
 
-			if (result.Outcome == Outcome.Success) return Ok(result.Value);
+			if (result.IsSuccess) return Ok(result.Value);
 
-			return BadRequest(result.ErrorMessage);
+			return StatusCode((int)result.StatusCode!, result.ErrorMessage);
 		}
 	}
 }
