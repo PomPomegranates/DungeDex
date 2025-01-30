@@ -1,4 +1,4 @@
-﻿namespace DungeDexBE.Enums
+﻿namespace DungeDexFE.Client.Enums
 {
 	public enum EAttributes
 	{

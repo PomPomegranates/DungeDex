@@ -1,13 +1,11 @@
-﻿using DungeDexBE.Enums;
-
-namespace DungeDexBE.Models
+﻿namespace DungeDexBE.Models
 {
 	public class Spell
-    {
-        public int Id { get; set; }
-        public int MonsterId { get; set; }
-        public string Name { get; set; } = null!;
-        public string Description { get; set; } = null!;
+	{
+		public int Id { get; set; }
+		public int MonsterId { get; set; }
+		public string Name { get; set; } = null!;
+		public string Description { get; set; } = null!;
 
 		#region stretch
 		//public string Range { get; set; }
