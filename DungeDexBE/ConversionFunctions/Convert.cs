@@ -10,6 +10,7 @@ namespace DungeDexBE.ConversionFunctions
 			ConvertHPToConstitution(pokemon, monster);
 			ConvertSpeedToDexterity(pokemon, monster);
 			ConvertSpAtkToIntelligence(pokemon, monster);
+			ConvertSpDefToWisdom(pokemon, monster);
 		}
 
 		public static void ConvertAttackToStrength(Pokemon pokemon, Monster monster)
@@ -146,36 +147,36 @@ namespace DungeDexBE.ConversionFunctions
 		}
 		public static void ConvertSpDefToWisdom(Pokemon pokemon, Monster monster)
 		{
-			if (pokemon.SpecialAttack < 16) monster.Attributes.Intelligence = 1;
-			if (pokemon.SpecialAttack >= 16 && pokemon.SpecialAttack < 22) monster.Attributes.Intelligence = 2;
-			if (pokemon.SpecialAttack >= 22 && pokemon.SpecialAttack < 28) monster.Attributes.Intelligence = 3;
-			if (pokemon.SpecialAttack >= 28 && pokemon.SpecialAttack < 34) monster.Attributes.Intelligence = 4;
-			if (pokemon.SpecialAttack >= 34 && pokemon.SpecialAttack < 40) monster.Attributes.Intelligence = 5;
-			if (pokemon.SpecialAttack >= 40 && pokemon.SpecialAttack < 46) monster.Attributes.Intelligence = 6;
-			if (pokemon.SpecialAttack >= 46 && pokemon.SpecialAttack < 52) monster.Attributes.Intelligence = 7;
-			if (pokemon.SpecialAttack >= 52 && pokemon.SpecialAttack < 58) monster.Attributes.Intelligence = 8;
-			if (pokemon.SpecialAttack >= 58 && pokemon.SpecialAttack < 64) monster.Attributes.Intelligence = 9;
-			if (pokemon.SpecialAttack >= 64 && pokemon.SpecialAttack < 70) monster.Attributes.Intelligence = 10;
-			if (pokemon.SpecialAttack >= 70 && pokemon.SpecialAttack < 76) monster.Attributes.Intelligence = 11;
-			if (pokemon.SpecialAttack >= 76 && pokemon.SpecialAttack < 82) monster.Attributes.Intelligence = 12;
-			if (pokemon.SpecialAttack >= 82 && pokemon.SpecialAttack < 88) monster.Attributes.Intelligence = 13;
-			if (pokemon.SpecialAttack >= 88 && pokemon.SpecialAttack < 94) monster.Attributes.Intelligence = 14;
-			if (pokemon.SpecialAttack >= 94 && pokemon.SpecialAttack < 100) monster.Attributes.Intelligence = 15;
-			if (pokemon.SpecialAttack >= 100 && pokemon.SpecialAttack < 106) monster.Attributes.Intelligence = 16;
-			if (pokemon.SpecialAttack >= 106 && pokemon.SpecialAttack < 112) monster.Attributes.Intelligence = 17;
-			if (pokemon.SpecialAttack >= 112 && pokemon.SpecialAttack < 118) monster.Attributes.Intelligence = 18;
-			if (pokemon.SpecialAttack >= 118 && pokemon.SpecialAttack < 124) monster.Attributes.Intelligence = 19;
-			if (pokemon.SpecialAttack >= 124 && pokemon.SpecialAttack < 130) monster.Attributes.Intelligence = 20;
-			if (pokemon.SpecialAttack >= 130 && pokemon.SpecialAttack < 136) monster.Attributes.Intelligence = 21;
-			if (pokemon.SpecialAttack >= 136 && pokemon.SpecialAttack < 142) monster.Attributes.Intelligence = 22;
-			if (pokemon.SpecialAttack >= 142 && pokemon.SpecialAttack < 148) monster.Attributes.Intelligence = 23;
-			if (pokemon.SpecialAttack >= 148 && pokemon.SpecialAttack < 154) monster.Attributes.Intelligence = 24;
-			if (pokemon.SpecialAttack >= 154 && pokemon.SpecialAttack < 160) monster.Attributes.Intelligence = 25;
-			if (pokemon.SpecialAttack >= 160 && pokemon.SpecialAttack < 166) monster.Attributes.Intelligence = 26;
-			if (pokemon.SpecialAttack >= 166 && pokemon.SpecialAttack < 172) monster.Attributes.Intelligence = 27;
-			if (pokemon.SpecialAttack >= 172 && pokemon.SpecialAttack < 178) monster.Attributes.Intelligence = 28;
-			if (pokemon.SpecialAttack >= 178 && pokemon.SpecialAttack < 184) monster.Attributes.Intelligence = 29;
-			if (pokemon.SpecialAttack >= 184) monster.Attributes.Intelligence = 30;
+			if (pokemon.SpecialDefense < 27) monster.Attributes.Wisdom = 1;
+			if (pokemon.SpecialDefense >= 27 && pokemon.SpecialDefense < 34) monster.Attributes.Wisdom = 2;
+			if (pokemon.SpecialDefense >= 34 && pokemon.SpecialDefense < 41) monster.Attributes.Wisdom = 3;
+			if (pokemon.SpecialDefense >= 41 && pokemon.SpecialDefense < 48) monster.Attributes.Wisdom = 4;
+			if (pokemon.SpecialDefense >= 48 && pokemon.SpecialDefense < 55) monster.Attributes.Wisdom = 5;
+			if (pokemon.SpecialDefense >= 55 && pokemon.SpecialDefense < 62) monster.Attributes.Wisdom = 6;
+			if (pokemon.SpecialDefense >= 62 && pokemon.SpecialDefense < 69) monster.Attributes.Wisdom = 7;
+			if (pokemon.SpecialDefense >= 69 && pokemon.SpecialDefense < 76) monster.Attributes.Wisdom = 8;
+			if (pokemon.SpecialDefense >= 76 && pokemon.SpecialDefense < 83) monster.Attributes.Wisdom = 9;
+			if (pokemon.SpecialDefense >= 83 && pokemon.SpecialDefense < 90) monster.Attributes.Wisdom = 10;
+			if (pokemon.SpecialDefense >= 90 && pokemon.SpecialDefense < 97) monster.Attributes.Wisdom = 11;
+			if (pokemon.SpecialDefense >= 97 && pokemon.SpecialDefense < 104) monster.Attributes.Wisdom = 12;
+			if (pokemon.SpecialDefense >= 104 && pokemon.SpecialDefense < 111) monster.Attributes.Wisdom = 13;
+			if (pokemon.SpecialDefense >= 111 && pokemon.SpecialDefense < 118) monster.Attributes.Wisdom = 14;
+			if (pokemon.SpecialDefense >= 118 && pokemon.SpecialDefense < 125) monster.Attributes.Wisdom = 15;
+			if (pokemon.SpecialDefense >= 125 && pokemon.SpecialDefense < 132) monster.Attributes.Wisdom = 16;
+			if (pokemon.SpecialDefense >= 132 && pokemon.SpecialDefense < 139) monster.Attributes.Wisdom = 17;
+			if (pokemon.SpecialDefense >= 139 && pokemon.SpecialDefense < 146) monster.Attributes.Wisdom = 18;
+			if (pokemon.SpecialDefense >= 146 && pokemon.SpecialDefense < 153) monster.Attributes.Wisdom = 19;
+			if (pokemon.SpecialDefense >= 153 && pokemon.SpecialDefense < 160) monster.Attributes.Wisdom = 20;
+			if (pokemon.SpecialDefense >= 160 && pokemon.SpecialDefense < 167) monster.Attributes.Wisdom = 21;
+			if (pokemon.SpecialDefense >= 167 && pokemon.SpecialDefense < 174) monster.Attributes.Wisdom = 22;
+			if (pokemon.SpecialDefense >= 174 && pokemon.SpecialDefense < 181) monster.Attributes.Wisdom = 23;
+			if (pokemon.SpecialDefense >= 181 && pokemon.SpecialDefense < 188) monster.Attributes.Wisdom = 24;
+			if (pokemon.SpecialDefense >= 188 && pokemon.SpecialDefense < 195) monster.Attributes.Wisdom = 25;
+			if (pokemon.SpecialDefense >= 195 && pokemon.SpecialDefense < 202) monster.Attributes.Wisdom = 26;
+			if (pokemon.SpecialDefense >= 202 && pokemon.SpecialDefense < 209) monster.Attributes.Wisdom = 27;
+			if (pokemon.SpecialDefense >= 209 && pokemon.SpecialDefense < 216) monster.Attributes.Wisdom = 28;
+			if (pokemon.SpecialDefense >= 216 && pokemon.SpecialDefense < 223) monster.Attributes.Wisdom = 29;
+			if (pokemon.SpecialDefense >= 223) monster.Attributes.Wisdom = 30;
 		}
 	}
 }
