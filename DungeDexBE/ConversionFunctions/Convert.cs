@@ -15,8 +15,8 @@ namespace DungeDexBE.ConversionFunctions
 			monster.ChallengeRating = DetermineExpectedCR(pokemon);
 
 			return monster;
-
 		}
+
 		public static void ConvertBaseStats(Pokemon pokemon, Monster monster)
 		{
 			ConvertAttackToStrength(pokemon, monster);

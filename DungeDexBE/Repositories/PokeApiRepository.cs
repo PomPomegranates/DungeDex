@@ -7,11 +7,11 @@ namespace DungeDexBE.Repositories
 {
 	public class PokeApiRepository : IPokeApiRepository
 	{
-		private readonly HttpClient _httpClient;
+		private readonly IHttpClientFactory _httpClient;
 
 		public PokeApiRepository(IHttpClientFactory httpClientFactory)
 		{
-			_httpClient = httpClientFactory.CreateClient("pokemon");
+			_httpClient = httpClientFactory;
 		}
 
 		public async Task<Result<Pokemon>> GetPokemon(string pokemonName)
@@ -20,7 +20,7 @@ namespace DungeDexBE.Repositories
 
 			try
 			{
-				using var httpClient = _httpClient;
+				using var httpClient = _httpClient.CreateClient("pokemon");
 				var response = await httpClient.GetAsync($"pokemon/{pokemonName}");
 				response.EnsureSuccessStatusCode();
 				var json = await response.Content.ReadAsStringAsync();
@@ -46,7 +46,7 @@ namespace DungeDexBE.Repositories
 		private Pokemon ConvertJsonToPokemon(string json)
 		{
 			var jObj = JObject.Parse(json);
-			var pokemonStats = jObj["stats"]!.ToList();
+			var pokemonStats = jObj["stats!!!"]!.ToList();
 			var pokemon = new Pokemon()
 			{
 				Name = jObj["name"]!.ToString(),

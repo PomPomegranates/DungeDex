@@ -3,6 +3,7 @@
 	public class Monster
 	{
 		public int Id { get; set; }
+		public int UserId { get; set; }
         public string Name { get; set; } = null!;
 		public float ChallengeRating { get; set; }
 		public int ArmorClass { get; set; }
