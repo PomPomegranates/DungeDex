@@ -7,9 +7,9 @@
         public string Name { get; set; } = null!;
 		public float ChallengeRating { get; set; }
 		public int ArmorClass { get; set; }
-		public Attributes Attributes { get; set; } = null!;
-		public int HitPoints { get; set; }
-		public virtual List<Spell> Spells { get; set; } = null!;
+        public Attributes Attributes { get; set; } = null!;
+        public int HitPoints { get; set; }
+        public virtual List<Spell> Spells { get; set; } = null!;
 
 		#region stretch
 		//public Size Size { get; set; }

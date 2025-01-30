@@ -6,13 +6,21 @@ namespace DungeDexBE.ConversionFunctions
 	{
 		public static Monster MakeMonsterFromPokemon(Pokemon pokemon)
 		{
+			
 			Monster monster = new Monster();
+
+			monster.Id = 0; // Will be database generated later
 
 			monster.Name = pokemon.Name;
 
 			ConvertBaseStats(pokemon, monster);
 
-			monster.ChallengeRating = DetermineExpectedCR(pokemon);
+			monster.ChallengeRating = DetermineExpectedCR(pokemon); // Should be something else
+
+			monster.Spells = new List<Spell>
+			{
+				new Spell{Id = 0, MonsterId = monster.Id, Name = "Fireball", Description = "Ouch"}
+			};
 
 			return monster;
 		}
@@ -271,10 +279,6 @@ namespace DungeDexBE.ConversionFunctions
 				case 9:
 					monster.HitPoints = 191;
 					break;
-				default:
-				case 10:
-					monster.HitPoints = 206;
-					break;
 				case 11:
 					monster.HitPoints = 221;
 					break;
@@ -334,6 +338,10 @@ namespace DungeDexBE.ConversionFunctions
 					break;
 				case 30:
 					monster.HitPoints = 806;
+					break;
+				default:
+				case 10:
+					monster.HitPoints = 206;
 					break;
 			}
 
@@ -419,7 +427,7 @@ namespace DungeDexBE.ConversionFunctions
 			return expectedCR;
 		}
 
-		//public static void SetFinalCR(Pokemon pokemon, Monster monster) {}
+		//public static void SetFinalCR(Pokemon pokemon, Monster monster) {} Needs attack data before actionable
 	
 	}
 }
