@@ -1,3 +1,6 @@
+using DungeDexBE.Interfaces;
+using DungeDexBE.Repositories;
+
 namespace DungeDexBE
 {
 	public class Program
@@ -7,12 +10,15 @@ namespace DungeDexBE
             var builder = WebApplication.CreateBuilder(args);
 
             builder.Services.AddControllers();
-            builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
             builder.Services.AddHttpClient("pokemon", options =>
 			{
                 options.BaseAddress = new Uri("https://pokeapi.co/api/v2/");
             });
+
+            builder.Services.AddScoped<IPokeApiRepository, PokeApiRepository>();
+
+            builder.Services.AddEndpointsApiExplorer();
+            builder.Services.AddSwaggerGen();
 
             var app = builder.Build();
 
