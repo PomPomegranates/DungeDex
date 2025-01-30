@@ -1,0 +1,28 @@
+﻿@using DungeDexFE.Client.Models;
+<h3>MonsterDisplay</h3>
+
+@code {
+    [Parameter] public Monster monster { get; set; }
+
+}
+
+<div>
+    <p>Name : @monster.Name</p>
+    <p>Challenge Rating : @monster.ChallengeRating</p>
+    <p>AC : @monster.ArmorClass</p>
+    <p> HP: @monster.HitPoints</p>
+    <p>@monster.Attributes.Strength</p>
+   
+    @foreach(var spell in monster.Spells){
+        <p>Spell Name: @spell.Name</p>
+        <p>Spell Desc: @spell.Description</p>
+    }
+</div>
+<!--	public int Id { get; set; }
+        public string Name { get; set; } = null!;
+        public int ChallengeRating { get; set; }
+        public int ArmorClass { get; set; }
+        public Attributes Attributes { get; set; } = null!;
+        public int HitPoints { get; set; }
+        public virtual List<Spell> Spells { get; set; } = null!;
+-->

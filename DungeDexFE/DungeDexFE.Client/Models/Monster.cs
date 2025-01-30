@@ -1,4 +1,5 @@
-﻿namespace DungeDexFE.Client.Models
+﻿using DungeDexFE.Client.Enums;
+namespace DungeDexFE.Client.Models
 {
 	public class Monster
     {
@@ -11,11 +12,12 @@
         public virtual List<Spell> Spells { get; set; } = null!;
 
 		#region stretch
+		
 		public Size Size { get; set; }
 		public string Type { get; set; }
-		public Speed Speeds { get; set; }
+		public MoveSpeed Speeds { get; set; }
 		public int ProficiencyBonus { get; set; }
-		public List<Attributes> SavingThrows { get; set; }
+		public List<EAttributes> SavingThrows { get; set; }
 		public string? HitDice { get; set; }
 
 		public List<string> Proficiences { get; set; }
@@ -29,6 +31,7 @@
 		public int? SpellSaveDC { get; set; }
 		//public List<LegendaryAction>? LegendaryActions { get; set; }
 		public string Description { get; set; }
+		
 		#endregion
 	}
 }
