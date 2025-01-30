@@ -1,5 +1,7 @@
-﻿@using Models
+﻿@using DungeDexFE.Client.Models
+@using DungeDexFE.Client.Pages
 @using DungeDexFE.Components
+@rendermode InteractiveAuto
 <h3>ShowRandom</h3>
 
 <div>
@@ -9,12 +11,14 @@
     <h2>Here is a Randomly Generated DungeDex Monster</h2>
 
     Insert Data
-    <MonsterDisplay Monster=monsterRandom />
+    @if(monsterRandom != null){
+        <MonsterDisplay Monster=monsterRandom />
+    }
+
 
 </div>
 @code {
-
-    Monster monsterRandom { get; set; }
+    public Monster? monsterRandom { get; set; } 
 
 
     protected override async Task OnInitializedAsync()

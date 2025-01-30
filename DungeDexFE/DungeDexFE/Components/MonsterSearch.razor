@@ -14,7 +14,7 @@
         //1304
 
         var rand = new Random();
-        var id = rand.Next(1, 1026);
+        var id = await Task.Run(()=> rand.Next(1, 1026));
         var http = new HttpClient();
         var response = await http.GetFromJsonAsync<Monster>($"https://localhost:7298/api/Pokemon/{id}/monsterify");
         return response;
