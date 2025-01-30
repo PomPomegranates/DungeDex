@@ -10,10 +10,16 @@
     //     Monster = JsonSerializer.Deserialize<Monster>(file);
     // }
 
-    public static Monster GetRandomMonster(){
+    public static async Task<Monster> GetRandomMonster(){
         //1304
-        var file = File.ReadAllText(".\\BareBonesMonster.json");
-        return JsonSerializer.Deserialize<Monster>(file);
+
+        var rand = new Random();
+        var id = rand.Next(1, 1026);
+        var http = new HttpClient();
+        var response = await http.GetFromJsonAsync<Monster>($"https://localhost:7298/api/Pokemon/{id}/monsterify");
+        return response;
+        // var file = File.ReadAllText(".\\BareBonesMonster.json");
+        // return JsonSerializer.Deserialize<Monster>(file);
     }
 
     public static List<Monster> GetUserMonsters(string name)

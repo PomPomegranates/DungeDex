@@ -1,0 +1,25 @@
+﻿@using Models
+@using DungeDexFE.Components
+<h3>ShowRandom</h3>
+
+<div>
+    <button> Get Random Pokemon</button>
+</div>
+<div>
+    <h2>Here is a Randomly Generated DungeDex Monster</h2>
+
+    Insert Data
+    <MonsterDisplay Monster=monsterRandom />
+
+</div>
+@code {
+
+    Monster monsterRandom { get; set; }
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        monsterRandom = await MonsterSearch.GetRandomMonster();
+    }
+
+}
