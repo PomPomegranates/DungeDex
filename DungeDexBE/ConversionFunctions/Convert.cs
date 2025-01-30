@@ -11,6 +11,7 @@ namespace DungeDexBE.ConversionFunctions
 			ConvertSpeedToDexterity(pokemon, monster);
 			ConvertSpAtkToIntelligence(pokemon, monster);
 			ConvertSpDefToWisdom(pokemon, monster);
+			ConvertDefenseToCharisma(pokemon, monster);
 		}
 
 		public static void ConvertAttackToStrength(Pokemon pokemon, Monster monster)
@@ -177,6 +178,39 @@ namespace DungeDexBE.ConversionFunctions
 			if (pokemon.SpecialDefense >= 209 && pokemon.SpecialDefense < 216) monster.Attributes.Wisdom = 28;
 			if (pokemon.SpecialDefense >= 216 && pokemon.SpecialDefense < 223) monster.Attributes.Wisdom = 29;
 			if (pokemon.SpecialDefense >= 223) monster.Attributes.Wisdom = 30;
+		}
+		public static void ConvertDefenseToCharisma(Pokemon pokemon, Monster monster)
+		{
+			if (pokemon.Defense < 12) monster.Attributes.Charisma = 1;
+			if (pokemon.Defense >= 12 && pokemon.Defense < 19) monster.Attributes.Charisma = 2;
+			if (pokemon.Defense >= 19 && pokemon.Defense < 26) monster.Attributes.Charisma = 3;
+			if (pokemon.Defense >= 26 && pokemon.Defense < 33) monster.Attributes.Charisma = 4;
+			if (pokemon.Defense >= 33 && pokemon.Defense < 40) monster.Attributes.Charisma = 5;
+			if (pokemon.Defense >= 40 && pokemon.Defense < 47) monster.Attributes.Charisma = 6;
+			if (pokemon.Defense >= 47 && pokemon.Defense < 54) monster.Attributes.Charisma = 7;
+			if (pokemon.Defense >= 54 && pokemon.Defense < 61) monster.Attributes.Charisma = 8;
+			if (pokemon.Defense >= 61 && pokemon.Defense < 68) monster.Attributes.Charisma = 9;
+			if (pokemon.Defense >= 68 && pokemon.Defense < 75) monster.Attributes.Charisma = 10;
+			if (pokemon.Defense >= 75 && pokemon.Defense < 82) monster.Attributes.Charisma = 11;
+			if (pokemon.Defense >= 82 && pokemon.Defense < 89) monster.Attributes.Charisma = 12;
+			if (pokemon.Defense >= 89 && pokemon.Defense < 96) monster.Attributes.Charisma = 13;
+			if (pokemon.Defense >= 96 && pokemon.Defense < 103) monster.Attributes.Charisma = 14;
+			if (pokemon.Defense >= 103 && pokemon.Defense < 110) monster.Attributes.Charisma = 15;
+			if (pokemon.Defense >= 110 && pokemon.Defense < 118) monster.Attributes.Charisma = 16;
+			if (pokemon.Defense >= 118 && pokemon.Defense < 126) monster.Attributes.Charisma = 17;
+			if (pokemon.Defense >= 126 && pokemon.Defense < 134) monster.Attributes.Charisma = 18;
+			if (pokemon.Defense >= 134 && pokemon.Defense < 142) monster.Attributes.Charisma = 19;
+			if (pokemon.Defense >= 142 && pokemon.Defense < 150) monster.Attributes.Charisma = 20;
+			if (pokemon.Defense >= 150 && pokemon.Defense < 158) monster.Attributes.Charisma = 21;
+			if (pokemon.Defense >= 158 && pokemon.Defense < 166) monster.Attributes.Charisma = 22;
+			if (pokemon.Defense >= 166 && pokemon.Defense < 174) monster.Attributes.Charisma = 23;
+			if (pokemon.Defense >= 174 && pokemon.Defense < 182) monster.Attributes.Charisma = 24;
+			if (pokemon.Defense >= 182 && pokemon.Defense < 190) monster.Attributes.Charisma = 25;
+			if (pokemon.Defense >= 190 && pokemon.Defense < 198) monster.Attributes.Charisma = 26;
+			if (pokemon.Defense >= 198 && pokemon.Defense < 206) monster.Attributes.Charisma = 27;
+			if (pokemon.Defense >= 206 && pokemon.Defense < 214) monster.Attributes.Charisma = 28;
+			if (pokemon.Defense >= 214 && pokemon.Defense < 222) monster.Attributes.Charisma = 29;
+			if (pokemon.Defense >= 222) monster.Attributes.Charisma = 30;
 		}
 	}
 }
