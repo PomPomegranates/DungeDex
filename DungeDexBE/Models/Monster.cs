@@ -9,6 +9,7 @@
         public Attributes Attributes { get; set; } = null!;
         public int HitPoints { get; set; }
         public virtual List<Spell> Spells { get; set; } = null!;
+		public int UserId { get; set; }
 
 		#region stretch
         //public Size Size { get; set; }
