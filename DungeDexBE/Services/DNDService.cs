@@ -1,8 +1,9 @@
 ﻿using DungeDexBE.Interfaces.RepositoryInterfaces;
+using DungeDexBE.Interfaces.ServiceInterfaces;
 
 namespace DungeDexBE.Services
 {
-	public class DNDService
+    public class DNDService : IDNDService
 	{
 		private readonly IDNDApiRepository _apiRepository;
 
