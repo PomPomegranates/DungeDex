@@ -2,13 +2,13 @@ using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 
 namespace DungeDexFE.Client
 {
-    internal class Program
-    {
-        static async Task Main(string[] args)
-        {
-            var builder = WebAssemblyHostBuilder.CreateDefault(args);
+	internal class Program
+	{
+		static async Task Main(string[] args)
+		{
+			var builder = WebAssemblyHostBuilder.CreateDefault(args);
 
-            await builder.Build().RunAsync();
-        }
-    }
+			await builder.Build().RunAsync();
+		}
+	}
 }

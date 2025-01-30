@@ -1,4 +1,5 @@
-﻿using DungeDexBE.Repositories;
+﻿using DungeDexBE.Enums;
+using DungeDexBE.Interfaces.ServiceInterfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DungeDexBE.Controllers
@@ -7,17 +8,21 @@ namespace DungeDexBE.Controllers
 	[Route("api/[controller]")]
 	public class PokemonController : ControllerBase
 	{
-		private readonly PokeApiRepository _pokeApi;
+		private readonly IPokemonService _pokemonService;
 
-		public PokemonController(PokeApiRepository pokeApi)
+		public PokemonController(IPokemonService pokemonService)
 		{
-			_pokeApi = pokeApi;
+			_pokemonService = pokemonService;
 		}
 
-		[HttpGet]
-		public async Task<IActionResult> Index()
+		[HttpGet("{pokemonNameOrId}")]
+		public async Task<IActionResult> GetBasePokemon(string pokemonNameOrId)
 		{
+			var result = await _pokemonService.GetBasePokemonAsync(pokemonNameOrId);
 
+			if (result.Outcome == Outcome.Success) return Ok(result.Value);
+
+			return BadRequest(result.ErrorMessage);
 		}
 	}
 }

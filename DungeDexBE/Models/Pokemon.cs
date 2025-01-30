@@ -3,7 +3,7 @@
 	public class Pokemon
 	{
 		public string Name { get; set; }
-		public int HP {  get; set; }
+		public int HP { get; set; }
 		public int Attack { get; set; }
 		public int Defense { get; set; }
 		public int SpecialAttack { get; set; }
@@ -15,5 +15,8 @@
 		//public string? Type2 { get; set; }
 		#endregion
 
+
+		public override string ToString() =>
+			$"Name:\t{Name}\nHP:\t{HP}Attack:\t{Attack}\nDefense:\t{Defense}\nSpecialAttack:\t{SpecialAttack}\nSpecialDefense:\t{SpecialDefense}\nSpeed:\t{Speed}";
 	}
 }

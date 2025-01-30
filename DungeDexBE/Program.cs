@@ -1,40 +1,43 @@
-using DungeDexBE.Interfaces;
+using DungeDexBE.Interfaces.RepositoryInterfaces;
+using DungeDexBE.Interfaces.ServiceInterfaces;
 using DungeDexBE.Repositories;
+using DungeDexBE.Services;
 
 namespace DungeDexBE
 {
 	public class Program
-    {
-        public static void Main(string[] args)
-        {
-            var builder = WebApplication.CreateBuilder(args);
+	{
+		public static void Main(string[] args)
+		{
+			var builder = WebApplication.CreateBuilder(args);
 
-            builder.Services.AddControllers();
-            builder.Services.AddHttpClient("pokemon", options =>
+			builder.Services.AddControllers();
+			builder.Services.AddHttpClient("pokemon", options =>
 			{
-                options.BaseAddress = new Uri("https://pokeapi.co/api/v2/");
-            });
+				options.BaseAddress = new Uri("https://pokeapi.co/api/v2/");
+			});
 
-            builder.Services.AddScoped<IPokeApiRepository, PokeApiRepository>();
+			builder.Services.AddScoped<IPokeApiRepository, PokeApiRepository>();
+			builder.Services.AddScoped<IPokemonService, PokemonService>();
 
-            builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+			builder.Services.AddEndpointsApiExplorer();
+			builder.Services.AddSwaggerGen();
 
-            var app = builder.Build();
+			var app = builder.Build();
 
-            if (app.Environment.IsDevelopment())
-            {
-                app.UseSwagger();
-                app.UseSwaggerUI();
-            }
+			if (app.Environment.IsDevelopment())
+			{
+				app.UseSwagger();
+				app.UseSwaggerUI();
+			}
 
-            app.UseHttpsRedirection();
+			app.UseHttpsRedirection();
 
-            app.UseAuthorization();
+			app.UseAuthorization();
 
-            app.MapControllers();
+			app.MapControllers();
 
-            app.Run();
-        }
-    }
+			app.Run();
+		}
+	}
 }
