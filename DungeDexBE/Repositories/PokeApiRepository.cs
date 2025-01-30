@@ -14,9 +14,9 @@ namespace DungeDexBE.Repositories
 			_httpClient = httpClientFactory;
 		}
 
-		public async Task<Result<Pokemon>> GetPokemon(string pokemonName)
+		public async Task<Result> GetPokemon(string pokemonName)
 		{
-			var result = new Result<Pokemon>();
+			var result = new Result();
 
 			try
 			{
@@ -46,7 +46,7 @@ namespace DungeDexBE.Repositories
 		private Pokemon ConvertJsonToPokemon(string json)
 		{
 			var jObj = JObject.Parse(json);
-			var pokemonStats = jObj["stats!!!"]!.ToList();
+			var pokemonStats = jObj["stats"]!.ToList();
 			var pokemon = new Pokemon()
 			{
 				Name = jObj["name"]!.ToString(),

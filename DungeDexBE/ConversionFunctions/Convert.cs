@@ -2,25 +2,23 @@
 
 namespace DungeDexBE.ConversionFunctions
 {
-	public class Convert
+	public static class Convert
 	{
-		public static Monster MakeMonsterFromPokemon(Pokemon pokemon)
+		public static Monster ToMonster(this Pokemon pokemon)
 		{
-			
-			Monster monster = new Monster();
 
-			monster.Id = 0; // Will be database generated later
+			Monster monster = new();
 
 			monster.Name = pokemon.Name;
 
 			ConvertBaseStats(pokemon, monster);
 
-			monster.ChallengeRating = DetermineExpectedCR(pokemon); // Should be something else
+			monster.ChallengeRating = DetermineExpectedCR(pokemon);
 
-			monster.Spells = new List<Spell>
-			{
+			monster.Spells =
+			[
 				new Spell{Id = 0, MonsterId = monster.Id, Name = "Fireball", Description = "Ouch"}
-			};
+			];
 
 			return monster;
 		}
@@ -356,22 +354,35 @@ namespace DungeDexBE.ConversionFunctions
 				case 0:
 					monster.ArmorClass = 10;
 					break;
-				case 0.125f: case 0.25f: case 0.5f: case 1: case 2: case 3:
+				case 0.125f:
+				case 0.25f:
+				case 0.5f:
+				case 1:
+				case 2:
+				case 3:
 					monster.ArmorClass = 13;
 					break;
 				case 4:
 					monster.ArmorClass = 14;
 					break;
-				case 5: case 6: case 7:
+				case 5:
+				case 6:
+				case 7:
 					monster.ArmorClass = 15;
 					break;
-				case 8: case 9:
+				case 8:
+				case 9:
 					monster.ArmorClass = 16;
 					break;
-				case 10: case 11: case 12:
+				case 10:
+				case 11:
+				case 12:
 					monster.ArmorClass = 17;
 					break;
-				case 13: case 14: case 15: case 16:
+				case 13:
+				case 14:
+				case 15:
+				case 16:
 					monster.ArmorClass = 18;
 					break;
 				default:
@@ -393,41 +404,40 @@ namespace DungeDexBE.ConversionFunctions
 			if (BST >= 193 && BST < 211) expectedCR = 0.125f;
 			if (BST >= 211 && BST < 229) expectedCR = 0.25f;
 			if (BST >= 229 && BST < 247) expectedCR = 0.5f;
-			if (BST >= 247 && BST < 265) expectedCR = 1;
-			if (BST >= 265 && BST < 229) expectedCR = 2;
-			if (BST >= 283 && BST < 26) expectedCR = 3;
-			if (BST >= 301 && BST < 33) expectedCR = 4;
-			if (BST >= 319 && BST < 40) expectedCR = 5;
-			if (BST >= 337 && BST < 47) expectedCR = 6;
-			if (BST >= 355 && BST < 54) expectedCR = 7;
-			if (BST >= 373 && BST < 61) expectedCR = 8;
-			if (BST >= 391 && BST < 68) expectedCR = 9;
-			if (BST >= 409 && BST < 75) expectedCR = 10;
-			if (BST >= 427 && BST < 82) expectedCR = 11;
-			if (BST >= 445 && BST < 89) expectedCR = 12;
-			if (BST >= 463 && BST < 96) expectedCR = 13;
-			if (BST >= 481 && BST < 103) expectedCR = 14;
-			if (BST >= 499 && BST < 110) expectedCR = 15;
-			if (BST >= 517 && BST < 118) expectedCR = 16;
-			if (BST >= 535 && BST < 126) expectedCR = 17;
-			if (BST >= 553 && BST < 134) expectedCR = 18;
-			if (BST >= 571 && BST < 142) expectedCR = 19;
-			if (BST >= 589 && BST < 150) expectedCR = 20;
-			if (BST >= 607 && BST < 158) expectedCR = 21;
-			if (BST >= 626 && BST < 166) expectedCR = 22;
-			if (BST >= 645 && BST < 174) expectedCR = 23;
-			if (BST >= 664 && BST < 182) expectedCR = 24;
-			if (BST >= 683 && BST < 190) expectedCR = 25;
-			if (BST >= 702 && BST < 198) expectedCR = 26;
-			if (BST >= 721 && BST < 206) expectedCR = 27;
-			if (BST >= 740 && BST < 214) expectedCR = 28;
-			if (BST >= 759 && BST < 222) expectedCR = 29;
-			if (BST >= 778) expectedCR = 30;
+			if (BST >= 247 && BST < 265) expectedCR = 1f;
+			if (BST >= 265 && BST < 229) expectedCR = 2f;
+			if (BST >= 283 && BST < 283) expectedCR = 3f;
+			if (BST >= 301 && BST < 319) expectedCR = 4f;
+			if (BST >= 319 && BST < 337) expectedCR = 5f;
+			if (BST >= 337 && BST < 355) expectedCR = 6f;
+			if (BST >= 355 && BST < 373) expectedCR = 7f;
+			if (BST >= 373 && BST < 391) expectedCR = 8f;
+			if (BST >= 391 && BST < 409) expectedCR = 9f;
+			if (BST >= 409 && BST < 427) expectedCR = 10f;
+			if (BST >= 427 && BST < 445) expectedCR = 11f;
+			if (BST >= 445 && BST < 463) expectedCR = 12f;
+			if (BST >= 463 && BST < 481) expectedCR = 13f;
+			if (BST >= 481 && BST < 499) expectedCR = 14f;
+			if (BST >= 499 && BST < 517) expectedCR = 15f;
+			if (BST >= 517 && BST < 535) expectedCR = 16f;
+			if (BST >= 535 && BST < 553) expectedCR = 17f;
+			if (BST >= 553 && BST < 571) expectedCR = 18f;
+			if (BST >= 571 && BST < 589) expectedCR = 19f;
+			if (BST >= 589 && BST < 607) expectedCR = 20f;
+			if (BST >= 607 && BST < 626) expectedCR = 21f;
+			if (BST >= 626 && BST < 645) expectedCR = 22f;
+			if (BST >= 645 && BST < 664) expectedCR = 23f;
+			if (BST >= 664 && BST < 683) expectedCR = 24f;
+			if (BST >= 683 && BST < 702) expectedCR = 25f;
+			if (BST >= 702 && BST < 721) expectedCR = 26f;
+			if (BST >= 721 && BST < 740) expectedCR = 27f;
+			if (BST >= 740 && BST < 759) expectedCR = 28f;
+			if (BST >= 759 && BST < 778) expectedCR = 29f;
+			if (BST >= 778) expectedCR = 30f;
 
 			return expectedCR;
 		}
 
 		//public static void SetFinalCR(Pokemon pokemon, Monster monster) {} Needs attack data before actionable
-	
 	}
 }

@@ -4,6 +4,7 @@ namespace DungeDexBE.Interfaces.ServiceInterfaces
 {
 	public interface IPokemonService
 	{
-		Task<Result<Pokemon>> GetBasePokemonAsync(string pokemonName);
+		Task<Result> GetBasePokemonAsync(string pokemonName);
+		Task<Result> GetMonsterByPokemonAsync(string pokemonName);
 	}
 }

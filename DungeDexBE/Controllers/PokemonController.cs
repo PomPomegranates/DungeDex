@@ -23,5 +23,15 @@ namespace DungeDexBE.Controllers
 
 			return StatusCode((int)result.StatusCode!, result.ErrorMessage);
 		}
+
+		[HttpGet("{pokemonNameOrId}/monsterify")]
+		public async Task<IActionResult> GetMonsterFromPokemon(string pokemonNameOrId)
+		{
+			var result = await _pokemonService.GetMonsterByPokemonAsync(pokemonNameOrId);
+
+			if (result.IsSuccess) return Ok(result.Value);
+
+			return StatusCode((int)result.StatusCode!, result.ErrorMessage);
+		}
 	}
 }

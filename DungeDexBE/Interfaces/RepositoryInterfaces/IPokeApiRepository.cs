@@ -4,6 +4,6 @@ namespace DungeDexBE.Interfaces.RepositoryInterfaces
 {
 	public interface IPokeApiRepository
 	{
-		Task<Result<Pokemon>> GetPokemon(string pokemonName);
+		Task<Result> GetPokemon(string pokemonName);
 	}
 }

@@ -1,6 +1,8 @@
-﻿namespace DungeDexBE.Models
+﻿using DungeDexBE.Interfaces.ModelInterfaces;
+
+namespace DungeDexBE.Models
 {
-	public class Pokemon
+	public class Pokemon : IReturnable
 	{
 		public string Name { get; set; }
 		public int HP { get; set; }
