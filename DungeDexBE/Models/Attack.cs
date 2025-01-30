@@ -1,6 +1,8 @@
-﻿namespace DungeDexBE.Models
+﻿using DungeDexBE.Enums;
+
+namespace DungeDexBE.Models
 {
-    public class Attack
+	public class Attack
     {
         public string Name { get; set; }
         public string Description { get; set; }

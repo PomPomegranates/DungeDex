@@ -1,11 +1,11 @@
-﻿namespace DungeDexBE.Models
+﻿using DungeDexBE.Enums;
+
+namespace DungeDexBE.Models
 {
-    public class Speed
+    public class MoveSpeed
     {
-        public int? Walk { get; set; }
-        public int? Fly { get; set; }
-        public int? Burrow {get; set; }
-        public int? Swim { get; set; }
-        public int? Climb { get; set; }
+        public int MonsterId { get; set; }
+        public MoveType Type { get; set; }
+        public int Speed { get; set; }
     }
 }
