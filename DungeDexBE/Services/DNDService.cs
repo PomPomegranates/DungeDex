@@ -12,7 +12,7 @@ namespace DungeDexBE.Services
 			_apiRepository = apiRepository;
 		}
 
-		public async Task<Dictionary<string, string>> GetAllSpellNames()
+		public async Task<Dictionary<string, string>?> GetAllSpellNamesAsync()
 		{
 			return await _apiRepository.GetAllSpellsNamesAsync();
 		}

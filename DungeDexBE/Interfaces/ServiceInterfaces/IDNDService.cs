@@ -2,6 +2,6 @@
 {
     public interface IDNDService
     {
-        Task<Dictionary<string, string>> GetAllSpellNames();
+        Task<Dictionary<string, string>?> GetAllSpellNamesAsync();
     }
 }

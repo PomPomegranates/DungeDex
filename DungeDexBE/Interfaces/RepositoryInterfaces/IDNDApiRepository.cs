@@ -2,6 +2,6 @@
 {
     public interface IDNDApiRepository
     {
-        Task<Dictionary<string, string>> GetAllSpellsNamesAsync();
+        Task<Dictionary<string, string>?> GetAllSpellsNamesAsync();
     }
 }
