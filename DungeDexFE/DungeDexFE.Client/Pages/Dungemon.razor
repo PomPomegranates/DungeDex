@@ -1,0 +1,18 @@
+﻿@page "/dungemon/{SearchQuery}"
+@rendermode InteractiveAuto
+
+<PageTitle>Dungémon</PageTitle>
+
+<h3>Dungémon</h3>
+
+@if (!string.IsNullOrEmpty(SearchQuery))
+{
+    <DungemonLoader idOrName="@SearchQuery" />
+}
+
+@code
+{
+    [Parameter]
+    public string SearchQuery { get; set; } = null!;
+}
+

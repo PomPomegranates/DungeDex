@@ -4,7 +4,7 @@ using DungeDexBE.Models;
 
 namespace DungeDexBE.Services
 {
-    public class DNDService : IDNDService
+	public class DNDService : IDNDService
 	{
 		private readonly IDNDApiRepository _apiRepository;
 

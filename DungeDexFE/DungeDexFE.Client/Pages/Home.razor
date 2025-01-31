@@ -1,0 +1,17 @@
+﻿@page "/"
+@inject NavigationManager nav
+@rendermode InteractiveAuto
+
+<PageTitle>DungéDex</PageTitle>
+
+<DungemonSearch OnSearch="HandleSearch" />
+
+@code
+{
+    public void HandleSearch(string newQuery)
+    {
+        nav.NavigateTo($"/dungemon/{newQuery}", false);
+    }
+}
+
+

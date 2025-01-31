@@ -58,10 +58,11 @@ namespace DungeDexBE.Repositories
 				Speed = ((int)pokemonStats[5]!["base_stat"]!)
 			};
 
-			if (jObj["sprites"]!["other"]!["home"]!["front_default"] != null) 
-			{ 
-				pokemon.ImageLink = jObj["sprites"]!["other"]!["home"]!["front_default"]!.Value<string>()!; 
-			} else
+			if (jObj["sprites"]!["other"]!["home"]!["front_default"] != null)
+			{
+				pokemon.ImageLink = jObj["sprites"]!["other"]!["home"]!["front_default"]!.Value<string>()!;
+			}
+			else
 			{
 				pokemon.ImageLink = jObj!["sprites"]!["front_default"]!.Value<string>()!;
 			}
