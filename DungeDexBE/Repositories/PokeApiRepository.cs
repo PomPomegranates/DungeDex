@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using DungeDexBE.Interfaces.RepositoryInterfaces;
 using DungeDexBE.Models;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Linq;
 
 namespace DungeDexBE.Repositories
@@ -8,10 +9,11 @@ namespace DungeDexBE.Repositories
 	public class PokeApiRepository : IPokeApiRepository
 	{
 		private readonly IHttpClientFactory _httpClient;
-
-		public PokeApiRepository(IHttpClientFactory httpClientFactory)
+		private readonly MyDbContext myDbContext;
+		public PokeApiRepository(IHttpClientFactory httpClientFactory, MyDbContext db)
 		{
 			_httpClient = httpClientFactory;
+			myDbContext = db;
 		}
 
 		public async Task<Result> GetPokemon(string pokemonName)
@@ -58,15 +60,24 @@ namespace DungeDexBE.Repositories
 				Speed = ((int)pokemonStats[5]!["base_stat"]!)
 			};
 
-			if (jObj["sprites"]!["other"]!["home"]!["front_default"] != null) 
-			{ 
-				pokemon.ImageLink = jObj["sprites"]!["other"]!["home"]!["front_default"]!.Value<string>()!; 
-			} else
+			if (jObj["sprites"]!["other"]!["home"]!["front_default"] != null)
+			{
+				pokemon.ImageLink = jObj["sprites"]!["other"]!["home"]!["front_default"]!.Value<string>()!;
+			}
+			else
 			{
 				pokemon.ImageLink = jObj!["sprites"]!["front_default"]!.Value<string>()!;
 			}
 
 			return pokemon;
+		}
+
+		public List<Monster> GetMonsters()
+		{
+		
+
+			
+			return myDbContext.MonsterDb.Include(m=> m.Spells).ToList();
 		}
 	}
 }

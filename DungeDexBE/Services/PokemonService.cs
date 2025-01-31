@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.ComponentModel;
+using System.Net;
 using DungeDexBE.ConversionFunctions;
 using DungeDexBE.Interfaces.RepositoryInterfaces;
 using DungeDexBE.Interfaces.ServiceInterfaces;
@@ -42,6 +43,14 @@ namespace DungeDexBE.Services
 				result.ErrorMessage = $"An error occurred while converting the pokemon to monster. Error: {ex.Message}";
 				result.StatusCode = HttpStatusCode.InternalServerError;
 			}
+
+			return result;
+		}
+
+
+		public List<Monster> GetMonstersInDatabase()
+		{
+			var result =  _pokeApiRepository.GetMonsters();
 
 			return result;
 		}
