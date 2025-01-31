@@ -12,6 +12,7 @@ namespace DungeDexBE.Models
 		public Attributes Attributes { get; set; } = new();
 		public int HitPoints { get; set; }
 		public virtual List<Spell> Spells { get; set; } = [];
+		public string ImageLink { get; set; }
 
 		#region stretch
 		//public Size Size { get; set; }
