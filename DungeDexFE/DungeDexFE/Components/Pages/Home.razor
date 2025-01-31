@@ -1,7 +1,23 @@
 ﻿@page "/"
+@using DungeDexFE.Client.Models
+@using DungeDexFE.Client.Pages
 
 <PageTitle>Home</PageTitle>
 
-<h1>Hello, world!</h1>
+<h1>Hello, Welcome to DungeDex!</h1>
 
-Welcome to your new app.
+
+
+<div>
+    <label for="searchPokemonDb"> Search for DungeDex Monsters Database</label>
+    <input id="searchPokemonDB " type="text"  />
+
+</div>
+<UserSearch/>
+<ShowRandom />
+
+
+@code{
+// 
+}
+

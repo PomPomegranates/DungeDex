@@ -1,0 +1,23 @@
+﻿@rendermode InteractiveAuto
+@inject NavigationManager Navigation
+@using Microsoft.AspNetCore.Components;
+<h3>UserSearch</h3>
+<div>
+    <label for="userSearch"> Search for Users</label>
+    <InputText id="userSearch " @bind-Value="UserAddress">
+    </InputText>
+    <button @onclick="PerformNavigate">Submit</button>
+    <!--
+    SEARCH BAR
+    USER SEARCH FOR NAME
+    GO TO PAGE USER{name}
+    -->
+</div>
+@code {
+    public string UserAddress { get; set; }
+    private void PerformNavigate()
+    {
+        Console.WriteLine($"Going to {UserAddress}");
+        Navigation.NavigateTo($"/Creations/{UserAddress}");
+    }
+}
