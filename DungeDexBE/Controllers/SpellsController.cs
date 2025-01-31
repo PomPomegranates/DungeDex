@@ -1,4 +1,5 @@
 ﻿using DungeDexBE.Interfaces.ServiceInterfaces;
+using DungeDexBE.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DungeDexBE.Controllers
@@ -30,6 +31,16 @@ namespace DungeDexBE.Controllers
 
 			return Ok(result);
 
+		}
+
+		[HttpGet("{nameOrIndex}")]
+		public async Task<IActionResult> GetSpellByNameOrIndex(string nameOrIndex)
+		{
+			var result = await _service.GetSpellByNameOrIndex(nameOrIndex);
+
+			if (result.IsSuccess) return Ok(result.Value);
+
+			return StatusCode((int)result.StatusCode!, result.ErrorMessage);
 		}
 	}
 }

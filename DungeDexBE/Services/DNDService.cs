@@ -1,5 +1,6 @@
 ﻿using DungeDexBE.Interfaces.RepositoryInterfaces;
 using DungeDexBE.Interfaces.ServiceInterfaces;
+using DungeDexBE.Models;
 
 namespace DungeDexBE.Services
 {
@@ -15,6 +16,11 @@ namespace DungeDexBE.Services
 		public async Task<Dictionary<string, string>?> GetAllSpellNamesAsync()
 		{
 			return await _apiRepository.GetAllSpellsNamesAsync();
+		}
+
+		public async Task<Result> GetSpellByNameOrIndex(string nameOrIndex)
+		{
+			return await _apiRepository.GetSpellByNameOrIndex(nameOrIndex);
 		}
 	}
 }

@@ -100,7 +100,7 @@ namespace DungeDexBE.Repositories
 
             spell.Id = 0; spell.MonsterId = 0; // These will be handled in another way once we have a database.
 
-            spell.Description = jObj["desc"]!.Value<string>()!;
+            spell.Description = jObj["desc"]![0]!.Value<string>()!;
 
             return spell;
         }
