@@ -6,6 +6,7 @@ namespace DungeDexBE.Interfaces.RepositoryInterfaces
     {
         Task<Dictionary<string, string>?> GetAllSpellsNamesAsync();
         Task<Result> GetSpellByNameOrIndex(string nameOrIndex);
+        Task<Result> GetRandomSpell();
 
 	}
 }

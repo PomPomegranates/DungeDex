@@ -104,5 +104,18 @@ namespace DungeDexBE.Repositories
 
             return spell;
         }
+
+        public async Task<Result> GetRandomSpell()
+        {
+            var allSpells = await GetAllSpellsNamesAsync();
+
+            Random random = new Random();
+
+            int randomIndex = random.Next(allSpells.Count);
+
+            Result result = await GetSpellByNameOrIndex(allSpells.ElementAt(randomIndex).Value);
+
+            return result;
+        }
     }
 }

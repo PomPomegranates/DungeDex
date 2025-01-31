@@ -15,11 +15,6 @@ namespace DungeDexBE.ConversionFunctions
 
 			monster.ChallengeRating = DetermineExpectedCR(pokemon);
 
-			monster.Spells =
-			[
-				new Spell{Id = 0, MonsterId = monster.Id, Name = "Fireball", Description = "Ouch"}
-			];
-
 			return monster;
 		}
 
