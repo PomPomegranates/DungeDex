@@ -1,25 +1,26 @@
-﻿@using DungeDexFE.Client.Models;
-@using System.Text.Json;
+﻿@using System.Text.Json;
+
 <h3>MonsterDisplay</h3>
-
-@code {
-    [Parameter]
-    public Monster Monster { get; set; } = new();
-
-}
 
 <div>
     <p>Name : @Monster.Name</p>
     <p>Challenge Rating : @Monster.ChallengeRating</p>
     <p>AC : @Monster.ArmorClass</p>
-    <p> HP: @Monster.HitPoints</p>
+    <p>HP: @Monster.HitPoints</p>
     <p>@Monster.Attributes.Strength</p>
-   
-    @foreach(var spell in Monster.Spells){
+    <img src="@Monster.ImageLink" />
+
+    @foreach(var spell in Monster.Spells)
+    {
         <p>Spell Name: @spell.Name</p>
         <p>Spell Desc: @spell.Description</p>
     }
 </div>
+
+@code {
+    [Parameter]
+    public Monster Monster { get; set; } = null!;
+}
 <!--	public int Id { get; set; }
         public string Name { get; set; } = null!;
         public int ChallengeRating { get; set; }

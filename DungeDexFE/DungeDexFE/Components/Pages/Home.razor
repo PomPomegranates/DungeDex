@@ -1,33 +1,16 @@
 ﻿@page "/"
-@using DungeDexFE.Client.Models
-@using DungeDexFE.Client.Pages
+@inject NavigationManager nav
+@rendermode InteractiveAuto
 
 <PageTitle>Home</PageTitle>
 
-<h1>Hello, Welcome to DungeDex!</h1>
+<MonsterSearch OnSearch="HandleSearch" />
 
-
-
-<div>
-    <label for="searchPokemonDb"> Search for DungeDex Monsters Database</label>
-    <input id="searchPokemonDB " type="text"  />
-
-</div>
-<UserSearch/>
-
-<MonsterSearch @bind-Query="pokemonsterSearch" />
-@if(!string.IsNullOrEmpty(pokemonsterSearch)){
-    <MonsterLoader idOrName="pokemonsterSearch" />
-}
-
-
-
-
-@code{
-    // <ShowRandom />
-    // @if(monsterRandom != null){
-    // <MonsterDisplay Monster=monsterRandom />
-    // }
-    public string pokemonsterSearch { get; set; } = null!;
+@code
+{
+    public void HandleSearch(string newQuery) 
+    {
+        nav.NavigateTo($"/pokemonster/{newQuery}", true);
+    }
 }
 

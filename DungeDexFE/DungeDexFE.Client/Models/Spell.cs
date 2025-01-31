@@ -7,8 +7,8 @@
 		public string Name { get; set; } = null!;
 		public string Description { get; set; } = null!;
 
-        #region stretch
-        /*
+		#region stretch
+		/*
 		public string Range { get; set; }
 		public string Duration { get; set; }
 		public string CastTime { get; set; }
@@ -19,6 +19,6 @@
 		public int areaOfEffectSize { get; set; }
 	
 		*/
-        #endregion
-    }
+		#endregion
+	}
 }

@@ -1,0 +1,16 @@
+﻿@page "/pokemonster/{SearchQuery?}"
+@rendermode InteractiveAuto
+
+<h3>Pokemonster</h3>
+
+@if (!string.IsNullOrEmpty(SearchQuery))
+{
+    <MonsterLoader idOrName="@SearchQuery" />
+}
+
+@code
+{
+    [Parameter]
+    public string? SearchQuery { get; set; }
+}
+

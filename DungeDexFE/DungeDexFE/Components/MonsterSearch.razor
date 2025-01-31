@@ -1,25 +1,24 @@
 ﻿@rendermode InteractiveAuto
+
 <h3>MonsterSearch</h3>
 
-<input type="text" @bind-value="inputText"/>
-<button @onclick="HandleSearch" >Search For A Pokemonster!</button>
-
+<input type="text" @bind="_inputText"/>
+<button @onclick="(e) => HandleSearch(e)" >Search For A Pokemonster!</button>
 
 @code {
     [Parameter]
-    public string Query { get; set; } = null!;
-    [Parameter]
-    public EventCallback<string> QueryChanged { get; set; }
-    private string inputText { get; set; } = null!;
+    public EventCallback<string> OnSearch { get; set; }
 
+    private string? _inputText { get; set; }
 
-    private void HandleSearch(MouseEventArgs e)
+    private async Task HandleSearch(MouseEventArgs e)
     {
-        if (string.IsNullOrEmpty(inputText)){
+        if (string.IsNullOrEmpty(_inputText))
+        {
             var rand = new Random();
-            inputText = rand.Next(1, 1026).ToString();
-
+            _inputText = rand.Next(1, 1026).ToString();
         }
-        Query = inputText;
+
+        await OnSearch.InvokeAsync(_inputText);
     }
 }

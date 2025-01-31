@@ -1,21 +1,22 @@
-﻿@using System.Text.Json;
+﻿@rendermode InteractiveAuto
 
-@if(monster != null){
-    <MonsterDisplay Monster="monster" />
+@using System.Text.Json;
+
+@if(monster != null)
+{
+    <MonsterDisplay Monster="@monster" />
 }
 
-
 @code {
-    [Parameter] 
-    public string idOrName { get; set; } = "";
+    [Parameter]
+    public string idOrName { get; set; } = null!;
+
     public Monster monster { get; set; } = null!;
 
     protected override async Task OnParametersSetAsync()
     {
         monster = await GetMonster(idOrName);
     }
-
-
 
     public static async Task<Monster> GetMonster(string idOrName)
     {
@@ -26,14 +27,11 @@
         // return JsonSerializer.Deserialize<Monster>(file);
     }
 
-
-
     public static List<Monster> GetUserMonsters(string name)
     {
         var file = File.ReadAllText(".\\BareBonesMonsters.json");
         return JsonSerializer.Deserialize<List<Monster>>(file);
     }
-
 }
 <!--
 This component will load the data from the Monster Json file?
