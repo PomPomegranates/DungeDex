@@ -6,7 +6,7 @@
 		public int MonsterId { get; set; }
 		public string Name { get; set; } = null!;
 		public string Description { get; set; } = null!;
-
+    
 		#region stretch
 		//public string Range { get; set; }
 		//public string Duration { get; set; }
@@ -18,4 +18,5 @@
 		//public int areaOfEffectSize { get; set; }
 		#endregion
 	}
+
 }

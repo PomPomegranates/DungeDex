@@ -1,0 +1,70 @@
+[    
+{ "Name":"Monster1",
+    "Size":2,
+    "User":"Dave",
+    "ChallengeRating":4,
+    "Speed":{
+        "Walk":30
+    },
+    "ProficiencyBonus":5,
+    "SavingThrows":[
+        2,
+        5,
+        6
+    ],
+    "Type":"Dragon",
+    "ArmorClass":17,
+    "HitPoints":20,
+    "Attributes":{
+        "Strength":8,
+        "Dexterity":9,
+        "Constitution":10,
+        "Intelligence":11,
+        "Wisdom":12,
+        "Charisma":13
+    },
+    "Spells":
+    [{
+        "Name":"AcidArrow",
+        "Description":"Take Acid!"
+    },{
+        "Name":"FireBeam",
+        "Description":"Lame Flame!"
+    }
+] 
+},   
+    { "Name":"Monster2",
+        "Size":3,
+        "User":"Dave",
+        "ChallengeRating":5,
+        "Speed":{
+            "Walk":30
+        },
+        "ProficiencyBonus":5,
+        "SavingThrows":[
+            2,
+            5,
+            6
+        ],
+        "Type":"Dragon",
+        "ArmorClass":17,
+        "HitPoints":20,
+        "Attributes":{
+            "Strength":8,
+            "Dexterity":9,
+            "Constitution":10,
+            "Intelligence":11,
+            "Wisdom":12,
+            "Charisma":13
+        },
+        "Spells":
+        [{
+            "Name":"AcidArrow",
+            "Description":"Take Acid!"
+        },{
+            "Name":"FireBeam",
+            "Description":"Lame Flame!"
+        }
+    ] 
+    }
+]

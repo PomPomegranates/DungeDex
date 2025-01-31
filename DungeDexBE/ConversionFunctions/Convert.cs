@@ -15,6 +15,8 @@ namespace DungeDexBE.ConversionFunctions
 
 			monster.ChallengeRating = DetermineExpectedCR(pokemon);
 
+			monster.ImageLink = pokemon.ImageLink;
+
 			return monster;
 		}
 
