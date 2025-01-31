@@ -9,12 +9,22 @@
 }
 else if (dungemonster != null)
 {
-    <DungemonEditor Monster = "@dungemonster" />
+    @if(!isEditing){
+
+        <DungemonDisplay Monster="@dungemonster" />
+        <button @onclick="()=>isEditing=true">I want to edit this pokemon!</button>
+    } else{
+        <DungemonEditor Monster="@dungemonster" />
+    }
+
+
 }
 
 @code {
     [Parameter]
     public string idOrName { get; set; } = null!;
+
+    public bool isEditing { get; set; } = false;
 
     public Dungemon? dungemonster { get; set; } = null!;
 
