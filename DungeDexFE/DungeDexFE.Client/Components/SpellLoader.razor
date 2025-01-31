@@ -1,0 +1,71 @@
+﻿@rendermode InteractiveAuto
+
+@using System.Text.Json
+
+@if(!string.IsNullOrEmpty(errorMessage))
+{
+    <p>An error occurred while fetching the Spell Data:</p>
+    <p>@errorMessage</p>    
+}
+else if (Spells != null)
+{
+    <select @onchange="(x)=>HandleSelect(x)">
+        <option selected disabled>-</option>
+        @foreach(var spell in Spells){
+            <option value="@spell.Value">@spell.Key</option>
+        }
+    </select>
+    if(Spell!=null){
+        <SpellDisplay Spell="Spell"/>
+    }
+
+}
+
+@code {
+
+    public Dictionary<string, string> Spells { get; set; } = null!;
+    public Spell Spell { get; set; } = null!;
+
+    private string errorMessage { get; set; } = null!;
+
+    public async Task HandleSelect(ChangeEventArgs spellIndex){
+        try
+        {
+            using var client = new HttpClient();
+            client.DefaultRequestHeaders.Add("Access-Control-Allow-Origin", "https://localhost:7107/");
+            var response = await client.GetAsync($"https://localhost:7298/api/Spells/{spellIndex.Value}");
+            response.EnsureSuccessStatusCode();
+            Spell = await response.Content.ReadFromJsonAsync<Spell>();
+        }
+        catch (HttpRequestException ex)
+        {
+            errorMessage = ex.Message;
+        }
+        catch
+        {
+            errorMessage = "Something went wrong whilst trying to access spell data, sorry!";
+        }
+        
+
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        try
+        {
+            using var client = new HttpClient();
+            client.DefaultRequestHeaders.Add("Access-Control-Allow-Origin", "https://localhost:7107/");
+            var response = await client.GetAsync($"https://localhost:7298/api/Spells");
+            response.EnsureSuccessStatusCode();
+            Spells= await response.Content.ReadFromJsonAsync<Dictionary<string, string>>();
+        }
+        catch (HttpRequestException ex)
+        {
+            errorMessage = ex.Message;
+        }
+        catch
+        {
+            errorMessage = "Something went wrong whilst trying to access spell data, sorry!";
+        }
+    }
+}

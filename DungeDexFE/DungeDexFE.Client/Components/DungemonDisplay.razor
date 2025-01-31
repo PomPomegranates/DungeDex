@@ -10,8 +10,7 @@
 
     @foreach(var spell in Monster.Spells)
     {
-        <p>Spell Name: @spell.Name</p>
-        <p>Spell Desc: @spell.Description</p>
+        <SpellDisplay Spell="spell"/>
     }
 </div>
 

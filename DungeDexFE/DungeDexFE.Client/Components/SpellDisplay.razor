@@ -1,0 +1,13 @@
+﻿@using System.Text.Json;
+
+<div>
+    
+        <p>Spell Name: @Spell.Name</p>
+        <p>Spell Desc: @Spell.Description</p>
+
+</div>
+
+@code {
+    [Parameter]
+    public Spell Spell { get; set; } = null!;
+}
