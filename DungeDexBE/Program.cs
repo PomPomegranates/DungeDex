@@ -16,17 +16,23 @@ namespace DungeDexBE
 			{
 				options.BaseAddress = new Uri("https://pokeapi.co/api/v2/");
 			});
+			builder.Services.AddHttpClient("dnd", options =>
+			{
+				options.BaseAddress = new Uri("https://www.dnd5eapi.co/api/");
+			});
 
 			builder.Services.AddCors(options =>
-            {
-                options.AddPolicy("AllowLocalhost",
-                    policy => policy.WithOrigins("https://localhost:7107")
-                                    .AllowAnyMethod()
-                                    .AllowAnyHeader());
-            });
+			{
+				options.AddPolicy("AllowLocalhost",
+					policy => policy.WithOrigins("https://localhost:7107")
+									.AllowAnyMethod()
+									.AllowAnyHeader());
+			});
 
 			builder.Services.AddScoped<IPokeApiRepository, PokeApiRepository>();
 			builder.Services.AddScoped<IPokemonService, PokemonService>();
+			builder.Services.AddScoped<IDNDApiRepository, DNDApiRepository>();
+			builder.Services.AddScoped<IDNDService, DNDService>();
 
 			builder.Services.AddEndpointsApiExplorer();
 			builder.Services.AddSwaggerGen();

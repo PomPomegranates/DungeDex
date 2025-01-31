@@ -9,10 +9,12 @@ namespace DungeDexBE.Services
 	public class PokemonService : IPokemonService
 	{
 		private readonly IPokeApiRepository _pokeApiRepository;
+		private readonly IDNDApiRepository _dndApiRepository;
 
-		public PokemonService(IPokeApiRepository pokeApiRepository)
+		public PokemonService(IPokeApiRepository pokeApiRepository, IDNDApiRepository dndApiRepository)
 		{
 			_pokeApiRepository = pokeApiRepository;
+			_dndApiRepository = dndApiRepository;
 		}
 
 		public async Task<Result> GetBasePokemonAsync(string pokemonName)
@@ -29,7 +31,10 @@ namespace DungeDexBE.Services
 			try
 			{
 				var pokemon = result.Value as Pokemon;
-				result.Value = pokemon!.ToMonster();
+				Monster monster = pokemon!.ToMonster();
+				var spellResult = await _dndApiRepository.GetRandomSpell();
+				monster.Spells.Add(spellResult.Value as Spell);
+				result.Value = monster;
 			}
 			catch (Exception ex)
 			{

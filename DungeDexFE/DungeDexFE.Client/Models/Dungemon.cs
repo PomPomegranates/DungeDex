@@ -1,7 +1,7 @@
 ﻿using DungeDexFE.Client.Enums;
 namespace DungeDexFE.Client.Models
 {
-	public class Monster
+	public class Dungemon
 	{
 		public int Id { get; set; }
 		public string Name { get; set; } = null!;

@@ -1,13 +1,13 @@
-﻿@page "/pokemonster/{SearchQuery}"
+﻿@page "/dungemon/{SearchQuery}"
 @rendermode InteractiveAuto
 
-<PageTitle>Pokémonster</PageTitle>
+<PageTitle>Dungémon</PageTitle>
 
-<h3>Pokémonster</h3>
+<h3>Dungémon</h3>
 
 @if (!string.IsNullOrEmpty(SearchQuery))
 {
-    <MonsterLoader idOrName="@SearchQuery" />
+    <DungemonLoader idOrName="@SearchQuery" />
 }
 
 @code

@@ -2,33 +2,25 @@
 
 @using System.Text.Json
 
-@if(string.IsNullOrEmpty(errorMessage))
+@if(!string.IsNullOrEmpty(errorMessage))
 {
-    @if (monster != null)
-    {
-        <MonsterDisplay Monster="@monster" />
-    }
+    <p>An error occurred while fetching the Dungémon data for '@idOrName':</p>
+    <p>@errorMessage</p>    
 }
-else
+else if (dungemonster != null)
 {
-    <p>An error occurred while fetching the Pokémonster data for '@idOrName':</p>
-    <p>@errorMessage</p>
+    <DungemonDisplay Monster = "@dungemonster" />
 }
 
 @code {
     [Parameter]
     public string idOrName { get; set; } = null!;
 
-    public Monster? monster { get; set; } = null!;
+    public Dungemon? dungemonster { get; set; } = null!;
 
     private string errorMessage { get; set; } = null!;
 
     protected override async Task OnParametersSetAsync()
-    {
-        await GetMonster();
-    }
-
-    public async Task GetMonster()
     {
         try
         {
@@ -36,7 +28,7 @@ else
             client.DefaultRequestHeaders.Add("Access-Control-Allow-Origin", "https://localhost:7107/");
             var response = await client.GetAsync($"https://localhost:7298/api/Pokemon/{idOrName}/monsterify");
             response.EnsureSuccessStatusCode();
-            monster = await response.Content.ReadFromJsonAsync<Monster>();
+            dungemonster = await response.Content.ReadFromJsonAsync<Dungemon>();
         }
         catch (HttpRequestException ex)
         {
