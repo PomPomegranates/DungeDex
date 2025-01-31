@@ -20,6 +20,8 @@ namespace DungeDexBE.ConversionFunctions
 				new Spell{Id = 0, MonsterId = monster.Id, Name = "Fireball", Description = "Ouch"}
 			];
 
+			monster.ImageLink = pokemon.ImageLink;
+
 			return monster;
 		}
 
