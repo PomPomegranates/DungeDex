@@ -14,10 +14,20 @@
 
 </div>
 <UserSearch/>
-<ShowRandom />
+
+<MonsterSearch @bind-Query="pokemonsterSearch" />
+@if(!string.IsNullOrEmpty(pokemonsterSearch)){
+    <MonsterLoader idOrName="pokemonsterSearch" />
+}
+
+
 
 
 @code{
-// 
+    // <ShowRandom />
+    // @if(monsterRandom != null){
+    // <MonsterDisplay Monster=monsterRandom />
+    // }
+    public string pokemonsterSearch { get; set; } = null!;
 }
 

@@ -1,7 +1,7 @@
 ﻿@page "/Creations/{UserName}"
 <h3>UserCreations</h3>
 
-@foreach(var monster in MonsterSearch.GetUserMonsters("Dave")){
+@foreach(var monster in MonsterLoader.GetUserMonsters("Dave")){
     <MonsterDisplay Monster="monster"/>
 }
 
