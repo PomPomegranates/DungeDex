@@ -1,0 +1,17 @@
+﻿@page "/"
+@inject NavigationManager nav
+@rendermode InteractiveWebAssembly
+
+<PageTitle>DungéDex</PageTitle>
+
+<MonsterSearch OnSearch="HandleSearch" />
+
+@code
+{
+    public void HandleSearch(string newQuery)
+    {
+        nav.NavigateTo($"/pokemonster/{newQuery}", true);
+    }
+}
+
+

@@ -1,9 +1,10 @@
-﻿@rendermode InteractiveAuto
+﻿@inject NavigationManager nav
+@rendermode InteractiveWebAssembly
 
 <h3>MonsterSearch</h3>
 
-<input type="text" @bind="_inputText"/>
-<button @onclick="(e) => HandleSearch(e)" >Search For A Pokemonster!</button>
+<input type="text" @bind="_inputText" />
+<button @onclick="(e) => HandleSearch(e)">Search For A Pokemonster!</button>
 
 @code {
     [Parameter]

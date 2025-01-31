@@ -1,7 +1,9 @@
-﻿@page "/pokemonster/{SearchQuery?}"
-@rendermode InteractiveAuto
+﻿@page "/pokemonster/{SearchQuery}"
+@rendermode InteractiveWebAssembly
 
-<h3>Pokemonster</h3>
+<PageTitle>Pokémonster</PageTitle>
+
+<h3>Pokémonster</h3>
 
 @if (!string.IsNullOrEmpty(SearchQuery))
 {
@@ -11,6 +13,6 @@
 @code
 {
     [Parameter]
-    public string? SearchQuery { get; set; }
+    public string SearchQuery { get; set; } = null!;
 }
 

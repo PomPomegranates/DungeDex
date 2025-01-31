@@ -12,14 +12,6 @@ namespace DungeDexFE
 			builder.Services.AddRazorComponents()
 				.AddInteractiveServerComponents()
 				.AddInteractiveWebAssemblyComponents();
-            builder.Services.AddCors(options =>
-            {
-                options.AddPolicy("AllowLocalhost",
-                    policy => policy.WithOrigins("http://localhost:7107")
-                                    .AllowAnyMethod()
-                                    .AllowAnyHeader());
-            });
-
             
             var app = builder.Build();
             
@@ -36,8 +28,6 @@ namespace DungeDexFE
 			}
 			
 			app.UseHttpsRedirection();
-
-            app.UseCors("AllowLocalHost");
 
             app.UseStaticFiles();
 			app.UseAntiforgery();

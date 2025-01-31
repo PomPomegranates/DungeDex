@@ -17,6 +17,14 @@ namespace DungeDexBE
 				options.BaseAddress = new Uri("https://pokeapi.co/api/v2/");
 			});
 
+			builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowLocalhost",
+                    policy => policy.WithOrigins("https://localhost:7107")
+                                    .AllowAnyMethod()
+                                    .AllowAnyHeader());
+            });
+
 			builder.Services.AddScoped<IPokeApiRepository, PokeApiRepository>();
 			builder.Services.AddScoped<IPokemonService, PokemonService>();
 
@@ -32,6 +40,8 @@ namespace DungeDexBE
 			}
 
 			app.UseHttpsRedirection();
+
+			app.UseCors("AllowLocalhost");
 
 			app.UseAuthorization();
 
