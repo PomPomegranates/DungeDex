@@ -21,6 +21,7 @@
     public static async Task<Monster> GetMonster(string idOrName)
     {
         var http = new HttpClient();
+        http.DefaultRequestHeaders.Add("Access-Control-Allow-Origin", "https://localhost:7107/");
         var response = await http.GetFromJsonAsync<Monster>($"https://localhost:7298/api/Pokemon/{idOrName}/monsterify");
         return response;
         // var file = File.ReadAllText(".\\BareBonesMonster.json");

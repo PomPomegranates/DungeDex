@@ -1,0 +1,12 @@
+﻿@inject NavigationManager nav
+@rendermode InteractiveAuto
+
+<MonsterSearch OnSearch="HandleSearch" />
+
+@code
+{
+    public void HandleSearch(string newQuery) 
+    {
+        nav.NavigateTo($"/pokemonster/{newQuery}", true);
+    }
+}

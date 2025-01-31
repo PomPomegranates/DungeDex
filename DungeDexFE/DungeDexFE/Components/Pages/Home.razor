@@ -1,16 +1,9 @@
 ﻿@page "/"
-@inject NavigationManager nav
-@rendermode InteractiveAuto
+@rendermode InteractiveServer
+
 
 <PageTitle>Home</PageTitle>
 
-<MonsterSearch OnSearch="HandleSearch" />
+<ClientSideMonsterSearch/>
 
-@code
-{
-    public void HandleSearch(string newQuery) 
-    {
-        nav.NavigateTo($"/pokemonster/{newQuery}", true);
-    }
-}
 

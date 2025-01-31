@@ -1,4 +1,5 @@
-﻿@using System.Text.Json;
+﻿@rendermode InteractiveAuto
+@using System.Text.Json;
 
 <h3>MonsterDisplay</h3>
 
@@ -8,7 +9,7 @@
     <p>AC : @Monster.ArmorClass</p>
     <p>HP: @Monster.HitPoints</p>
     <p>@Monster.Attributes.Strength</p>
-    <img src="@Monster.ImageLink" />
+    
 
     @foreach(var spell in Monster.Spells)
     {
@@ -21,7 +22,9 @@
     [Parameter]
     public Monster Monster { get; set; } = null!;
 }
-<!--	public int Id { get; set; }
+<!--	<img src="@Monster.ImageLink" />
+    
+public int Id { get; set; }
         public string Name { get; set; } = null!;
         public int ChallengeRating { get; set; }
         public int ArmorClass { get; set; }
