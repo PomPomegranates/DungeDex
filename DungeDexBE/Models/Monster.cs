@@ -10,6 +10,7 @@ namespace DungeDexBE.Models
 		public float ChallengeRating { get; set; }
 		public int ArmorClass { get; set; }
 		public Attributes Attributes { get; set; } = new();
+		public int AttributesID { get; set; }
 		public int HitPoints { get; set; }
 		public virtual List<Spell> Spells { get; set; } = [];
 		public string ImageLink { get; set; }
