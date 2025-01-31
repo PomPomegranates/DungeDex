@@ -1,7 +1,11 @@
 using DungeDexBE.Interfaces.RepositoryInterfaces;
 using DungeDexBE.Interfaces.ServiceInterfaces;
+using DungeDexBE.Models;
 using DungeDexBE.Repositories;
 using DungeDexBE.Services;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.Sqlite;
+using Microsoft.EntityFrameworkCore;
 
 namespace DungeDexBE
 {
@@ -29,8 +33,15 @@ namespace DungeDexBE
 			builder.Services.AddEndpointsApiExplorer();
 			builder.Services.AddSwaggerGen();
 
-			var app = builder.Build();
 
+            var cnn = new SqliteConnection("Filename=:memory:");
+            cnn.Open();
+			builder.Services.AddDbContext<MyDbContext>(o => o.UseSqlite(cnn));
+
+
+
+            var app = builder.Build();
+			AddData(app);	
 			if (app.Environment.IsDevelopment())
 			{
 				app.UseSwagger();
@@ -45,5 +56,33 @@ namespace DungeDexBE
 
 			app.Run();
 		}
-	}
+
+		static void AddData(WebApplication app)
+		{
+			var scope = app.Services.CreateScope();
+			var db = scope.ServiceProvider.GetService<MyDbContext>();
+
+			db.Database.EnsureDeleted();
+			db.Database.EnsureCreated();
+
+			var Monster = new Monster
+			{
+				Id = 1,
+				UserId = 1,
+				Name = "Jim",
+				ChallengeRating = 12,
+				ArmorClass = 12,
+				Attributes = new Attributes { Strength = 1, Dexterity = 1,Constitution = 1, Intelligence = 1,Wisdom = 1,Charisma = 1},
+				HitPoints = 12,
+				Spells = new List<Spell>
+				{
+					new Spell{Id = 1, Name = "boom", Description = "big boom", MonsterId = 1}
+				},
+				ImageLink = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/shiny/186.png"
+			};
+			
+			db.MonsterDb.Add(Monster);
+			db.SaveChanges();
+        }
+    }
 }
