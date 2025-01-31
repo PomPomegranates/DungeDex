@@ -1,6 +1,6 @@
 ﻿@page "/"
 @inject NavigationManager nav
-@rendermode InteractiveWebAssembly
+@rendermode InteractiveAuto
 
 <PageTitle>DungéDex</PageTitle>
 
@@ -10,7 +10,7 @@
 {
     public void HandleSearch(string newQuery)
     {
-        nav.NavigateTo($"/pokemonster/{newQuery}", true);
+        nav.NavigateTo($"/pokemonster/{newQuery}", false);
     }
 }
 
