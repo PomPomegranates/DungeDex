@@ -1,6 +1,7 @@
 ﻿using DungeDexBE.Interfaces.RepositoryInterfaces;
 using DungeDexBE.Models;
 using Newtonsoft.Json.Linq;
+using System.Net;
 
 namespace DungeDexBE.Repositories
 {
@@ -46,6 +47,62 @@ namespace DungeDexBE.Repositories
             }
 
             return result;
+        }
+
+        public async Task<Result> GetSpellByNameOrIndex(string nameOrIndex)
+        {
+            var allSpells = await GetAllSpellsNamesAsync();
+			Result result = new Result();
+
+			foreach (var keyValuePair in allSpells)
+            {
+                try
+                {
+                    if (keyValuePair.Key == nameOrIndex || keyValuePair.Value == nameOrIndex)
+                    {
+                        var http = _httpClient.CreateClient("dnd");
+
+                        var httpResult = await http.GetAsync($"spells/{keyValuePair.Value}");
+
+                        var json = await httpResult.Content.ReadAsStringAsync();
+                        httpResult.EnsureSuccessStatusCode();
+
+                        Spell spell = ConvertJsonToSpell(json);
+
+                        result.Value = spell;
+
+                    }
+                }
+                catch (HttpRequestException ex)
+                {
+                    result.IsSuccess = false;
+                    result.StatusCode = ex.StatusCode!.Value;
+                    result.ErrorMessage = $"DnDAPI {ex.Message}";
+                }
+                catch (Exception ex)
+                {
+                    result.IsSuccess = false;
+                    result.StatusCode = HttpStatusCode.InternalServerError;
+                    result.ErrorMessage = $"An error occurred while deserializing the DnDAPI response.";
+                }
+            }
+            return result;
+
+        }
+
+        public Spell ConvertJsonToSpell(string json)
+        {
+            Spell spell = new Spell();
+
+            JObject jObj = JObject.Parse(json);
+
+            spell.Name = jObj["name"]!.Value<string>()!;
+
+            spell.Id = 0; spell.MonsterId = 0; // These will be handled in another way once we have a database.
+
+            spell.Description = jObj["desc"]!.Value<string>()!;
+
+            return spell;
         }
     }
 }
