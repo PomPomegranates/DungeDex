@@ -1,6 +1,8 @@
-﻿namespace DungeDexBE.Models
+﻿using DungeDexBE.Interfaces.ModelInterfaces;
+
+namespace DungeDexBE.Models
 {
-	public class Spell
+	public class Spell : IReturnable
 	{
 		public int Id { get; set; }
 		public int MonsterId { get; set; }
