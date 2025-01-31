@@ -6,13 +6,14 @@
     <p>Challenge Rating : @Monster.ChallengeRating</p>
     <p>AC : @Monster.ArmorClass</p>
     <p>HP: @Monster.HitPoints</p>
-    <p>@Monster.Attributes.Strength</p>
-    <p>@Monster.Attributes.Dexterity</p>
-    <p>@Monster.Attributes.Constitution</p>
-    <p>@Monster.Attributes.Intelligence</p>
-    <p>@Monster.Attributes.Wisdom</p>
-    <p>@Monster.Attributes.Charisma</p>
-
+    <div class="d-flex ">
+    <p style="width:73px">STR: @Monster.Attributes.Strength</p>
+    <p style="width:73px">DEX: @Monster.Attributes.Dexterity</p>
+    <p style="width:73px">CON: @Monster.Attributes.Constitution</p>
+    <p style="width:73px">INT: @Monster.Attributes.Intelligence</p>
+    <p style="width:73px">WIS: @Monster.Attributes.Wisdom</p>
+    <p style="width:73px">CHA: @Monster.Attributes.Charisma</p>
+    </div>
     @foreach (var spell in Monster.Spells)
     {
         <p>Spell Name: @spell.Name</p>
