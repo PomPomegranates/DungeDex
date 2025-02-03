@@ -1,0 +1,35 @@
+﻿@page "/login"
+@using System.Security.Claims
+@inject CustomAuthenticationService AuthService
+
+<AuthorizeView>
+    <Authorized>
+        <p>Hello, @context.User.Identity?.Name!</p>
+    </Authorized>
+    <NotAuthorized>
+        <p>You're not logged in.</p>
+        <input @bind="userIdentifier" />
+        <input @bind="password" />
+        <button @onclick="SignIn">Sign in</button>
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    public string userIdentifier = string.Empty;
+    public string password = string.Empty;
+
+    private void SignIn()
+    {
+        var currentUser = AuthService.CurrentUser;
+
+        var identity = new ClaimsIdentity(
+            [
+                new Claim(ClaimTypes.Name, userIdentifier),
+            ],
+            "Custom Authentication");
+
+        var newUser = new ClaimsPrincipal(identity);
+
+        AuthService.CurrentUser = newUser;
+    }
+}
