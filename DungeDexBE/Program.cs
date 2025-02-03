@@ -93,7 +93,7 @@ namespace DungeDexBE
 			{
 				Id = 1,
 				UserId = 1,
-				Name = "Jim",
+				BasePokemon = "Jim",
 				ChallengeRating = 12,
 				ArmorClass = 12,
                 HitPoints = 1,
@@ -103,29 +103,15 @@ namespace DungeDexBE
 				Intelligence = 3,
 				Dexterity = 3,
 				Charisma = 3,
-				
+				Spells = new List<Spell>
+				{
+					spell,
+					spell2
+				},
 				ImageLink = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/shiny/186.png"
 			};
 
-			var monsterSpell = new MonsterSpell
-			{
-				Id = 1,
-				MonsterId = 1,
-				SpellId = 1
-			};
-
-			var monsterSpell2 = new MonsterSpell
-			{
-				Id = 2,
-				MonsterId = 1,
-				SpellId = 2
-			};
-
 			db.MonsterDb.Add(monster);
-			db.SpellTable.Add(spell);
-			db.SpellTable.Add(spell2);
-			db.MonsterSpellTable.Add(monsterSpell);
-			db.MonsterSpellTable.Add(monsterSpell2);
 
             db.SaveChanges();
         }

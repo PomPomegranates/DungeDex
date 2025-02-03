@@ -9,7 +9,7 @@ namespace DungeDexBE.ConversionFunctions
 
 			Monster monster = new();
 
-			monster.Name = pokemon.Name;
+			monster.BasePokemon = pokemon.Name;
 
 			ConvertBaseStats(pokemon, monster);
 

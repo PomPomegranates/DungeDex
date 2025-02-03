@@ -29,6 +29,5 @@ namespace DungeDexBE
 		}
 		public DbSet<Monster> MonsterDb { get;set; }
         public DbSet<Spell> SpellTable { get;set; }    
-        public DbSet<MonsterSpell> MonsterSpellTable { get; set; }
     }
 }
