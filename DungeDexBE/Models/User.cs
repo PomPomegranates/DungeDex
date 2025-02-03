@@ -4,7 +4,7 @@
     {
         public int Id { get; set; }
         public string UserName { get; set; } = null!;
-        public List<Monster> Creations { get; set; } = [];
+        public virtual List<Monster> Creations { get; set; } = [];
 
     }
 }

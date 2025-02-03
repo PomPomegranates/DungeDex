@@ -92,7 +92,7 @@ namespace DungeDexBE
 			var monster = new Monster
 			{
 				Id = 1,
-				UserId = 1,
+				
 				BasePokemon = "Jim",
 				ChallengeRating = 12,
 				ArmorClass = 12,

@@ -24,5 +24,29 @@ namespace DungeDexBE.Repositories
 			}
 			catch { return null; }
 		}
+
+		public (Monster?, string) GetSingularMonster(int id)
+		{
+			var value = myDbContext.MonsterDb.Where(x => (x.Id == id)).FirstOrDefault();
+			try
+			{
+
+			
+            if (value != null)
+			{
+				return (value, "Success");
+			}
+			else 
+			{
+				return (null, $"No Userdata for Pokemon Number {id}");
+			}
+            } catch (Exception e)
+			{
+				return (null, e.Message);
+			}
+
+
+
+        }
 	}
 }

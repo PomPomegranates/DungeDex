@@ -6,7 +6,7 @@ namespace DungeDexBE.Models
 	public class Monster : IReturnable
 	{
 		public int Id { get; set; }
-		public User? User { get; set; }
+		public virtual User? User { get; set; }
 		public string BasePokemon { get; set; } = null!;
 		public string NickName { get; set; } = string.Empty;
 		public float ChallengeRating { get; set; }

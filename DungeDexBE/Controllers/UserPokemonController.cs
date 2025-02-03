@@ -36,5 +36,24 @@ namespace DungeDexBE.Controllers
 				return BadRequest();
 			}
 		}
+		[HttpGet("{id}")]
+		public IActionResult GetPokemonById(int id) 
+		{
+
+			var result = _userPokemonsterService.GetSingularMonster(id);
+
+			if (result.Item1 != null)
+			{
+				return Ok(result.Item1);
+			}
+			else if (result.Item2.Contains("No Userdata"))
+			{
+				return NotFound(result.Item2);
+
+			} else
+			{
+				return BadRequest(result.Item2);
+			}
+		}
 	}
 }
