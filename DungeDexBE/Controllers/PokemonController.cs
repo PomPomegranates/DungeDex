@@ -33,18 +33,5 @@ namespace DungeDexBE.Controllers
 
 			return StatusCode((int)result.StatusCode!, result.ErrorMessage);
 		}
-
-		[HttpGet("published")]
-
-		public IActionResult GetMonstersFromDataBase()
-		{
-			var result =  _pokemonService.GetMonstersInDatabase();
-			
-			if(result.Count > 0) return Ok(result);
-			else
-			{
-				return BadRequest();
-			}
-        }
 	}
 }

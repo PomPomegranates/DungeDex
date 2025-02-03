@@ -47,12 +47,5 @@ namespace DungeDexBE.Services
 			return result;
 		}
 
-
-		public List<Monster> GetMonstersInDatabase()
-		{
-			var result =  _pokeApiRepository.GetMonsters();
-
-			return result;
-		}
 	}
 }

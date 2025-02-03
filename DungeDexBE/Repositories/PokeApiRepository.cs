@@ -45,7 +45,7 @@ namespace DungeDexBE.Repositories
 			return result;
 		}
 
-		private Pokemon ConvertJsonToPokemon(string json)
+		public Pokemon ConvertJsonToPokemon(string json)
 		{
 			var jObj = JObject.Parse(json);
 			var pokemonStats = jObj["stats"]!.ToList();
@@ -72,12 +72,5 @@ namespace DungeDexBE.Repositories
 			return pokemon;
 		}
 
-		public List<Monster> GetMonsters()
-		{
-		
-
-			
-			return myDbContext.MonsterDb.Include(m=> m.Spells).ToList();
-		}
 	}
 }

@@ -34,6 +34,8 @@ namespace DungeDexBE
 			builder.Services.AddScoped<IPokemonService, PokemonService>();
 			builder.Services.AddScoped<IDNDApiRepository, DNDApiRepository>();
 			builder.Services.AddScoped<IDNDService, DNDService>();
+			builder.Services.AddScoped<IUserPokemonsterRepository, UserPokemonsterRepository>();
+			builder.Services.AddScoped<IUserPokemonsterService, UserPokemonsterService>();
 
 			builder.Services.AddEndpointsApiExplorer();
 			builder.Services.AddSwaggerGen();
