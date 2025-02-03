@@ -90,8 +90,13 @@ namespace DungeDexBE
 				Name = "Jim",
 				ChallengeRating = 12,
 				ArmorClass = 12,
-                AttributesID = 1,
                 HitPoints = 1,
+				Strength = 3,
+				Constitution = 3,
+				Wisdom = 3,
+				Intelligence = 3,
+				Dexterity = 3,
+				Charisma = 3,
 				
 				ImageLink = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/shiny/186.png"
 			};
