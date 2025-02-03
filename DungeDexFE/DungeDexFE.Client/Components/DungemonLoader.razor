@@ -29,7 +29,6 @@ else if (Dungemon != null)
             var response = await client.GetAsync($"https://localhost:7298/api/Pokemon/{idOrName}/monsterify");
             response.EnsureSuccessStatusCode();
             var TempDungemon = await response.Content.ReadFromJsonAsync<TempDungemon>();
-
             Dungemon = TempDungemon.ToDungemon();
         }
         catch (HttpRequestException ex)

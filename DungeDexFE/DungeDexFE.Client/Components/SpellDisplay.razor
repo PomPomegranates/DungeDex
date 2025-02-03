@@ -1,13 +1,42 @@
 ﻿@using System.Text.Json;
 
 <div>
-    
-        <p>Spell Name: @Spell.Name</p>
-        <p>Spell Desc: @Spell.Description</p>
+	@if (isExpanded)
+	{
+		<p>Spell Name: @Spell.Name</p>
+		<p>Spell Desc: @Spell.Description</p>
+
+		@if (isAdded)
+		{
+			<button @onclick="HandleRemoveSpellClick">Remove Spell</button>
+		}
+	}
+	else
+	{
+		<button @onclick="ToggleIsExpanded">@Spell.Name</button>
+	}
 
 </div>
 
 @code {
-    [Parameter]
-    public Spell Spell { get; set; } = null!;
+	[Parameter]
+	public Spell Spell { get; set; } = null!;
+
+	[Parameter]
+	public EventCallback<Spell> RemoveSpell { get; set; }
+
+	[Parameter]
+	public bool isExpanded { get; set; } = false;
+
+	[Parameter]
+	public bool isAdded { get; set; } = true;
+
+	private void ToggleIsExpanded()
+	{
+		isExpanded = !isExpanded;
+	}
+	private async Task HandleRemoveSpellClick(MouseEventArgs e)
+	{
+		await RemoveSpell.InvokeAsync(Spell);
+	}
 }

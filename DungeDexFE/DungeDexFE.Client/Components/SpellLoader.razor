@@ -2,79 +2,87 @@
 
 @using System.Text.Json
 
-@if(!string.IsNullOrEmpty(errorMessage))
+@if (!string.IsNullOrEmpty(errorMessage))
 {
-    <p>An error occurred while fetching the Spell Data:</p>
-    <p>@errorMessage</p>    
+	<p>An error occurred while fetching the Spell Data:</p>
+	<p>@errorMessage</p>    
 }
 else if (Spells != null)
 {
-    <select @onchange="(x)=>HandleSelect(x)">
-        <option selected disabled>-</option>
-        @foreach(var spell in Spells){
-            <option value="@spell.Value">@spell.Key</option>
-        }
-    </select>
-    if(Spell!=null){
-        <SpellDisplay Spell="Spell"/>
-        <button @onclick="() => ConfirmSpell(Spell)"> Confirm</button>
-    }
+	<select @onchange="(x)=>HandleSelect(x)">
 
+		<option selected disabled>-</option>
+
+		@foreach(var spell in Spells)
+		{
+			<option value="@spell.Value">@spell.Key</option>
+		}
+
+	</select>
+
+	if(Spell != null)
+	{
+		<SpellDisplay Spell="Spell" isExpanded="true" isAdded="false"/>
+		<button @onclick="() => ConfirmSpell(Spell)">Confirm Spell</button>
+		<button @onclick="HandleCancel">Cancel</button>
+	}
 }
 
 @code {
+	public Dictionary<string, string> Spells { get; set; } = null!;
+	public Spell Spell { get; set; } = null!;
 
-    public Dictionary<string, string> Spells { get; set; } = null!;
-    public Spell Spell { get; set; } = null!;
+	[Parameter] 
+	public EventCallback<Spell?> AddSpell { get; set; }
 
+	private string errorMessage { get; set; } = null!;
 
-    [Parameter] public EventCallback<Spell?> spellToAddChanged { get; set; }
-    private string errorMessage { get; set; } = null!;
+	public async Task HandleSelect(ChangeEventArgs spellIndex){
+		try
+		{
+			using var client = new HttpClient();
+			client.DefaultRequestHeaders.Add("Access-Control-Allow-Origin", "https://localhost:7107/");
+			var response = await client.GetAsync($"https://localhost:7298/api/Spells/{spellIndex.Value}");
+			response.EnsureSuccessStatusCode();
+			Spell = await response.Content.ReadFromJsonAsync<Spell>() ?? throw new Exception();
+		}
+		catch (HttpRequestException ex)
+		{
+			errorMessage = ex.Message;
+		}
+		catch
+		{
+			errorMessage = "Something went wrong whilst trying to access spell data, sorry!";
+		}
+	}
 
-    public async Task HandleSelect(ChangeEventArgs spellIndex){
-        try
-        {
-            using var client = new HttpClient();
-            client.DefaultRequestHeaders.Add("Access-Control-Allow-Origin", "https://localhost:7107/");
-            var response = await client.GetAsync($"https://localhost:7298/api/Spells/{spellIndex.Value}");
-            response.EnsureSuccessStatusCode();
-            Spell = await response.Content.ReadFromJsonAsync<Spell>();
-        }
-        catch (HttpRequestException ex)
-        {
-            errorMessage = ex.Message;
-        }
-        catch
-        {
-            errorMessage = "Something went wrong whilst trying to access spell data, sorry!";
-        }
+	protected override async Task OnParametersSetAsync()
+	{
+		try
+		{
+			using var client = new HttpClient();
+			client.DefaultRequestHeaders.Add("Access-Control-Allow-Origin", "https://localhost:7107/");
+			var response = await client.GetAsync($"https://localhost:7298/api/Spells");
+			response.EnsureSuccessStatusCode();
+			Spells = await response.Content.ReadFromJsonAsync<Dictionary<string, string>>() ?? throw new Exception();
+		}
+		catch (HttpRequestException ex)
+		{
+			errorMessage = ex.Message;
+		}
+		catch
+		{
+			errorMessage = "Something went wrong whilst trying to access spell data, sorry!";
+		}
+	}
 
+	public async Task ConfirmSpell(Spell spell)
+	{
+		await AddSpell.InvokeAsync(spell);
+	}
 
-    }
-
-    protected override async Task OnParametersSetAsync()
-    {
-        try
-        {
-            using var client = new HttpClient();
-            client.DefaultRequestHeaders.Add("Access-Control-Allow-Origin", "https://localhost:7107/");
-            var response = await client.GetAsync($"https://localhost:7298/api/Spells");
-            response.EnsureSuccessStatusCode();
-            Spells= await response.Content.ReadFromJsonAsync<Dictionary<string, string>>();
-        }
-        catch (HttpRequestException ex)
-        {
-            errorMessage = ex.Message;
-        }
-        catch
-        {
-            errorMessage = "Something went wrong whilst trying to access spell data, sorry!";
-        }
-    }
-
-    public void ConfirmSpell(Spell? spell)
-    {
-        spellToAddChanged.InvokeAsync(spell);
-    }
-
+	private async void HandleCancel(MouseEventArgs e)
+	{
+		await AddSpell.InvokeAsync(null);
+	}
 }

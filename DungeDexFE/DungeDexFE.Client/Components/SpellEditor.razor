@@ -1,60 +1,50 @@
-﻿<!--Spell Editor Component
-Allows user to change spell
-to add a spell
-remove a spell
--->
+﻿<h2>Spells</h2>
 
-
-@* <div class="col-1 text-center"> *@
-@* 		<label for="spell1">Spell1</label> *@
-@* 		</div> *@
-@* 		<div class="col-1"> *@
-@* 			<InputNumber id="spell1" TValue="Spell" @bind-Value="@spellList" disabled="@(!_isEditing)" style="width: 100%; text-align: center; border: none;" class="bg-primary" /> *@
-@* 		</div> *@
-@* 		<div class="col-10"> *@
-
-@* 		</div> *@
-
-<h2>Spells</h2>
-
-
-
-
-
-@foreach (var spell in spellList)
+@if (Spells.Count == 0)
 {
-    <SpellDisplay Spell="spell" />
-    <button @onclick="() => SpellChange(spell)"> Remove Spell</button>
+    <p>To add spells, click 'Add Spell'.</p>
 }
 
-@if (!isAdd)
+@foreach (var spell in Spells)
 {
-    <button @onclick="() => AddSpell()" > Add Spell</button>
+    <SpellDisplay Spell="spell" RemoveSpell="RemoveSpell"/>
+    <br /><br />
 }
-else{
-    <SpellLoader  spellToAddChanged = "spellToAddChanged"/>
+
+@if (!isAddActive)
+{
+    <button @onclick="ToggleAdd">Add Spell</button>
+}
+else
+{
+    <SpellLoader AddSpell="AddSpell"/>
 }
 
 
 @code {
-    [Parameter] public List<Spell> spellList{ get; set; }
-    public bool isAdd =  false;
-    public void SpellChange(Spell spellChange){
-        spellList.Remove(spellChange);
-    }
-    public Spell? spellToAdd { get; set; } = null;
+    [Parameter] 
+    public required List<Spell> Spells { get; set; }
 
-    public void AddSpell(){
-        isAdd = !isAdd;
-    }
-
-    public void spellToAddChanged(Spell? spell)
+    public bool isAddActive =  false;
+    
+    public void RemoveSpell(Spell spellToRemove)
     {
-        if (spell != null) {
-        
-            spellList.Add(spell);
-            AddSpell();
+        Spells.Remove(spellToRemove);
+    }
+
+    public void ToggleAdd()
+    {
+        isAddActive = !isAddActive;
+    }
+
+    public void AddSpell(Spell? spellToAdd)
+    {
+        if (spellToAdd != null) 
+        {
+            Spells.Add(spellToAdd);
         }
+
+        ToggleAdd();
     }
 
 }
