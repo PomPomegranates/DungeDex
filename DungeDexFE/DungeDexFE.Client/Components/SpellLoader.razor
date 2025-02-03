@@ -27,6 +27,10 @@ else if (Spells != null)
 		<button @onclick="HandleCancel">Cancel</button>
 	}
 }
+else
+{
+	<p>Loading spell list...</p>
+}
 
 @code {
 	public Dictionary<string, string> Spells { get; set; } = null!;
