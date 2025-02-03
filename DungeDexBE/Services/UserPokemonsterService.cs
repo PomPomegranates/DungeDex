@@ -22,5 +22,9 @@ namespace DungeDexBE.Services
 		{
 			return _userPokemonsterRepository.GetSingularMonster(id);
 		}
+		public (Monster, string) PostUserMonster(Monster monster)
+		{
+			return _userPokemonsterRepository.PostUserMonster(monster);
+		}
 	}
 }

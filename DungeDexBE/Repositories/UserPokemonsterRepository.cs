@@ -48,5 +48,23 @@ namespace DungeDexBE.Repositories
 
 
         }
-	}
+
+        public (Monster, string) PostUserMonster(Monster monster)
+		{
+			try
+			{
+				myDbContext.MonsterDb.Add(monster);
+				myDbContext.SaveChanges();
+				return (monster, "Success");
+
+            }
+			catch (Exception e)
+			{
+				return (monster, e.Message);
+			}
+
+				
+		}
+
+    }
 }

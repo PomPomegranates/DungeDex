@@ -6,5 +6,6 @@ namespace DungeDexBE.Interfaces.ServiceInterfaces
     {
         List<Monster>? GetMonsters();
         (Monster?, string) GetSingularMonster(int id);
+        (Monster, string) PostUserMonster(Monster monster);
     }
 }

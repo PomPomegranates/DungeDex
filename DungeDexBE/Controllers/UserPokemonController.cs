@@ -1,6 +1,6 @@
 ﻿using DungeDexBE.Interfaces.ServiceInterfaces;
 using Microsoft.AspNetCore.Mvc;
-
+using DungeDexBE.Models;
 namespace DungeDexBE.Controllers
 {
 	[ApiController]
@@ -55,5 +55,21 @@ namespace DungeDexBE.Controllers
 				return BadRequest(result.Item2);
 			}
 		}
-	}
+
+		[HttpPost]
+        public IActionResult PostUserMonster(Monster monster)
+		{
+			var result = _userPokemonsterService.PostUserMonster(monster);
+
+			if (result.Item2 == "Success")
+			{
+				return Created();
+			}
+			else
+			{
+				return BadRequest((monster,result.Item2));
+			}
+		}
+
+    }
 }
