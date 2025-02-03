@@ -5,6 +5,8 @@ using DungeDexBE.Repositories;
 using DungeDexBE.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.Sqlite;
+using Microsoft.Data.Sql;
+using Microsoft.AspNetCore.Server;
 using Microsoft.EntityFrameworkCore;
 using System.Runtime.CompilerServices;
 using Newtonsoft.Json;
@@ -39,11 +41,15 @@ namespace DungeDexBE
 
 			builder.Services.AddEndpointsApiExplorer();
 			builder.Services.AddSwaggerGen();
-          
+            builder.Configuration
+			 .SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("Secrets.json");
 
-            var cnn = new SqliteConnection("Filename=:memory:");
-            cnn.Open();
-			builder.Services.AddDbContext<MyDbContext>(o => o.UseSqlite(cnn));
+            //var cnn = new SqliteConnection("Filename=:memory:");
+            //cnn.Open();
+			builder.Services.AddDbContext<MyDbContext>(o =>
+            {
+                o.UseSqlServer(builder.Configuration.GetConnectionString("MyCnString"));
+            });
 
 
 
