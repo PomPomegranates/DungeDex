@@ -1,0 +1,27 @@
+﻿@typeparam TValue
+
+<div class="col-1 text-center">
+    <label for="@DisplayName">@DisplayName</label>
+</div>
+
+<div class="col-1">
+    <InputNumber id="cr" TValue="TValue" @bind-Value="Value" disabled="@(!IsEditing)" style="width: 100%; text-align: center; border: none;" class="bg-primary"/>
+</div>
+
+<div class="col-10">
+    <ValidationMessage For="() => Value" />
+</div>
+
+@code {
+    [Parameter, EditorRequired]
+    public TValue Value { get; set; } = default!;
+
+    [Parameter, EditorRequired]
+    public string DisplayName { get; set; } = null!;
+
+    [Parameter, EditorRequired]
+    public bool IsEditing { get; set; } = false;
+
+    [Parameter]
+    public EventCallback<TValue> ValueChanged { get; set; }
+}

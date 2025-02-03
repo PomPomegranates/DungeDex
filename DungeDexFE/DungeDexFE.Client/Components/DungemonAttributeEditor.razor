@@ -1,0 +1,137 @@
+﻿<EditForm model=@Dungemon OnInvalidSubmit=@InvalidFormSubmitted OnValidSubmit=@ValidFormSubmitted>
+
+	<DataAnnotationsValidator />
+	<div class="row row-cols-3 g-2 pb-2 align-items-center">
+
+		<div class="col-1 text-center">
+			<label for="CR">CR</label>
+		</div>
+		<div class="col-1">
+			<InputNumber id="cr" TValue="float" @bind-Value="@Dungemon.ChallengeRating" disabled="@(!_isEditing)" style="width: 100%; text-align: center; border: none;" class="bg-primary" />
+		</div>
+		<div class="col-10">
+			<ValidationMessage For="() => Dungemon.ChallengeRating" />
+		</div>
+
+
+		<div class="col-1 text-center">
+			<label for="HP">HP</label>
+		</div>
+		<div class="col-1">
+			<InputNumber id="hp" TValue="int" @bind-Value="@Dungemon.HitPoints" disabled="@(!_isEditing)" style="width: 100%; text-align: center; border: none;" class="bg-primary" />
+		</div>
+		<div class="col-10">
+			<ValidationMessage For="() => Dungemon.HitPoints" />
+		</div>
+
+
+		<div class="col-1 text-center">
+			<label for="STR">STR</label>
+		</div>
+		<div class="col-1">
+			<InputNumber id="STR" TValue="int" @bind-Value="@Dungemon.Attributes.Strength" disabled="@(!_isEditing)" style="width: 100%; text-align: center; border: none;" class="bg-primary" />
+		</div>
+		<div class="col-10">
+			<ValidationMessage For="() => Dungemon.Attributes.Strength" />
+		</div>
+
+
+		<div class="col-1 text-center">
+			<label for="DEX">DEX</label>
+		</div>
+		<div class="col-1">
+			<InputNumber id="DEX" TValue="int" @bind-Value="@Dungemon.Attributes.Dexterity" disabled="@(!_isEditing)" style="width: 100%; text-align: center; border: none;" class="bg-primary" />
+		</div>
+		<div class="col-10">
+			<ValidationMessage For="() => Dungemon.Attributes.Dexterity" />
+		</div>
+
+
+		<div class="col-1 text-center">
+			<label for="CON">CON</label>
+		</div>
+		<div class="col-1">
+			<InputNumber id="CON" TValue="int" @bind-Value="@Dungemon.Attributes.Constitution" disabled="@(!_isEditing)" style="width: 100%; text-align: center; border: none;" class="bg-primary" />
+		</div>
+		<div class="col-10">
+			<ValidationMessage For="() => Dungemon.Attributes.Constitution" />
+		</div>
+
+
+		<div class="col-1 text-center">
+			<label for="INT">INT</label>
+		</div>
+		<div class="col-1">
+			<InputNumber id="cr" TValue="int" @bind-Value="@Dungemon.Attributes.Intelligence" disabled="@(!_isEditing)" style="width: 100%; text-align: center; border: none;" class="bg-primary" />
+		</div>
+		<div class="col-10">
+			<ValidationMessage For="() => Dungemon.Attributes.Intelligence" />
+		</div>
+
+
+		<div class="col-1 text-center">
+			<label for="WIS">WIS</label>
+		</div>
+		<div class="col-1">
+			<InputNumber id="WIS" TValue="int" @bind-Value="@Dungemon.Attributes.Wisdom" disabled="@(!_isEditing)" style="width: 100%; text-align: center; border: none;" class="bg-primary" />
+		</div>
+		<div class="col-10">
+			<ValidationMessage For="() => Dungemon.Attributes.Wisdom" />
+		</div>
+
+
+		<div class="col-1 text-center">
+			<label for="CHA">CHA</label>
+		</div>
+		<div class="col-1">
+			<InputNumber id="CHA" TValue="int" @bind-Value="@Dungemon.Attributes.Charisma" disabled="@(!_isEditing)" style="width: 100%; text-align: center; border: none;" class="bg-primary" />
+		</div>
+		<div class="col-10">
+			<ValidationMessage For="() => Dungemon.Attributes.Charisma" />
+		</div>
+
+
+		<div class="col-2">
+			@if (_isEditing)
+			{
+				<input type="submit" class="btn-primary" value="Save!" style="width: 100%;"/>
+			}
+			else
+			{
+				<button type="button" class="btn-primary" style="width: 100%;" @onclick="HandleButtonClick">Edit!</button>
+			}
+		</div>
+		<div class="col-10">@_submitResult</div>
+	</div>
+</EditForm>
+
+@code {
+	[Parameter]
+	public Dungemon Dungemon { get; set; } = null!;
+
+	[Parameter]
+	public EventCallback<Dungemon> DungemonChanged { get; set; }
+
+	private bool _isEditing { get; set; } = false;
+
+	private string _submitResult = null!;
+
+	private void HandleButtonClick(MouseEventArgs e)
+	{
+		_isEditing = true;
+	}
+
+	public async Task ValidFormSubmitted(EditContext editContext)
+	{
+		await DungemonChanged.InvokeAsync(Dungemon);
+
+		_submitResult = "Dungémon updated!";
+
+		_isEditing = false;
+	}
+
+	public void InvalidFormSubmitted(EditContext editContext)
+	{ 
+		_submitResult = "Please enter valid values.";
+	}
+}
