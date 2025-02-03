@@ -1,0 +1,60 @@
+﻿<!--Spell Editor Component
+Allows user to change spell
+to add a spell
+remove a spell
+-->
+
+
+@* <div class="col-1 text-center"> *@
+@* 		<label for="spell1">Spell1</label> *@
+@* 		</div> *@
+@* 		<div class="col-1"> *@
+@* 			<InputNumber id="spell1" TValue="Spell" @bind-Value="@spellList" disabled="@(!_isEditing)" style="width: 100%; text-align: center; border: none;" class="bg-primary" /> *@
+@* 		</div> *@
+@* 		<div class="col-10"> *@
+
+@* 		</div> *@
+
+<h2>Spells</h2>
+
+
+
+
+
+@foreach (var spell in spellList)
+{
+    <SpellDisplay Spell="spell" />
+    <button @onclick="() => SpellChange(spell)"> Remove Spell</button>
+}
+
+@if (!isAdd)
+{
+    <button @onclick="() => AddSpell()" > Add Spell</button>
+}
+else{
+    <SpellLoader  spellToAddChanged = "spellToAddChanged"/>
+}
+
+
+@code {
+    [Parameter] public List<Spell> spellList{ get; set; }
+    public bool isAdd =  false;
+    public void SpellChange(Spell spellChange){
+        spellList.Remove(spellChange);
+    }
+    public Spell? spellToAdd { get; set; } = null;
+
+    public void AddSpell(){
+        isAdd = !isAdd;
+    }
+
+    public void spellToAddChanged(Spell? spell)
+    {
+        if (spell != null) {
+        
+            spellList.Add(spell);
+            AddSpell();
+        }
+    }
+
+}

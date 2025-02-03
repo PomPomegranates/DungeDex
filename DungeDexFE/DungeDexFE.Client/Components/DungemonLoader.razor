@@ -28,7 +28,9 @@ else if (Dungemon != null)
             client.DefaultRequestHeaders.Add("Access-Control-Allow-Origin", "https://localhost:7107/");
             var response = await client.GetAsync($"https://localhost:7298/api/Pokemon/{idOrName}/monsterify");
             response.EnsureSuccessStatusCode();
-            Dungemon = await response.Content.ReadFromJsonAsync<Dungemon>();
+            var TempDungemon = await response.Content.ReadFromJsonAsync<TempDungemon>();
+
+            Dungemon = TempDungemon.ToDungemon();
         }
         catch (HttpRequestException ex)
         {

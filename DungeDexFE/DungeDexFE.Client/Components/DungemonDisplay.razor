@@ -21,11 +21,9 @@
         </div>
     </div>
 </div>
+  <!--SpellEditor dungeon spell-->
 
-@foreach (var spell in Dungemon.Spells)
-{
-    <SpellDisplay Spell="spell" />
-}
+    <SpellEditor spellList="Dungemon.Spells" />
 
 @code {
     [Parameter]

@@ -17,6 +17,7 @@ else if (Spells != null)
     </select>
     if(Spell!=null){
         <SpellDisplay Spell="Spell"/>
+        <button @onclick="() => ConfirmSpell(Spell)"> Confirm</button>
     }
 
 }
@@ -26,6 +27,8 @@ else if (Spells != null)
     public Dictionary<string, string> Spells { get; set; } = null!;
     public Spell Spell { get; set; } = null!;
 
+
+    [Parameter] public EventCallback<Spell?> spellToAddChanged { get; set; }
     private string errorMessage { get; set; } = null!;
 
     public async Task HandleSelect(ChangeEventArgs spellIndex){
@@ -45,7 +48,7 @@ else if (Spells != null)
         {
             errorMessage = "Something went wrong whilst trying to access spell data, sorry!";
         }
-        
+
 
     }
 
@@ -68,4 +71,10 @@ else if (Spells != null)
             errorMessage = "Something went wrong whilst trying to access spell data, sorry!";
         }
     }
+
+    public void ConfirmSpell(Spell? spell)
+    {
+        spellToAddChanged.InvokeAsync(spell);
+    }
+
 }
