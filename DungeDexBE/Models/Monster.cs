@@ -1,4 +1,5 @@
 ﻿using DungeDexBE.Interfaces.ModelInterfaces;
+//using DungeDexBE.Models.NavigationModels;
 
 namespace DungeDexBE.Models
 {
@@ -17,6 +18,7 @@ namespace DungeDexBE.Models
 		public int Charisma { get; set; }
 		public int HitPoints { get; set; }
 		public virtual List<Spell> Spells { get; set; } = [];
+		public virtual List<MonsterSpell> MonsterSpells { get; set; } = [];
 		public string ImageLink { get; set; }
 
 		#region stretch

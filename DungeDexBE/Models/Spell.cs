@@ -1,12 +1,13 @@
 ﻿using DungeDexBE.Interfaces.ModelInterfaces;
+//using DungeDexBE.Models.NavigationModels;
 
 namespace DungeDexBE.Models
 {
 	public class Spell : IReturnable
 	{
 		public int Id { get; set; }
-		public Monster Monster { get; set; } = null!;
-		public int MonsterId { get; set; }
+		public virtual List<MonsterSpell> MonsterSpells { get; set; } = [];
+		public virtual List<Monster> Monsters { get; set; } = [];
 		public string Name { get; set; } = null!;
 		public string Description { get; set; } = null!;
 

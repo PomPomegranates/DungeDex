@@ -19,7 +19,8 @@ namespace DungeDexBE.Repositories
 		{
 			try
 			{
-				return myDbContext.MonsterDb.Include(m => m.Spells).ToList();
+				return myDbContext.MonsterDb.ToList();
+				
 			}
 			catch { return null; }
 		}

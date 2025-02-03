@@ -77,13 +77,19 @@ namespace DungeDexBE
 			var spell = new Spell
 			{
 				Id = 1,
-				MonsterId = 1,
 				Name = "Boom",
 				Description = "Big Boom"
 			};
 
+			var spell2 = new Spell
+			{
+				Id = 2,
+				Name = "ah",
+				Description = "oh no"
+			};
 
-			var Monster = new Monster
+
+			var monster = new Monster
 			{
 				Id = 1,
 				UserId = 1,
@@ -100,17 +106,27 @@ namespace DungeDexBE
 				
 				ImageLink = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/shiny/186.png"
 			};
-			
-			db.MonsterDb.Add(Monster);
+
+			var monsterSpell = new MonsterSpell
+			{
+				Id = 1,
+				MonsterId = 1,
+				SpellId = 1
+			};
+
+			var monsterSpell2 = new MonsterSpell
+			{
+				Id = 2,
+				MonsterId = 1,
+				SpellId = 2
+			};
+
+			db.MonsterDb.Add(monster);
 			db.SpellTable.Add(spell);
+			db.SpellTable.Add(spell2);
+			db.MonsterSpellTable.Add(monsterSpell);
+			db.MonsterSpellTable.Add(monsterSpell2);
 
-		
-
-		
-
-
-
-            //db.AttributesDb.Add(attributeDB);
             db.SaveChanges();
         }
     }
