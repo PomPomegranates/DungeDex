@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using DungeDexBE.Interfaces.RepositoryInterfaces;
 using DungeDexBE.Models;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Linq;
 
 namespace DungeDexBE.Repositories
@@ -8,10 +9,11 @@ namespace DungeDexBE.Repositories
 	public class PokeApiRepository : IPokeApiRepository
 	{
 		private readonly IHttpClientFactory _httpClient;
-
-		public PokeApiRepository(IHttpClientFactory httpClientFactory)
+		private readonly MyDbContext myDbContext;
+		public PokeApiRepository(IHttpClientFactory httpClientFactory, MyDbContext db)
 		{
 			_httpClient = httpClientFactory;
+			myDbContext = db;
 		}
 
 		public async Task<Result> GetPokemon(string pokemonName)
@@ -43,7 +45,7 @@ namespace DungeDexBE.Repositories
 			return result;
 		}
 
-		private Pokemon ConvertJsonToPokemon(string json)
+		public Pokemon ConvertJsonToPokemon(string json)
 		{
 			var jObj = JObject.Parse(json);
 			var pokemonStats = jObj["stats"]!.ToList();
@@ -69,5 +71,6 @@ namespace DungeDexBE.Repositories
 
 			return pokemon;
 		}
+
 	}
 }
