@@ -56,7 +56,7 @@ else if (Dungemon != null)
 		try
 		{
 			using var client = new HttpClient();
-			var response = await client.PostAsJsonAsync<Dungemon>("https://localhost:7298/api/UserPokemon", Dungemon!);
+			var response = await client.PostAsJsonAsync<Dungemon>("https://localhost:7298/api/UserDungemon", Dungemon!);
 			response.EnsureSuccessStatusCode();
 			var locationHeader = response.Headers.GetValues("Location").First();
 			var dungemonId = Regex.Match(locationHeader, @"(\d+)$").Value;

@@ -49,7 +49,7 @@ else if (allDungemon != null)
 		try
 		{
 			using var client = new HttpClient();
-			allDungemon = await client.GetFromJsonAsync<List<Dungemon>>("https://localhost:7298/api/UserPokemon/")
+			allDungemon = await client.GetFromJsonAsync<List<Dungemon>>("https://localhost:7298/api/UserDungemon/")
 				?? throw new Exception("Unable to convert the server response into Dungémon.");
 		}
 		catch (HttpRequestException ex)
