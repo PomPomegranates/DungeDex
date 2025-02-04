@@ -41,6 +41,8 @@ namespace DungeDexBE
 			builder.Services.AddScoped<IDNDService, DNDService>();
 			builder.Services.AddScoped<IUserDungeMonRepository, UserDungeMonRepository>();
 			builder.Services.AddScoped<IUserDungeMonService, UserDungeMonService>();
+            builder.Services.AddScoped<IUserRepository, UserRepository>();
+            builder.Services.AddScoped<IUserService, UserService>();
 
 			builder.Services.AddEndpointsApiExplorer();
 			builder.Services.AddSwaggerGen();
@@ -75,58 +77,12 @@ namespace DungeDexBE
 			app.Run();
 		}
 
-<<<<<<< HEAD
-		static void AddData(WebApplication app)
-		{
-			var scope = app.Services.CreateScope();
-			var db = scope.ServiceProvider.GetService<MyDbContext>();
-
-
-
-			db.Database.EnsureDeleted();
-			db.Database.EnsureCreated();
-
-			var spell = new Spell
-			{
-				Name = "Boom",
-				Description = "Big Boom"
-			};
-
-			var spell2 = new Spell
-			{
-				Name = "ah",
-				Description = "oh no"
-			};
-
-
-			var monster = new Monster
-			{
-				NickName = "Jim",
-				BasePokemon = "Polytoed",
-				ChallengeRating = 12,
-				ArmorClass = 12,
-				HitPoints = 1,
-				Strength = 3,
-				Constitution = 3,
-				Wisdom = 3,
-				Intelligence = 3,
-				Dexterity = 3,
-				Charisma = 3,
-				Spells = new List<Spell>
-				{
-					spell,
-					spell2
-				},
-				ImageLink = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/shiny/186.png"
-			};
-=======
         static void AddData(WebApplication app)
         {
             var scope = app.Services.CreateScope();
             var db = scope.ServiceProvider.GetService<MyDbContext>();
 
 
->>>>>>> main
 
             db.Database.EnsureDeleted();
             db.Database.EnsureCreated();
@@ -155,7 +111,7 @@ namespace DungeDexBE
             var spell2 = new Spell
             {
                 Name = "Sunbeam",
-                Description = "A beam of brilliant light flashes out from your hand in a 5-foot-wide, 60-foot-long line. Each creature in the line must make a constitution saving throw. On a failed save, a creature takes 6d8 radiant damage and is blinded until your next turn. On a successful save, it takes half as much damage and isn't blinded by this spell. Undead and oozes have disadvantage on this saving throw."
+                Description = "A beam of brilliant light flashes out fro m your hand in a 5-foot-wide, 60-foot-long line. Each creature in the line must make a constitution saving throw. On a failed save, a creature takes 6d8 radiant damage and is blinded until your next turn. On a successful save, it takes half as much damage and isn't blinded by this spell. Undead and oozes have disadvantage on this saving throw."
             };
 
             var spell3 = new Spell
@@ -237,8 +193,9 @@ namespace DungeDexBE
             db.MonsterDb.Add(monster);
             db.MonsterDb.Add(monster2);
             db.MonsterDb.Add(monster3);
+         
+            db.SaveChanges();
+        }
+    }
 
-			db.SaveChanges();
-		}
-	}
 }

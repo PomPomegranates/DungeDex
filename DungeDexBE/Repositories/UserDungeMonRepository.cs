@@ -3,11 +3,8 @@ using DungeDexBE.Models;
 
 namespace DungeDexBE.Repositories
 {
-<<<<<<< HEAD:DungeDexBE/Repositories/UserPokemonsterRepository.cs
-	public class UserPokemonsterRepository : IUserPokemonsterRepository
-=======
+
     public class UserDungeMonRepository : IUserDungeMonRepository
->>>>>>> main:DungeDexBE/Repositories/UserDungeMonRepository.cs
 	{
 		//private readonly IHttpClientFactory _httpClient;
 		private readonly MyDbContext myDbContext;
@@ -22,7 +19,9 @@ namespace DungeDexBE.Repositories
 		{
 			try
 			{
-				return myDbContext.MonsterDb.ToList();
+
+				return myDbContext.MonsterDb.AsNoTracking().Include(m=> m.Spells).ToList();
+				
 
 			}
 			catch { return null; }
@@ -53,11 +52,8 @@ namespace DungeDexBE.Repositories
 
 		}
 
-<<<<<<< HEAD:DungeDexBE/Repositories/UserPokemonsterRepository.cs
-		public (Monster, string) PostUserMonster(Monster monster)
-=======
+
         public (DungeMon, string) PostUserMonster(DungeMon monster)
->>>>>>> main:DungeDexBE/Repositories/UserDungeMonRepository.cs
 		{
 			try
 			{
