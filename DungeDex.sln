@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.12.35707.178
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DungeDexBE", "DungeDexBE\DungeDexBE.csproj", "{200DD5BA-67B1-480A-95B6-C6B29D4F4979}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DungeDexBE", "DungeDexBE\DungeDexBE.csproj", "{200DD5BA-67B1-480A-95B6-C6B29D4F4979}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DungeDexFE", "DungeDexFE\DungeDexFE\DungeDexFE.csproj", "{A23DBADD-B733-49DD-B26B-45E15736F148}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DungeDexFE", "DungeDexFE\DungeDexFE\DungeDexFE.csproj", "{A23DBADD-B733-49DD-B26B-45E15736F148}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DungeDexFE.Client", "DungeDexFE\DungeDexFE.Client\DungeDexFE.Client.csproj", "{15A74309-77AA-4E5A-AF61-A3267DCB1A14}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DungeDexFE.Client", "DungeDexFE\DungeDexFE.Client\DungeDexFE.Client.csproj", "{15A74309-77AA-4E5A-AF61-A3267DCB1A14}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
