@@ -1,0 +1,65 @@
+﻿@inject NavigationManager nav
+@rendermode InteractiveWebAssembly
+
+@if (user != null)
+{
+	<h3>@user.UserName</h3>
+
+	<h4>Dungemon by @user.UserName</h4>
+	<table class="table">
+
+		<thead>
+			<tr>
+				<th scope="col">Name</th>
+				<th scope="col">Challenge Rating</th>
+				<th scope="col">Base Pokemon</th>
+			</tr>
+		</thead>
+
+		<tbody>
+
+			@foreach (var dungemon in user.Dungemons)
+			{
+				<tr style="cursor: pointer;" @onclick="() => HandleRowClick(dungemon.Id)">
+					<td>@(string.IsNullOrEmpty(dungemon.NickName) ? dungemon.BasePokemon : dungemon.NickName)</td>
+					<td>@dungemon.ChallengeRating</td>
+					<td>@dungemon.BasePokemon</td>
+				</tr>
+			}
+
+		</tbody>
+
+	</table>
+	
+}
+
+@code {
+	[Parameter]
+	public required User user { get; set; } = new User
+		{
+			UserName = "BigPokemonFan",
+			Dungemons = new List<Dungemon>
+			{
+				new Dungemon
+				{
+					BasePokemon = "Lilligant",
+					NickName = "Steve",
+					ChallengeRating = 12,
+					ArmorClass = 12,
+					HitPoints = 100,
+					Strength = 14,
+					Constitution = 13,
+					Wisdom = 14,
+					Intelligence = 12,
+					Dexterity = 18,
+					Charisma = 9,
+					Id = 1
+				}
+			}
+		};
+
+	public void HandleRowClick(int id)
+	{
+		nav.NavigateTo($"/dungemon/{id}", false);
+	}
+}
