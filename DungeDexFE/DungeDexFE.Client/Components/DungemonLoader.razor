@@ -56,6 +56,7 @@ else if (Dungemon != null)
 		try
 		{
 			using var client = new HttpClient();
+			Dungemon!.UserId = 1; // Hardcoded user-id, this will need to be pulled from some kind of Auth system in future.
 			var response = await client.PostAsJsonAsync<Dungemon>("https://localhost:7298/api/UserDungemon", Dungemon!);
 			response.EnsureSuccessStatusCode();
 			var locationHeader = response.Headers.GetValues("Location").First();
