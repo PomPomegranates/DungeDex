@@ -13,7 +13,7 @@ namespace DungeDexBE.Repositories
             myDbContext = db;
         }
 
-        public List<User>? getUsers()
+        public List<User>? GetUsers()
         {
             //get all users
             try
@@ -26,12 +26,12 @@ namespace DungeDexBE.Repositories
             }
         }
 
-        public User? getUserByName(string name)
+        public User? GetUserByName(string name)
         {
 
             try
             {
-                return getUsers().Where(U => U.UserName == name).FirstOrDefault();
+                return GetUsers().Where(U => U.UserName == name).FirstOrDefault();
 
             }
             catch
@@ -40,6 +40,22 @@ namespace DungeDexBE.Repositories
             }
         }
 
+        public (User, string) PostUser(User newUser)
+        {
+            try
+            {
+                myDbContext.Users.Add(newUser);
+                myDbContext.SaveChanges();
+                return (newUser, "Success");
+
+            }
+            catch (Exception e)
+            {
+                return (newUser, e.Message);
+            }
+
+
+        }
 
 
     }

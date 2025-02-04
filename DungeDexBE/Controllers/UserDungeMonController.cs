@@ -75,6 +75,6 @@ namespace DungeDexBE.Controllers
 				return BadRequest((monster, result.Item2));
 			}
 		}
-
+		
 	}
 }

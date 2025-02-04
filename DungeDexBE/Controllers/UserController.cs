@@ -1,6 +1,7 @@
 ﻿using DungeDexBE.Interfaces.ServiceInterfaces;
 using DungeDexBE.Services;
 using Microsoft.AspNetCore.Mvc;
+using DungeDexBE.Models;
 
 namespace DungeDexBE.Controllers
 {
@@ -17,9 +18,9 @@ namespace DungeDexBE.Controllers
         }
 
         [HttpGet]
-        public IActionResult getUsers()
+        public IActionResult GetUsers()
         {
-            var result = _userService.getUsers();
+            var result = _userService.GetUsers();
 
             if (result != null && result.Count > 0)
             {
@@ -41,9 +42,9 @@ namespace DungeDexBE.Controllers
 
         [HttpGet ("{name}")]
 
-        public IActionResult getUserByName(string name)
+        public IActionResult GetUserByName(string name)
         {
-            var result = _userService.getuserByName(name);
+            var result = _userService.GetUserByName(name);
 
             if (result != null)
             {
@@ -54,6 +55,29 @@ namespace DungeDexBE.Controllers
                 return NotFound();
             }
 
+        }
+
+        [HttpPost("{newUser}")]
+        public IActionResult PostUser(User newUser)
+        {
+            var result = _userService.PostUser(newUser);
+            if (result.Item2 == "Success")
+            {
+                return Created($"api/User{newUser.UserName}", newUser);
+            }
+            else
+            {
+                return BadRequest(result.Item1);
+            }
+        }
+
+
+
+        [HttpPatch("{name}/{id}")]
+        public IActionResult PatchUserPokemon(int id, string name)
+        {
+            //var result = _userService
+            return null;
         }
     }
 }

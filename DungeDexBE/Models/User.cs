@@ -1,5 +1,8 @@
-﻿namespace DungeDexBE.Models
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace DungeDexBE.Models
 {
+    [Index(nameof(UserName), IsUnique =true)]
     public class User
     {
         public  int Id { get; set; }

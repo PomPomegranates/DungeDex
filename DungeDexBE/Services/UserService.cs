@@ -17,16 +17,23 @@ namespace DungeDexBE.Services
         
 
 
-        public List<User> getUsers()
+        public List<User>? GetUsers()
         {
 
-            return _userRepository.getUsers();
+            return _userRepository.GetUsers();
 
         }
 
-        public User getuserByName(string name)
+        public User? GetUserByName(string name)
         {
-            return _userRepository.getUserByName(name);
+            return _userRepository.GetUserByName(name);
         }
+
+        public (User, string) PostUser(User newUser)
+        {
+            return _userRepository.PostUser(newUser);
+        }
+
+
     }
 }

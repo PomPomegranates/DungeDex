@@ -5,8 +5,9 @@ namespace DungeDexBE.Interfaces.ServiceInterfaces
     public interface IUserService
     {
 
-        public List<User> getUsers();
+        public List<User>? GetUsers();
 
-        public User getuserByName(string name);
+        public User? GetUserByName(string name);
+        public (User, string) PostUser(User newUser);
     }
 }
