@@ -63,7 +63,7 @@ namespace DungeDexBE.Controllers
 
 			if (result.Item2 == "Success")
 			{
-				return Created();
+				return CreatedAtAction("GetPokemonById", new {result.Item1.Id}, result.Item1);
 			}
 			else
 			{
