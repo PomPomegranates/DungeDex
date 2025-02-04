@@ -65,7 +65,7 @@ else if (Dungemon != null)
 		}
 		catch (HttpRequestException hex)
 		{
-			publishErrorMessage = hex.Message;
+			publishErrorMessage = "Http Error: " + hex.Message;
 		}
 		catch (Exception ex)
 		{

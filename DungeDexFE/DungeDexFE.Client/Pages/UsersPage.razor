@@ -19,7 +19,7 @@
 
 			@foreach (var user in allUsers)
 			{
-				<tr style="cursor: pointer;" @onclick="() => HandleRowClick(user.Id)">
+				<tr style="cursor: pointer;" @onclick="() => HandleRowClick(user.UserName)">
 					<td>@user.UserName</td>
 					<td>@user.Dungemons.Count</td>
 				</tr>
@@ -54,9 +54,9 @@
 		}
 	}
 
-	public void HandleRowClick(int id)
+	public void HandleRowClick(string userName)
 	{
-		nav.NavigateTo($"/user/{id}", false);
+		nav.NavigateTo($"/user/{userName}", false);
 	}
 }
 
