@@ -43,7 +43,7 @@ namespace DungeDexBE.Repositories
 			}
 			catch (Exception ex)
 			{
-
+				Console.WriteLine(ex.Message);
 			}
 
 			return result;
