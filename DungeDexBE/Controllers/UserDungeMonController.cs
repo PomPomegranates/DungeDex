@@ -5,19 +5,19 @@ namespace DungeDexBE.Controllers
 {
 	[ApiController]
 	[Route("api/[controller]")]
-	public class UserPokemonController : ControllerBase
+	public class UserDungeMonController : ControllerBase
 	{
-		private readonly IUserPokemonsterService _userPokemonsterService;
+		private readonly IUserDungeMonService _userDungeMonService;
 
-		public UserPokemonController(IUserPokemonsterService userPokemonsterService)
+		public UserDungeMonController(IUserDungeMonService userDungeMonService)
 		{
-			_userPokemonsterService = userPokemonsterService;
+			_userDungeMonService = userDungeMonService;
 		}
 
 		[HttpGet]
 		public IActionResult GetAllPokemon()
 		{
-			var result = _userPokemonsterService.GetMonsters();
+			var result = _userDungeMonService.GetMonsters();
 
 			if (result != null && result.Count > 0)
 			{
@@ -40,7 +40,7 @@ namespace DungeDexBE.Controllers
 		public IActionResult GetPokemonById(int id) 
 		{
 
-			var result = _userPokemonsterService.GetSingularMonster(id);
+			var result = _userDungeMonService.GetSingularMonster(id);
 
 			if (result.Item1 != null)
 			{
@@ -59,7 +59,7 @@ namespace DungeDexBE.Controllers
 		[HttpPost]
         public IActionResult PostUserMonster(Monster monster)
 		{
-			var result = _userPokemonsterService.PostUserMonster(monster);
+			var result = _userDungeMonService.PostUserMonster(monster);
 
 			if (result.Item2 == "Success")
 			{

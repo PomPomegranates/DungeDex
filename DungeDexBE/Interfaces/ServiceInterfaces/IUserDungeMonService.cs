@@ -2,7 +2,7 @@
 
 namespace DungeDexBE.Interfaces.ServiceInterfaces
 {
-    public interface IUserPokemonsterService
+    public interface IUserDungeMonService
     {
         List<Monster>? GetMonsters();
         (Monster?, string) GetSingularMonster(int id);

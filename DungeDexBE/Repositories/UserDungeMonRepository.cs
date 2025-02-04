@@ -4,12 +4,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DungeDexBE.Repositories
 {
-    public class UserPokemonsterRepository : IUserPokemonsterRepository
+    public class UserDungeMonRepository : IUserDungeMonRepository
 	{
 		//private readonly IHttpClientFactory _httpClient;
 		private readonly MyDbContext myDbContext;
 
-		public UserPokemonsterRepository(IHttpClientFactory httpClient, MyDbContext myDbContext)
+		public UserDungeMonRepository(IHttpClientFactory httpClient, MyDbContext myDbContext)
 		{
 			//_httpClient = httpClient;
 			this.myDbContext = myDbContext;
