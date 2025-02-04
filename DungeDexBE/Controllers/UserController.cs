@@ -57,6 +57,8 @@ namespace DungeDexBE.Controllers
 
         }
 
+
+
         [HttpPost("{newUser}")]
         public IActionResult PostUser(User newUser)
         {
@@ -73,11 +75,6 @@ namespace DungeDexBE.Controllers
 
 
 
-        [HttpPatch("{name}/{id}")]
-        public IActionResult PatchUserPokemon(int id, string name)
-        {
-            //var result = _userService
-            return null;
-        }
+        
     }
 }

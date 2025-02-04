@@ -71,5 +71,23 @@ namespace DungeDexBE.Repositories
 
 		}
 
-	}
+		public (DungeMon, string) PatchUserMonster(DungeMon monster)
+		{
+            try
+            {
+
+				var monsterToChange = myDbContext.MonsterDb.Single(x => x.Id == monster.Id);
+				monsterToChange = monster;
+                myDbContext.SaveChanges();
+                return (monster, "Success");
+
+            }
+            catch (Exception e)
+            {
+                return (monster, e.Message);
+            }
+
+        }
+
+    }
 }

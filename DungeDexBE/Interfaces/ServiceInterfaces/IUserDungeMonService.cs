@@ -1,4 +1,5 @@
 ﻿using DungeDexBE.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace DungeDexBE.Interfaces.ServiceInterfaces
 {
@@ -6,6 +7,8 @@ namespace DungeDexBE.Interfaces.ServiceInterfaces
     {
         List<DungeMon>? GetMonsters();
         (DungeMon?, string) GetSingularMonster(int id);
-        (DungeMon, string) PostUserMonster(DungeMon monster);
+        public (DungeMon?, string) PostUserMonster(DungeMon monster);
+
+        public (DungeMon?, string) PatchUserMonster(DungeMon monster, User user);
     }
 }

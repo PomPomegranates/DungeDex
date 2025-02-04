@@ -9,5 +9,7 @@ namespace DungeDexBE.Interfaces.RepositoryInterfaces
 
         public User? GetUserByName(string name);
         public (User, string) PostUser(User newUser);
+
+
     }
 }

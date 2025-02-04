@@ -34,6 +34,11 @@ namespace DungeDexBE.Services
             return _userRepository.PostUser(newUser);
         }
 
+        //public List<DungeMon> GetUsersDungeMon(string name)
+        //{
+        //    _userRepository.GetUserByName(name)
+        //}
+
 
     }
 }

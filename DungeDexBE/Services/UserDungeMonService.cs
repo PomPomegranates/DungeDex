@@ -26,5 +26,31 @@ namespace DungeDexBE.Services
 		{
 			return _userDungeMonRepository.PostUserMonster(monster);
 		}
+
+		public (DungeMon?, string) PatchUserMonster(DungeMon dungemon, User user)
+		{
+			
+                var result = _userDungeMonRepository.GetSingularMonster(dungemon.Id);
+				if (result.Item2 == "Success")
+			{
+				if(result.Item1!.UserId == user.Id)
+				{
+                    return _userDungeMonRepository.PatchUserMonster(dungemon);
+				}
+				else
+				{
+					return (null, "Not Authorised - You are not the Dungemon's creator");
+				}
+			}
+			else
+			{
+				return result;
+			}
+
+                    
+
+			
+			
+		}
 	}
 }

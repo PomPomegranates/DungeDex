@@ -57,10 +57,7 @@ namespace DungeDexBE.Controllers
 			}
 		}
 
-		[HttpPost]
-
-
-
+		[HttpPost("post")]
         public IActionResult PostUserMonster(DungeMon monster)
 
 		{
@@ -75,6 +72,13 @@ namespace DungeDexBE.Controllers
 				return BadRequest((monster, result.Item2));
 			}
 		}
-		
-	}
+        [HttpPatch("patch")]
+        public IActionResult PatchUserDungemon(DungeMon dungemon)
+        {
+            //var result = _userService
+
+
+            return null;
+        }
+    }
 }
