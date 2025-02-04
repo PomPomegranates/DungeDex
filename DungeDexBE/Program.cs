@@ -3,14 +3,8 @@ using DungeDexBE.Interfaces.ServiceInterfaces;
 using DungeDexBE.Models;
 using DungeDexBE.Repositories;
 using DungeDexBE.Services;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Data.Sqlite;
-using Microsoft.Data.Sql;
-using Microsoft.AspNetCore.Server;
 using Microsoft.EntityFrameworkCore;
-using System.Runtime.CompilerServices;
 using Newtonsoft.Json;
-using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
 
 namespace DungeDexBE
 {
@@ -20,9 +14,10 @@ namespace DungeDexBE
 		{
 			var builder = WebApplication.CreateBuilder(args);
 
-			builder.Services.AddControllers().AddNewtonsoftJson(options => {
-                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-            });
+			builder.Services.AddControllers().AddNewtonsoftJson(options =>
+			{
+				options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+			});
 			builder.Services.AddHttpClient("pokemon", options =>
 			{
 				options.BaseAddress = new Uri("https://pokeapi.co/api/v2/");
@@ -51,20 +46,20 @@ namespace DungeDexBE
 
 			builder.Services.AddEndpointsApiExplorer();
 			builder.Services.AddSwaggerGen();
-            builder.Configuration
+			builder.Configuration
 			 .SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("Secrets.json");
 
-            //var cnn = new SqliteConnection("Filename=:memory:");
-            //cnn.Open();
+			//var cnn = new SqliteConnection("Filename=:memory:");
+			//cnn.Open();
 			builder.Services.AddDbContext<MyDbContext>(o =>
-            {
-                o.UseSqlServer(builder.Configuration.GetConnectionString("MyCnString"));
-            });
+			{
+				o.UseSqlServer(builder.Configuration.GetConnectionString("MyCnString"));
+			});
 
 
 
-            var app = builder.Build();
-			AddData(app);	
+			var app = builder.Build();
+			AddData(app);
 			if (app.Environment.IsDevelopment())
 			{
 				app.UseSwagger();
@@ -202,4 +197,5 @@ namespace DungeDexBE
             db.SaveChanges();
         }
     }
+
 }

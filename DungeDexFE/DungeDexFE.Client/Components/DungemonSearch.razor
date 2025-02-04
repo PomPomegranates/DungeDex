@@ -1,10 +1,10 @@
 ﻿@inject NavigationManager nav
 @rendermode InteractiveAuto
 
-<h3>Dungémon Search</h3>
+<h3>New Dungémon</h3>
 
-<input type="text" @bind="_inputText" />
-<button @onclick="(e) => HandleSearch(e)">Search For A Dungémon!</button>
+<InputText @bind-Value="_inputText" @oninput="InputTextChanged"/>
+<button @onclick="(e) => HandleSearch(e)">@(string.IsNullOrEmpty(_inputText) ? "Randomise!" : "Build Dungémon!")</button>
 
 @code {
     [Parameter]
@@ -14,12 +14,23 @@
 
     private async Task HandleSearch(MouseEventArgs e)
     {
+        var searchString = string.Empty;
+
         if (string.IsNullOrEmpty(_inputText))
         {
             var rand = new Random();
-            _inputText = rand.Next(1, 1026).ToString();
+            searchString = rand.Next(1, 1026).ToString();
+        }
+        else
+        {
+            searchString = _inputText;
         }
 
-        await OnSearch.InvokeAsync(_inputText);
+        await OnSearch.InvokeAsync(searchString);
+    }
+
+    private void InputTextChanged(ChangeEventArgs e)
+    {
+        _inputText = e.Value?.ToString() ?? null;
     }
 }

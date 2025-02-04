@@ -5,7 +5,8 @@
 
     <div class="row justify-content-start">
         <div class="col">
-            <h3 class="w-auto">@Dungemon.NickName</h3>
+            <InputText class="w-auto" @bind-Value="@Dungemon.NickName" placeholder="@Dungemon.BasePokemon" @onblur="HandleNicknameChange"/>
+            <!--<button @onclick="HandleNicknameChange">Save Name</button>-->
         </div>
         <div class="col"></div>
     </div>
@@ -21,7 +22,7 @@
         </div>
     </div>
 
-    <SpellEditor Spells="Dungemon.Spells" />
+    <SpellEditor Spells="Dungemon.Spells" SpellsChanged="SpellsChanged"/>
 </div>
 
 @code {
@@ -30,4 +31,14 @@
 
     [Parameter]
     public EventCallback<Dungemon> DungemonChanged { get; set; }
+    private void HandleNicknameChange()
+    {
+        DungemonChanged.InvokeAsync(Dungemon);
+    }
+
+    private void SpellsChanged(List<Spell> spells)
+    {
+        Dungemon.Spells = spells;
+        DungemonChanged.InvokeAsync(Dungemon);
+    }
 }

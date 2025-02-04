@@ -1,0 +1,49 @@
+﻿@using DungeDexFE.Client.Models
+@rendermode InteractiveWebAssembly
+@page "/dungemon/{Id:int}"
+
+<PageTitle>DungéDex : Find</PageTitle>
+
+@if (errorMessage != null)
+{
+	<p>@errorMessage</p>
+}
+else if (PublishedDungemon != null)
+{
+	<h3>@PublishedDungemon.NickName</h3>
+	<DungemonDisplay Dungemon=PublishedDungemon DungemonChanged="DungemonChanged"/>
+}
+
+@code {
+	[Parameter]
+	public int Id { get; set; }
+
+	public Dungemon PublishedDungemon { get; set; } = null!;
+
+	private string errorMessage { get; set; } = null!;
+
+	protected override async Task OnParametersSetAsync()
+	{
+		try
+		{
+			using var client = new HttpClient();
+			var response = await client.GetAsync($"https://localhost:7298/api/UserPokemon/{Id}");
+			response.EnsureSuccessStatusCode();
+			PublishedDungemon = await response.Content.ReadFromJsonAsync<Dungemon>() ?? throw new Exception();
+		}
+		catch (HttpRequestException hEx)
+		{
+			errorMessage = $"There was an issue retrieving data from the Database: {hEx.Message}";
+		}
+		catch (Exception ex)
+		{
+			errorMessage = $"There was an issue fetching the Dungémon data: {ex.Message}";
+		}
+	}
+
+	private async Task DungemonChanged(Dungemon updatedDungemon)
+	{
+		PublishedDungemon = updatedDungemon;
+		// Make a patch request
+	}
+}
