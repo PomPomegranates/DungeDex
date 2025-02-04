@@ -58,11 +58,11 @@ namespace DungeDexBE.Controllers
 		}
 
 		[HttpPost]
-<<<<<<< HEAD:DungeDexBE/Controllers/UserPokemonController.cs
-		public IActionResult PostUserMonster(Monster monster)
-=======
+
+
+
         public IActionResult PostUserMonster(DungeMon monster)
->>>>>>> main:DungeDexBE/Controllers/UserDungeMonController.cs
+
 		{
 			var result = _userDungeMonService.PostUserMonster(monster);
 

@@ -1,5 +1,6 @@
 ﻿using DungeDexBE.Interfaces.RepositoryInterfaces;
 using DungeDexBE.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace DungeDexBE.Repositories
 {
