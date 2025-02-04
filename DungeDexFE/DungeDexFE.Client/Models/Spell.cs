@@ -19,7 +19,7 @@
 		#endregion
 	}
 
-<<<<<<< HEAD
+
 	#region stretch
 	/*
 	public string Range { get; set; }
@@ -33,7 +33,4 @@
 
 	*/
 	#endregion
-}
-=======
->>>>>>> b23e6768fe847d5964652d749a0805812c02c079
 }

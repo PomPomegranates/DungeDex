@@ -92,14 +92,12 @@ namespace DungeDexBE
 
 			var spell = new Spell
 			{
-				Id = 1,
 				Name = "Boom",
 				Description = "Big Boom"
 			};
 
 			var spell2 = new Spell
 			{
-				Id = 2,
 				Name = "ah",
 				Description = "oh no"
 			};
@@ -107,7 +105,6 @@ namespace DungeDexBE
 
 			var monster = new Monster
 			{
-				Id = 1,
 				
 				BasePokemon = "Jim",
 				ChallengeRating = 12,
