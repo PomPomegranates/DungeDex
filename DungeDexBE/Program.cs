@@ -32,6 +32,14 @@ namespace DungeDexBE
 				options.BaseAddress = new Uri("https://www.dnd5eapi.co/api/");
 			});
 
+			builder.Services.AddCors(options =>
+			{
+				options.AddPolicy("AllowLocalhost",
+					policy => policy.WithOrigins("https://localhost:7107")
+									.AllowAnyMethod()
+									.AllowAnyHeader());
+			});
+
 			builder.Services.AddScoped<IPokeApiRepository, PokeApiRepository>();
 			builder.Services.AddScoped<IPokemonService, PokemonService>();
 			builder.Services.AddScoped<IDNDApiRepository, DNDApiRepository>();
@@ -62,6 +70,8 @@ namespace DungeDexBE
 			}
 
 			app.UseHttpsRedirection();
+
+			app.UseCors("AllowLocalhost");
 
 			app.UseAuthorization();
 

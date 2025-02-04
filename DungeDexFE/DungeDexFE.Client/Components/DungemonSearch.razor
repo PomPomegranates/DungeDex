@@ -1,0 +1,25 @@
+﻿@inject NavigationManager nav
+@rendermode InteractiveAuto
+
+<h3>Dungémon Search</h3>
+
+<input type="text" @bind="_inputText" />
+<button @onclick="(e) => HandleSearch(e)">Search For A Dungémon!</button>
+
+@code {
+    [Parameter]
+    public EventCallback<string> OnSearch { get; set; }
+
+    private string? _inputText { get; set; }
+
+    private async Task HandleSearch(MouseEventArgs e)
+    {
+        if (string.IsNullOrEmpty(_inputText))
+        {
+            var rand = new Random();
+            _inputText = rand.Next(1, 1026).ToString();
+        }
+
+        await OnSearch.InvokeAsync(_inputText);
+    }
+}

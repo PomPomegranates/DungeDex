@@ -1,9 +1,11 @@
 ﻿using DungeDexBE.Interfaces.ServiceInterfaces;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DungeDexBE.Controllers
 {
 	[ApiController]
+	[EnableCors("AllowLocalhost")]
 	[Route("api/[controller]")]
 	public class PokemonController : ControllerBase
 	{

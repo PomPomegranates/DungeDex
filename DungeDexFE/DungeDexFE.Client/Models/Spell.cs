@@ -6,7 +6,7 @@
 		public int MonsterId { get; set; }
 		public string Name { get; set; } = null!;
 		public string Description { get; set; } = null!;
-    
+
 		#region stretch
 		//public string Range { get; set; }
 		//public string Duration { get; set; }
@@ -19,4 +19,21 @@
 		#endregion
 	}
 
+<<<<<<< HEAD
+	#region stretch
+	/*
+	public string Range { get; set; }
+	public string Duration { get; set; }
+	public string CastTime { get; set; }
+	public Damage DamageType { get; set; }
+	public EAttributes DcType { get; set; }
+	public float DcSuccess { get; set; }
+	public AoEType areaOfEffectType { get; set; }
+	public int areaOfEffectSize { get; set; }
+
+	*/
+	#endregion
+}
+=======
+>>>>>>> b23e6768fe847d5964652d749a0805812c02c079
 }
