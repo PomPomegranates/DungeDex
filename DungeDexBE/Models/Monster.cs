@@ -1,15 +1,22 @@
 ﻿using DungeDexBE.Interfaces.ModelInterfaces;
+//using DungeDexBE.Models.NavigationModels;
 
 namespace DungeDexBE.Models
 {
 	public class Monster : IReturnable
 	{
 		public int Id { get; set; }
-		public int UserId { get; set; }
-		public string Name { get; set; } = null!;
+		public virtual User? User { get; set; }
+		public string BasePokemon { get; set; } = null!;
+		public string NickName { get; set; } = string.Empty;
 		public float ChallengeRating { get; set; }
 		public int ArmorClass { get; set; }
-		public Attributes Attributes { get; set; } = new();
+		public int Strength { get; set; }
+		public int Dexterity { get; set; }
+		public int Constitution { get; set; }
+		public int Intelligence { get; set; }
+		public int Wisdom { get; set; }
+		public int Charisma { get; set; }
 		public int HitPoints { get; set; }
 		public virtual List<Spell> Spells { get; set; } = [];
 		public string ImageLink { get; set; }

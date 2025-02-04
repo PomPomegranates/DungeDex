@@ -1,4 +1,4 @@
-﻿using System.Net;
+using System.Net;
 using DungeDexBE.Interfaces.RepositoryInterfaces;
 using DungeDexBE.Models;
 using Newtonsoft.Json.Linq;
@@ -98,9 +98,9 @@ namespace DungeDexBE.Repositories
 
 			spell.Name = jObj["name"]!.Value<string>()!;
 
-			spell.Id = 0; spell.MonsterId = 0; // These will be handled in another way once we have a database.
 
-			spell.Description = jObj["desc"]![0]!.Value<string>()!;
+      spell.Description = jObj["desc"]![0]!.Value<string>()!;
+
 
 			return spell;
 		}
