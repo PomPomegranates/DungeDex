@@ -3,18 +3,22 @@ using DungeDexBE.Models;
 
 namespace DungeDexBE.Repositories
 {
+<<<<<<< HEAD:DungeDexBE/Repositories/UserPokemonsterRepository.cs
 	public class UserPokemonsterRepository : IUserPokemonsterRepository
+=======
+    public class UserDungeMonRepository : IUserDungeMonRepository
+>>>>>>> main:DungeDexBE/Repositories/UserDungeMonRepository.cs
 	{
 		//private readonly IHttpClientFactory _httpClient;
 		private readonly MyDbContext myDbContext;
 
-		public UserPokemonsterRepository(IHttpClientFactory httpClient, MyDbContext myDbContext)
+		public UserDungeMonRepository(IHttpClientFactory httpClient, MyDbContext myDbContext)
 		{
 			//_httpClient = httpClient;
 			this.myDbContext = myDbContext;
 		}
 
-		public List<Monster>? GetMonsters()
+		public List<DungeMon>? GetMonsters()
 		{
 			try
 			{
@@ -24,7 +28,7 @@ namespace DungeDexBE.Repositories
 			catch { return null; }
 		}
 
-		public (Monster?, string) GetSingularMonster(int id)
+		public (DungeMon?, string) GetSingularMonster(int id)
 		{
 			var value = myDbContext.MonsterDb.Where(x => (x.Id == id)).FirstOrDefault();
 			try
@@ -49,7 +53,11 @@ namespace DungeDexBE.Repositories
 
 		}
 
+<<<<<<< HEAD:DungeDexBE/Repositories/UserPokemonsterRepository.cs
 		public (Monster, string) PostUserMonster(Monster monster)
+=======
+        public (DungeMon, string) PostUserMonster(DungeMon monster)
+>>>>>>> main:DungeDexBE/Repositories/UserDungeMonRepository.cs
 		{
 			try
 			{

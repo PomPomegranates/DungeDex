@@ -6,7 +6,7 @@ namespace DungeDexBE.Models
 	public class Spell : IReturnable
 	{
 		public int Id { get; set; }
-		public virtual List<Monster> Monsters { get; set; } = [];
+		public virtual List<DungeMon> Monsters { get; set; } = [];
 		public string Name { get; set; } = null!;
 		public string Description { get; set; } = null!;
 
