@@ -46,6 +46,8 @@ namespace DungeDexBE
 			builder.Services.AddScoped<IDNDService, DNDService>();
 			builder.Services.AddScoped<IUserDungeMonRepository, UserDungeMonRepository>();
 			builder.Services.AddScoped<IUserDungeMonService, UserDungeMonService>();
+            builder.Services.AddScoped<IUserRepository, UserRepository>();
+            builder.Services.AddScoped<IUserService, UserService>();
 
 			builder.Services.AddEndpointsApiExplorer();
 			builder.Services.AddSwaggerGen();
@@ -196,7 +198,7 @@ namespace DungeDexBE
             db.MonsterDb.Add(monster);
             db.MonsterDb.Add(monster2);
             db.MonsterDb.Add(monster3);
-
+         
             db.SaveChanges();
         }
     }

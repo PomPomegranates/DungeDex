@@ -19,7 +19,7 @@ namespace DungeDexBE.Repositories
 		{
 			try
 			{
-				return myDbContext.MonsterDb.ToList();
+				return myDbContext.MonsterDb.AsNoTracking().Include(m=> m.Spells).ToList();
 				
 			}
 			catch { return null; }
