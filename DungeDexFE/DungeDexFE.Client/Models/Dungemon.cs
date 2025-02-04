@@ -5,7 +5,8 @@ namespace DungeDexFE.Client.Models
 	public class Dungemon
 	{
 		public int Id { get; set; }
-		public string Name { get; set; } = null!;
+		public string BasePokemon { get; set; } = null!;
+		public string NickName { get; set; } = null!;
 		public int UserId { get; set; }
 		[Range(0f,100f, ErrorMessage = "Challenge Rating must be between 0 and 100.")]
 		public float ChallengeRating { get; set; }
