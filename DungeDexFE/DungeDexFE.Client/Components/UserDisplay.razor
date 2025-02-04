@@ -6,31 +6,8 @@
 	<h3>@user.UserName</h3>
 
 	<h4>Dungemon by @user.UserName</h4>
-	<table class="table">
-
-		<thead>
-			<tr>
-				<th scope="col">Name</th>
-				<th scope="col">Challenge Rating</th>
-				<th scope="col">Base Pokemon</th>
-			</tr>
-		</thead>
-
-		<tbody>
-
-			@foreach (var dungemon in user.Dungemons)
-			{
-				<tr style="cursor: pointer;" @onclick="() => HandleRowClick(dungemon.Id)">
-					<td>@(string.IsNullOrEmpty(dungemon.NickName) ? dungemon.BasePokemon : dungemon.NickName)</td>
-					<td>@dungemon.ChallengeRating</td>
-					<td>@dungemon.BasePokemon</td>
-				</tr>
-			}
-
-		</tbody>
-
-	</table>
 	
+	<DungemonTable dungemonList="user.Dungemons" />
 }
 
 @code {
@@ -58,8 +35,4 @@
 			}
 		};
 
-	public void HandleRowClick(int id)
-	{
-		nav.NavigateTo($"/dungemon/{id}", false);
-	}
 }

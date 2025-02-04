@@ -13,30 +13,7 @@
 }
 else if (allDungemon != null)
 {
-	<table class="table">
-
-		<thead>
-			<tr>
-				<th scope="col">Name</th>
-				<th scope="col">Challenge Rating</th>
-				<th scope="col">Base Pokemon</th>
-			</tr>
-		</thead>
-
-		<tbody>
-
-			@foreach (var dungemon in allDungemon)
-			{
-				<tr style="cursor: pointer;" @onclick="() => HandleRowClick(dungemon.Id)">
-					<td>@(string.IsNullOrEmpty(dungemon.NickName) ? dungemon.BasePokemon : dungemon.NickName)</td>
-					<td>@dungemon.ChallengeRating</td>
-					<td>@dungemon.BasePokemon</td>
-				</tr>
-			}
-
-		</tbody>
-
-	</table>
+	<DungemonTable dungemonList="allDungemon" />
 }
 
 @code {
@@ -60,10 +37,5 @@ else if (allDungemon != null)
 		{
 			errorMessage = "An error occurred while fetching the Dungémon data: " + ex.Message;
 		}
-	}
-
-	public void HandleRowClick(int id)
-	{
-		Nav.NavigateTo($"/dungemon/{id}", false);
 	}
 }
