@@ -6,5 +6,7 @@ namespace DungeDexBE.Interfaces.ServiceInterfaces
     {
 
         public List<User> getUsers();
+
+        public User getuserByName(string name);
     }
 }

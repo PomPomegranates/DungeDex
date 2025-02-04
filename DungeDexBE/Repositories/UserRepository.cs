@@ -1,5 +1,6 @@
 ﻿using DungeDexBE.Interfaces.RepositoryInterfaces;
 using DungeDexBE.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace DungeDexBE.Repositories
 {
@@ -17,7 +18,21 @@ namespace DungeDexBE.Repositories
             //get all users
             try
             {
-                return myDbContext.Users.ToList();
+                return myDbContext.Users.AsNoTracking().Include(m => m.DungeMons).ToList();
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public User? getUserByName(string name)
+        {
+
+            try
+            {
+                return getUsers().Where(U => U.UserName == name).FirstOrDefault();
+
             }
             catch
             {

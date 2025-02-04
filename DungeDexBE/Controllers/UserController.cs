@@ -39,5 +39,21 @@ namespace DungeDexBE.Controllers
             }
         }
 
+        [HttpGet ("{name}")]
+
+        public IActionResult getUserByName(string name)
+        {
+            var result = _userService.getuserByName(name);
+
+            if (result != null)
+            {
+                return Ok(result);
+            }
+            else
+            {
+                return NotFound();
+            }
+
+        }
     }
 }

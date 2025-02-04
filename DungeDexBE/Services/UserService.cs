@@ -23,5 +23,10 @@ namespace DungeDexBE.Services
             return _userRepository.getUsers();
 
         }
+
+        public User getuserByName(string name)
+        {
+            return _userRepository.getUserByName(name);
+        }
     }
 }
