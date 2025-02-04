@@ -6,5 +6,7 @@ namespace DungeDexBE.Interfaces.RepositoryInterfaces
     {
         public List<User>? getUsers();
 
+
+        public User? getUserByName(string name);
     }
 }
