@@ -1,6 +1,6 @@
 ﻿using DungeDexBE.Interfaces.ServiceInterfaces;
-using Microsoft.AspNetCore.Mvc;
 using DungeDexBE.Models;
+using Microsoft.AspNetCore.Mvc;
 namespace DungeDexBE.Controllers
 {
 	[ApiController]
@@ -37,7 +37,7 @@ namespace DungeDexBE.Controllers
 			}
 		}
 		[HttpGet("{id}")]
-		public IActionResult GetPokemonById(int id) 
+		public IActionResult GetPokemonById(int id)
 		{
 
 			var result = _userPokemonsterService.GetSingularMonster(id);
@@ -50,26 +50,27 @@ namespace DungeDexBE.Controllers
 			{
 				return NotFound(result.Item2);
 
-			} else
+			}
+			else
 			{
 				return BadRequest(result.Item2);
 			}
 		}
 
 		[HttpPost]
-        public IActionResult PostUserMonster(Monster monster)
+		public IActionResult PostUserMonster(Monster monster)
 		{
 			var result = _userPokemonsterService.PostUserMonster(monster);
 
 			if (result.Item2 == "Success")
 			{
-				return CreatedAtAction("GetPokemonById", new {result.Item1.Id}, result.Item1);
+				return CreatedAtAction("GetPokemonById", new { result.Item1.Id }, result.Item1);
 			}
 			else
 			{
-				return BadRequest((monster,result.Item2));
+				return BadRequest((monster, result.Item2));
 			}
 		}
 
-    }
+	}
 }

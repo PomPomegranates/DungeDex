@@ -60,7 +60,7 @@ else if (Dungemon != null)
 			response.EnsureSuccessStatusCode();
 			var locationHeader = response.Headers.GetValues("Location").First();
 			var dungemonId = Regex.Match(locationHeader, @"(\d+)$").Value;
-			nav.NavigateTo($"dungemon/published/{dungemonId}");
+			nav.NavigateTo($"dungemon/{dungemonId}");
 		}
 		catch (HttpRequestException hex)
 		{

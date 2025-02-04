@@ -1,11 +1,10 @@
 ﻿using DungeDexBE.Interfaces.RepositoryInterfaces;
 using DungeDexBE.Interfaces.ServiceInterfaces;
 using DungeDexBE.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace DungeDexBE.Services
 {
-    public class UserPokemonsterService : IUserPokemonsterService
+	public class UserPokemonsterService : IUserPokemonsterService
 	{
 		private readonly IUserPokemonsterRepository _userPokemonsterRepository;
 
@@ -18,7 +17,7 @@ namespace DungeDexBE.Services
 		{
 			return _userPokemonsterRepository.GetMonsters();
 		}
-		public ( Monster? , string ) GetSingularMonster(int id)
+		public (Monster?, string) GetSingularMonster(int id)
 		{
 			return _userPokemonsterRepository.GetSingularMonster(id);
 		}

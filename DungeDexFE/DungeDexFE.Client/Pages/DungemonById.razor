@@ -1,6 +1,6 @@
 ﻿@using DungeDexFE.Client.Models
 @rendermode InteractiveWebAssembly
-@page "/Dungemon/Published/{ID:int}"
+@page "/Dungemon/{Id:int}"
 
 
 <p>@errorMessage</p>
@@ -14,7 +14,7 @@
 
 @code {
 	[Parameter]
-	public int ID { get; set; }
+	public int Id { get; set; }
 
 	public Dungemon PublishedDungemon { get; set; } = null!;
 
@@ -24,17 +24,17 @@
 		try
 		{
 			using var client = new HttpClient();
-			var response = await client.GetAsync($"https://localhost:7298/api/UserPokemon/{ID}");
+			var response = await client.GetAsync($"https://localhost:7298/api/UserPokemon/{Id}");
 			response.EnsureSuccessStatusCode();
-			PublishedDungemon = await response.Content.ReadFromJsonAsync<Dungemon>();
+			PublishedDungemon = await response.Content.ReadFromJsonAsync<Dungemon>() ?? throw new Exception();
 		}
-		catch (HttpRequestException hex)
+		catch (HttpRequestException hEx)
 		{
-			errorMessage = $"There was an issue retrieving data from the Database: {hex.Message}";
+			errorMessage = $"There was an issue retrieving data from the Database: {hEx.Message}";
 		}
 		catch (Exception ex)
 		{
-			errorMessage = ex.Message;
+			errorMessage = $"There was an issue fetching the Dungémon data: {ex.Message}";
 		}
 	}
 

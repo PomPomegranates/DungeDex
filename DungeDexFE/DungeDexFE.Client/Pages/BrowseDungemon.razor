@@ -1,4 +1,4 @@
-﻿@page "/Dungemon/Published"
+﻿@page "/Dungemon"
 @rendermode InteractiveWebAssembly
 
 <h3>Browse Published Dungémon</h3>
@@ -17,7 +17,7 @@
 		@foreach (var dungemon in allDungemon)
 		{
 			<tr>
-				<td><NavLink href=@($"/dungemon/published/{dungemon.Id}")>@(dungemon.NickName ?? dungemon.BasePokemon)</NavLink></td>
+				<td><NavLink href=@($"/dungemon/{dungemon.Id}")>@(dungemon.NickName ?? dungemon.BasePokemon)</NavLink></td>
 				<td>@dungemon.ChallengeRating</td>
 				<td>@dungemon.BasePokemon</td>
 			</tr>

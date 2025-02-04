@@ -60,7 +60,7 @@ namespace DungeDexBE.ConversionFunctions
 			if (pokemon.Attack >= 149 && pokemon.Attack < 155) monster.Strength = 25;
 			if (pokemon.Attack >= 155 && pokemon.Attack < 161) monster.Strength = 26;
 			if (pokemon.Attack >= 161 && pokemon.Attack < 167) monster.Strength = 27;
-			if (pokemon.Attack >= 167 && pokemon.Attack < 173) monster.Strength = 28;   
+			if (pokemon.Attack >= 167 && pokemon.Attack < 173) monster.Strength = 28;
 			if (pokemon.Attack >= 173 && pokemon.Attack < 179) monster.Strength = 29;
 			if (pokemon.Attack >= 179) monster.Strength = 30;
 		}
