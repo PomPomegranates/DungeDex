@@ -25,11 +25,15 @@ else
     [Parameter] 
     public required List<Spell> Spells { get; set; }
 
+    [Parameter]
+    public EventCallback<List<Spell>> SpellsChanged { get; set; }
+
     public bool isAddActive =  false;
-    
+
     public void RemoveSpell(Spell spellToRemove)
     {
         Spells.Remove(spellToRemove);
+        SpellsChanged.InvokeAsync(Spells);
     }
 
     public void ToggleAdd()
@@ -42,6 +46,7 @@ else
         if (spellToAdd != null) 
         {
             Spells.Add(spellToAdd);
+            SpellsChanged.InvokeAsync(Spells);
         }
 
         ToggleAdd();

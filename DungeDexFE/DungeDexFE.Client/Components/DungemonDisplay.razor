@@ -22,7 +22,7 @@
         </div>
     </div>
 
-    <SpellEditor Spells="Dungemon.Spells" />
+    <SpellEditor Spells="Dungemon.Spells" SpellsChanged="SpellsChanged"/>
 </div>
 
 @code {
@@ -33,6 +33,12 @@
     public EventCallback<Dungemon> DungemonChanged { get; set; }
     private void HandleNicknameChange()
     {
+        DungemonChanged.InvokeAsync(Dungemon);
+    }
+
+    private void SpellsChanged(List<Spell> spells)
+    {
+        Dungemon.Spells = spells;
         DungemonChanged.InvokeAsync(Dungemon);
     }
 }

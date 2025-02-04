@@ -12,6 +12,7 @@ else if (Dungemon != null)
 {
     <DungemonDisplay Dungemon="Dungemon" DungemonChanged="DungemonChanged"/>
     <button @onclick="PostDungemon">Publish!</button>
+	<p>@publishErrorMessage</p>
 }
 
 @code {
@@ -21,6 +22,8 @@ else if (Dungemon != null)
 	public Dungemon? Dungemon { get; set; } = null!;
 
 	private string errorMessage { get; set; } = null!;
+
+	private string publishErrorMessage { get; set; } = null!;
 
 	protected override async Task OnParametersSetAsync()
 	{
@@ -59,11 +62,11 @@ else if (Dungemon != null)
 		}
 		catch (HttpRequestException hex)
 		{
-
+			publishErrorMessage = hex.Message;
 		}
 		catch (Exception ex)
 		{
-			
+			publishErrorMessage = ex.Message;	
 		}
 	}
 }
