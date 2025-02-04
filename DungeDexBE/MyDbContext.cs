@@ -17,7 +17,7 @@ namespace DungeDexBE
             //    .IsRequired();
             // base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Monster>()
+            modelBuilder.Entity<DungeMon>()
                 .HasMany(e => e.Spells)
                 .WithMany(e => e.Monsters);
 
@@ -27,7 +27,7 @@ namespace DungeDexBE
 		{
             optionsBuilder.UseLazyLoadingProxies();
 		}
-		public DbSet<Monster> MonsterDb { get;set; }
+		public DbSet<DungeMon> MonsterDb { get;set; }
         public DbSet<Spell> SpellTable { get;set; }    
     }
 }

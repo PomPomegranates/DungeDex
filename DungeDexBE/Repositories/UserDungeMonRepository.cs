@@ -15,7 +15,7 @@ namespace DungeDexBE.Repositories
 			this.myDbContext = myDbContext;
 		}
 
-		public List<Monster>? GetMonsters()
+		public List<DungeMon>? GetMonsters()
 		{
 			try
 			{
@@ -25,7 +25,7 @@ namespace DungeDexBE.Repositories
 			catch { return null; }
 		}
 
-		public (Monster?, string) GetSingularMonster(int id)
+		public (DungeMon?, string) GetSingularMonster(int id)
 		{
 			var value = myDbContext.MonsterDb.Where(x => (x.Id == id)).FirstOrDefault();
 			try
@@ -49,7 +49,7 @@ namespace DungeDexBE.Repositories
 
         }
 
-        public (Monster, string) PostUserMonster(Monster monster)
+        public (DungeMon, string) PostUserMonster(DungeMon monster)
 		{
 			try
 			{

@@ -32,7 +32,7 @@ namespace DungeDexBE.Services
 			try
 			{
 				var pokemon = result.Value as Pokemon;
-				Monster monster = pokemon!.ToMonster();
+				DungeMon monster = pokemon!.ToMonster();
 				var spellResult = await _dndApiRepository.GetRandomSpell();
 				monster.Spells.Add(spellResult.Value as Spell);
 				result.Value = monster;

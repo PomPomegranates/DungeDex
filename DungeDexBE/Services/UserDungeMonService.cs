@@ -14,15 +14,15 @@ namespace DungeDexBE.Services
 			_userDungeMonRepository = userDungeMonRepository;
 		}
 
-		public List<Monster>? GetMonsters()
+		public List<DungeMon>? GetMonsters()
 		{
 			return _userDungeMonRepository.GetMonsters();
 		}
-		public ( Monster? , string ) GetSingularMonster(int id)
+		public ( DungeMon? , string ) GetSingularMonster(int id)
 		{
 			return _userDungeMonRepository.GetSingularMonster(id);
 		}
-		public (Monster, string) PostUserMonster(Monster monster)
+		public (DungeMon, string) PostUserMonster(DungeMon monster)
 		{
 			return _userDungeMonRepository.PostUserMonster(monster);
 		}

@@ -3,7 +3,7 @@
 
 namespace DungeDexBE.Models
 {
-	public class Monster : IReturnable
+	public class DungeMon : IReturnable
 	{
 		public int Id { get; set; }
 		public virtual User? User { get; set; }

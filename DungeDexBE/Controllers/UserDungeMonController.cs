@@ -57,7 +57,7 @@ namespace DungeDexBE.Controllers
 		}
 
 		[HttpPost]
-        public IActionResult PostUserMonster(Monster monster)
+        public IActionResult PostUserMonster(DungeMon monster)
 		{
 			var result = _userDungeMonService.PostUserMonster(monster);
 
