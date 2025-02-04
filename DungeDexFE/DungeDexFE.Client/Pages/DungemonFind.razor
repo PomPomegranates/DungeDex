@@ -1,16 +1,18 @@
 ﻿@using DungeDexFE.Client.Models
 @rendermode InteractiveWebAssembly
-@page "/Dungemon/{Id:int}"
+@page "/dungemon/{Id:int}"
 
+<PageTitle>DungéDex : Find</PageTitle>
 
-<p>@errorMessage</p>
-
-@if (PublishedDungemon != null)
+@if (errorMessage != null)
+{
+	<p>@errorMessage</p>
+}
+else if (PublishedDungemon != null)
 {
 	<h3>@PublishedDungemon.NickName</h3>
 	<DungemonDisplay Dungemon=PublishedDungemon DungemonChanged="DungemonChanged"/>
 }
-
 
 @code {
 	[Parameter]
@@ -18,7 +20,8 @@
 
 	public Dungemon PublishedDungemon { get; set; } = null!;
 
-	private string errorMessage { get; set; } = "";
+	private string errorMessage { get; set; } = null!;
+
 	protected override async Task OnParametersSetAsync()
 	{
 		try

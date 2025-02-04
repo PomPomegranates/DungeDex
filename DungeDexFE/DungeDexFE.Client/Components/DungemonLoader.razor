@@ -12,7 +12,7 @@
 else if (Dungemon != null)
 {
 	<DungemonDisplay Dungemon="Dungemon" DungemonChanged="DungemonChanged"/>
-	<button @onclick="PostDungemon">Publish!</button>
+	<button class="m-2" @onclick="PostDungemon">Publish!</button>
 	<p>@publishErrorMessage</p>
 }
 
@@ -56,7 +56,7 @@ else if (Dungemon != null)
 		try
 		{
 			using var client = new HttpClient();
-			var response = await client.PostAsJsonAsync<Dungemon>("https://localhost:7298/api/UserPokemon", Dungemon);
+			var response = await client.PostAsJsonAsync<Dungemon>("https://localhost:7298/api/UserPokemon", Dungemon!);
 			response.EnsureSuccessStatusCode();
 			var locationHeader = response.Headers.GetValues("Location").First();
 			var dungemonId = Regex.Match(locationHeader, @"(\d+)$").Value;
