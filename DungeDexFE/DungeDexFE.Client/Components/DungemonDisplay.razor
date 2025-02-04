@@ -5,8 +5,8 @@
 
     <div class="row justify-content-start">
         <div class="col">
-            <InputText class="w-auto" @bind-Value="@Dungemon.NickName" placeholder="@Dungemon.BasePokemon"/>
-            <button @onclick="HandleNicknameChange">Save Name</button>
+            <InputText class="w-auto" @bind-Value="@Dungemon.NickName" placeholder="@Dungemon.BasePokemon" @onblur="HandleNicknameChange"/>
+            <!--<button @onclick="HandleNicknameChange">Save Name</button>-->
         </div>
         <div class="col"></div>
     </div>
@@ -31,7 +31,7 @@
 
     [Parameter]
     public EventCallback<Dungemon> DungemonChanged { get; set; }
-    private void HandleNicknameChange(MouseEventArgs e)
+    private void HandleNicknameChange()
     {
         DungemonChanged.InvokeAsync(Dungemon);
     }
