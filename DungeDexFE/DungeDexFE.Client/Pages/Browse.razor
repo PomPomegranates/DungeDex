@@ -1,5 +1,50 @@
-﻿<h3>Browse Published Dungémon</h3>
+﻿@page "/Dungemon/Published"
+@rendermode InteractiveWebAssembly
+
+<h3>Browse Published Dungémon</h3>
+
+<p>@errorMessage</p>
+
+@if (allDungemon != null)
+{
+	<table>
+		<tr>
+			<th>Dungémon Name</th>
+			<th>Challenge Rating</th>
+			<th>Base Pokemon</th>
+		</tr>
+
+		@foreach (var dungemon in allDungemon)
+		{
+			<tr>
+				<td><NavLink href=@($"/dungemon/published/{dungemon.Id}")>@(dungemon.NickName ?? dungemon.BasePokemon)</NavLink></td>
+				<td>@dungemon.ChallengeRating</td>
+				<td>@dungemon.BasePokemon</td>
+			</tr>
+		}
+		
+	</table>
+}
 
 @code {
+	public List<Dungemon> allDungemon { get; set; } = null!;
 
+	private string errorMessage { get; set; } = null!;
+
+	protected override async Task OnInitializedAsync()
+	{
+		try
+		{
+			using var client = new HttpClient();
+			allDungemon = await client.GetFromJsonAsync<List<Dungemon>>("https://localhost:7298/api/UserPokemon/");
+		}
+		catch (HttpRequestException ex)
+		{
+			errorMessage = ex.Message;
+		}
+		catch (Exception ex)
+		{
+			errorMessage = "An error occurred while fetching the Dungémon data.";
+		}
+	}
 }

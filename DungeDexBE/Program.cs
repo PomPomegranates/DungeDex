@@ -105,8 +105,8 @@ namespace DungeDexBE
 
 			var monster = new Monster
 			{
-				
-				BasePokemon = "Jim",
+				NickName = "Jim",
+				BasePokemon = "Polytoed",
 				ChallengeRating = 12,
 				ArmorClass = 12,
                 HitPoints = 1,

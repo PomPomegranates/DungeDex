@@ -2,16 +2,17 @@
 @inject NavigationManager nav
 
 @using System.Text.Json
+@using System.Text.RegularExpressions
 
 @if(!string.IsNullOrEmpty(errorMessage))
 {
-    <p>An error occurred while fetching the Dungémon data for '@idOrName':</p>
-    <p>@errorMessage</p>    
+	<p>An error occurred while fetching the Dungémon data for '@idOrName':</p>
+	<p>@errorMessage</p>    
 }
 else if (Dungemon != null)
 {
-    <DungemonDisplay Dungemon="Dungemon" DungemonChanged="DungemonChanged"/>
-    <button @onclick="PostDungemon">Publish!</button>
+	<DungemonDisplay Dungemon="Dungemon" DungemonChanged="DungemonChanged"/>
+	<button @onclick="PostDungemon">Publish!</button>
 	<p>@publishErrorMessage</p>
 }
 
@@ -57,8 +58,9 @@ else if (Dungemon != null)
 			using var client = new HttpClient();
 			var response = await client.PostAsJsonAsync<Dungemon>("https://localhost:7298/api/UserPokemon", Dungemon);
 			response.EnsureSuccessStatusCode();
-			var headerContent = response.Headers.GetValues("Location");
-			//nav.NavigateTo(headerContent.First()); Takes you to backend API at the moment.
+			var locationHeader = response.Headers.GetValues("Location").First();
+			var dungemonId = Regex.Match(locationHeader, @"(\d+)$").Value;
+			nav.NavigateTo($"dungemon/published/{dungemonId}");
 		}
 		catch (HttpRequestException hex)
 		{
