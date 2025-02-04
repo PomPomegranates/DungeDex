@@ -1,6 +1,7 @@
 ﻿@page "/login"
 @using System.Security.Claims
 @inject CustomAuthenticationService AuthService
+@rendermode @(new InteractiveWebAssemblyRenderMode(prerender: false))
 
 <AuthorizeView>
     <Authorized>
@@ -15,6 +16,9 @@
 </AuthorizeView>
 
 @code {
+    [CascadingParameter]
+    public AuthenticationState authenticationState { get; set; }
+
     public string userIdentifier = string.Empty;
     public string password = string.Empty;
 

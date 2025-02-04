@@ -1,7 +1,13 @@
+using System.Text;
 using DungeDexBE.Interfaces.RepositoryInterfaces;
 using DungeDexBE.Interfaces.ServiceInterfaces;
+using DungeDexBE.Persistence;
 using DungeDexBE.Repositories;
 using DungeDexBE.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 namespace DungeDexBE
 {
@@ -29,6 +35,28 @@ namespace DungeDexBE
 									.AllowAnyHeader());
 			});
 
+			// NEW
+			builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+			builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+				.AddEntityFrameworkStores<ApplicationDbContext>()
+				.AddDefaultTokenProviders();
+			var key = Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]);
+			builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+				.AddJwtBearer(options =>
+				{
+					options.RequireHttpsMetadata = false;
+					options.SaveToken = true;
+					options.TokenValidationParameters = new TokenValidationParameters
+					{
+						ValidateIssuerSigningKey = true,
+						IssuerSigningKey = new SymmetricSecurityKey(key),
+						ValidateIssuer = false,
+						ValidateAudience = false
+					};
+				});
+			builder.Services.AddAuthorization();
+			// END
+
 			builder.Services.AddScoped<IPokeApiRepository, PokeApiRepository>();
 			builder.Services.AddScoped<IPokemonService, PokemonService>();
 			builder.Services.AddScoped<IDNDApiRepository, DNDApiRepository>();
@@ -49,6 +77,9 @@ namespace DungeDexBE
 
 			app.UseCors("AllowLocalhost");
 
+			// NEW
+			app.UseAuthentication();
+			// END
 			app.UseAuthorization();
 
 			app.MapControllers();

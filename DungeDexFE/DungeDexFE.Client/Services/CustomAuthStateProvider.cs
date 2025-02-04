@@ -4,8 +4,9 @@ using Microsoft.AspNetCore.Components.Authorization;
 public class CustomAuthStateProvider : AuthenticationStateProvider
 {
     private AuthenticationState authenticationState;
+    private HttpClient client;
 
-    public CustomAuthStateProvider(CustomAuthenticationService service)
+	public CustomAuthStateProvider(CustomAuthenticationService service)
     {
         authenticationState = new AuthenticationState(service.CurrentUser);
 
