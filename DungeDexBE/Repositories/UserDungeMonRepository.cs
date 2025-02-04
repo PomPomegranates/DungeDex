@@ -1,10 +1,13 @@
 ﻿using DungeDexBE.Interfaces.RepositoryInterfaces;
 using DungeDexBE.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace DungeDexBE.Repositories
 {
+<<<<<<< HEAD:DungeDexBE/Repositories/UserPokemonsterRepository.cs
+	public class UserPokemonsterRepository : IUserPokemonsterRepository
+=======
     public class UserDungeMonRepository : IUserDungeMonRepository
+>>>>>>> main:DungeDexBE/Repositories/UserDungeMonRepository.cs
 	{
 		//private readonly IHttpClientFactory _httpClient;
 		private readonly MyDbContext myDbContext;
@@ -20,7 +23,7 @@ namespace DungeDexBE.Repositories
 			try
 			{
 				return myDbContext.MonsterDb.ToList();
-				
+
 			}
 			catch { return null; }
 		}
@@ -31,25 +34,30 @@ namespace DungeDexBE.Repositories
 			try
 			{
 
-			
-            if (value != null)
-			{
-				return (value, "Success");
+
+				if (value != null)
+				{
+					return (value, "Success");
+				}
+				else
+				{
+					return (null, $"No Userdata for Pokemon Number {id}");
+				}
 			}
-			else 
-			{
-				return (null, $"No Userdata for Pokemon Number {id}");
-			}
-            } catch (Exception e)
+			catch (Exception e)
 			{
 				return (null, e.Message);
 			}
 
 
 
-        }
+		}
 
+<<<<<<< HEAD:DungeDexBE/Repositories/UserPokemonsterRepository.cs
+		public (Monster, string) PostUserMonster(Monster monster)
+=======
         public (DungeMon, string) PostUserMonster(DungeMon monster)
+>>>>>>> main:DungeDexBE/Repositories/UserDungeMonRepository.cs
 		{
 			try
 			{
@@ -57,14 +65,14 @@ namespace DungeDexBE.Repositories
 				myDbContext.SaveChanges();
 				return (monster, "Success");
 
-            }
+			}
 			catch (Exception e)
 			{
 				return (monster, e.Message);
 			}
 
-				
+
 		}
 
-    }
+	}
 }

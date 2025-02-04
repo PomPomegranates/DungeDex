@@ -1,46 +1,74 @@
 ﻿@rendermode InteractiveAuto
+@inject NavigationManager nav
 
 @using System.Text.Json
+@using System.Text.RegularExpressions
 
 @if(!string.IsNullOrEmpty(errorMessage))
 {
-    <p>An error occurred while fetching the Dungémon data for '@idOrName':</p>
-    <p>@errorMessage</p>    
+	<p>An error occurred while fetching the Dungémon data for '@idOrName':</p>
+	<p>@errorMessage</p>    
 }
 else if (Dungemon != null)
 {
-    <DungemonDisplay Dungemon="Dungemon" DungemonChanged="DungemonChanged"/>
+	<DungemonDisplay Dungemon="Dungemon" DungemonChanged="DungemonChanged"/>
+	<button class="m-2" @onclick="PostDungemon">Publish!</button>
+	<p>@publishErrorMessage</p>
 }
 
 @code {
-    [Parameter]
-    public string idOrName { get; set; } = null!;
+	[Parameter]
+	public string idOrName { get; set; } = null!;
 
-    public Dungemon? Dungemon { get; set; } = null!;
+	public Dungemon? Dungemon { get; set; } = null!;
 
-    private string errorMessage { get; set; } = null!;
+	private string errorMessage { get; set; } = null!;
 
-    protected override async Task OnParametersSetAsync()
-    {
-        try
-        {
-            using var client = new HttpClient();
-            var response = await client.GetAsync($"https://localhost:7298/api/Pokemon/{idOrName}/monsterify");
-            response.EnsureSuccessStatusCode();
-            Dungemon = await response.Content.ReadFromJsonAsync<Dungemon>();
-        }
-        catch (HttpRequestException ex)
-        {
-            errorMessage = ex.Message;
-        }
-        catch
-        {
-            errorMessage = "Could not process the Pokémonster data. Please try again later.";
-        }
-    }
+	private string publishErrorMessage { get; set; } = null!;
 
-    private void DungemonChanged(Dungemon dungemon)
-    {
-        Dungemon = dungemon;
-    }
+	protected override async Task OnParametersSetAsync()
+	{
+		try
+		{
+			using var client = new HttpClient();
+			var response = await client.GetAsync($"https://localhost:7298/api/Pokemon/{idOrName}/monsterify");
+			response.EnsureSuccessStatusCode();
+			Dungemon = await response.Content.ReadFromJsonAsync<Dungemon>();
+		}
+		catch (HttpRequestException ex)
+		{
+			errorMessage = ex.Message;
+		}
+		catch
+		{
+			errorMessage = "Could not process the Pokémonster data. Please try again later.";
+		}
+	}
+
+	private void DungemonChanged(Dungemon dungemon)
+	{
+		Dungemon = dungemon;
+	}
+
+
+	private async Task PostDungemon(MouseEventArgs e)
+	{
+		try
+		{
+			using var client = new HttpClient();
+			var response = await client.PostAsJsonAsync<Dungemon>("https://localhost:7298/api/UserPokemon", Dungemon!);
+			response.EnsureSuccessStatusCode();
+			var locationHeader = response.Headers.GetValues("Location").First();
+			var dungemonId = Regex.Match(locationHeader, @"(\d+)$").Value;
+			nav.NavigateTo($"dungemon/{dungemonId}");
+		}
+		catch (HttpRequestException hex)
+		{
+			publishErrorMessage = hex.Message;
+		}
+		catch (Exception ex)
+		{
+			publishErrorMessage = ex.Message;	
+		}
+	}
 }

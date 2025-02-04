@@ -99,7 +99,7 @@ namespace DungeDexBE.Repositories
 			spell.Name = jObj["name"]!.Value<string>()!;
 
 
-      spell.Description = jObj["desc"]![0]!.Value<string>()!;
+			spell.Description = jObj["desc"]![0]!.Value<string>()!;
 
 
 			return spell;
