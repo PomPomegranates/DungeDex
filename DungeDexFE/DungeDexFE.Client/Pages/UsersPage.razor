@@ -1,0 +1,62 @@
+﻿@page "/users"
+@inject NavigationManager nav
+@rendermode InteractiveWebAssembly
+
+<h3>Welcome User</h3>
+
+@if (allUsers != null)
+{
+	<table class="table">
+
+		<thead>
+			<tr>
+				<th scope="col">UserName</th>
+				<th scope="col">Published Creations</th>
+			</tr>
+		</thead>
+
+		<tbody>
+
+			@foreach (var user in allUsers)
+			{
+				<tr style="cursor: pointer;" @onclick="() => HandleRowClick(user.UserName)">
+					<td>@user.UserName</td>
+					<td>@user.Dungemons.Count</td>
+				</tr>
+			}
+
+		</tbody>
+
+	</table>
+}
+
+
+@code {
+	List<User> allUsers { get; set; } = null!;
+
+	string errorMessage = string.Empty;
+
+	protected override async Task OnInitializedAsync()
+	{
+		try
+		{
+			using var client = new HttpClient();
+			allUsers = await client.GetFromJsonAsync<List<User>>("https://localhost:7298/api/User/")
+				?? throw new Exception("Unable to convert the server response into Users.");
+		}
+		catch (HttpRequestException ex)
+		{
+			errorMessage = ex.Message;
+		}
+		catch (Exception ex)
+		{
+			errorMessage = "An error occurred while fetching the Dungémon data: " + ex.Message;
+		}
+	}
+
+	public void HandleRowClick(string userName)
+	{
+		nav.NavigateTo($"/user/{userName}", false);
+	}
+}
+

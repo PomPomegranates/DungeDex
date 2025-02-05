@@ -27,7 +27,7 @@ else if (PublishedDungemon != null)
 		try
 		{
 			using var client = new HttpClient();
-			var response = await client.GetAsync($"https://localhost:7298/api/UserPokemon/{Id}");
+			var response = await client.GetAsync($"https://localhost:7298/api/UserDungemon/{Id}");
 			response.EnsureSuccessStatusCode();
 			PublishedDungemon = await response.Content.ReadFromJsonAsync<Dungemon>() ?? throw new Exception();
 		}
