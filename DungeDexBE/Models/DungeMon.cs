@@ -1,9 +1,8 @@
 ﻿using DungeDexBE.Interfaces.ModelInterfaces;
-//using DungeDexBE.Models.NavigationModels;
 
 namespace DungeDexBE.Models
 {
-	public class DungeMon : IReturnable
+	public class Dungemon : IReturnable
 	{
 		public int Id { get; set; }
 		public int UserId { get; set; }

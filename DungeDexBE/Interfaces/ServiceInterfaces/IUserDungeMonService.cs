@@ -5,10 +5,10 @@ namespace DungeDexBE.Interfaces.ServiceInterfaces
 {
 	public interface IUserDungeMonService
 	{
-		List<DungeMon>? GetDungemon(DungemonFilterDto filterDto);
-		(DungeMon?, string) GetDungemonById(int id);
-		(DungeMon?, string) AddDungemon(DungeMon monster);
-		(DungeMon?, string) UpdateDungemon(DungeMon monster);
+		List<Dungemon>? GetDungemon(DungemonFilterDto filterDto);
+		(Dungemon?, string) GetDungemonById(int id);
+		(Dungemon?, string) AddDungemon(Dungemon monster);
+		(Dungemon?, string) UpdateDungemon(Dungemon monster);
 		string DeleteDungemonById(int id);
 	}
 }

@@ -33,7 +33,7 @@ namespace DungeDexBE.Services
 			try
 			{
 				var pokemon = result.Value as Pokemon;
-				DungeMon monster = pokemon!.ToMonster();
+				Dungemon monster = pokemon!.ToMonster();
 				TextInfo myTI = new CultureInfo("en-GB", false).TextInfo;
 				monster!.BasePokemon = myTI.ToTitleCase(monster.BasePokemon.Replace('-', ' '));
 				monster!.NickName = monster!.BasePokemon;

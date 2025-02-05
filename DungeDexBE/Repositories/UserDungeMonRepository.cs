@@ -13,11 +13,11 @@ namespace DungeDexBE.Repositories
 			this.myDbContext = myDbContext;
 		}
 
-		public List<DungeMon>? GetMonsters(DungemonFilterDto filterDto)
+		public List<Dungemon>? GetMonsters(DungemonFilterDto filterDto)
 		{
 			try
 			{
-				var dungemon = myDbContext.MonsterDb.AsQueryable<DungeMon>();
+				var dungemon = myDbContext.MonsterDb.AsQueryable<Dungemon>();
 
 				if (!string.IsNullOrEmpty(filterDto.BasePokemon))
 					dungemon = dungemon.Where(d => d.BasePokemon == filterDto.BasePokemon);
@@ -32,7 +32,7 @@ namespace DungeDexBE.Repositories
 			}
 		}
 
-		public (DungeMon?, string) GetSingularMonster(int id)
+		public (Dungemon?, string) GetSingularMonster(int id)
 		{
 			var value = myDbContext.MonsterDb.Where(x => (x.Id == id)).FirstOrDefault();
 
@@ -54,7 +54,7 @@ namespace DungeDexBE.Repositories
 		}
 
 
-		public (DungeMon, string) PostUserMonster(DungeMon monster)
+		public (Dungemon, string) PostUserMonster(Dungemon monster)
 		{
 			try
 			{
@@ -71,7 +71,7 @@ namespace DungeDexBE.Repositories
 
 		}
 
-		public (DungeMon, string) PatchUserMonster(DungeMon monster)
+		public (Dungemon, string) PatchUserMonster(Dungemon monster)
 		{
 			try
 			{

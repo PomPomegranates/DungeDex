@@ -14,20 +14,20 @@ namespace DungeDexBE.Services
 			_userDungeMonRepository = userDungeMonRepository;
 		}
 
-		public List<DungeMon>? GetDungemon(DungemonFilterDto filterDto)
+		public List<Dungemon>? GetDungemon(DungemonFilterDto filterDto)
 		{
 			return _userDungeMonRepository.GetMonsters(filterDto);
 		}
-		public (DungeMon?, string) GetDungemonById(int id)
+		public (Dungemon?, string) GetDungemonById(int id)
 		{
 			return _userDungeMonRepository.GetSingularMonster(id);
 		}
-		public (DungeMon, string) AddDungemon(DungeMon monster)
+		public (Dungemon, string) AddDungemon(Dungemon monster)
 		{
 			return _userDungeMonRepository.PostUserMonster(monster);
 		}
 
-		public (DungeMon?, string) UpdateDungemon(DungeMon dungemon)
+		public (Dungemon?, string) UpdateDungemon(Dungemon dungemon)
 		{
 			var result = _userDungeMonRepository.GetSingularMonster(dungemon.Id);
 

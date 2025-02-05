@@ -166,7 +166,7 @@ namespace DungeDexBE
 			};
 
 
-			var monster = new DungeMon
+			var monster = new Dungemon
 			{
 
 				BasePokemon = "Lilligant",
@@ -189,7 +189,7 @@ namespace DungeDexBE
 				ImageLink = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/shiny/186.png"
 			};
 
-			var monster2 = new DungeMon
+			var monster2 = new Dungemon
 			{
 
 				BasePokemon = "Venusaur",
@@ -211,7 +211,7 @@ namespace DungeDexBE
 				},
 				ImageLink = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/shiny/186.png"
 			};
-			var monster3 = new DungeMon
+			var monster3 = new Dungemon
 			{
 
 				BasePokemon = "Bayleaf",

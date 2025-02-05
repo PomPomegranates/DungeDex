@@ -50,7 +50,7 @@ namespace DungeDexBE.Controllers
 		}
 
 		[HttpPost]
-		public IActionResult PostUserDungemon(DungeMon monster)
+		public IActionResult PostUserDungemon(Dungemon monster)
 		{
 			var result = _userDungeMonService.AddDungemon(monster);
 
@@ -61,7 +61,7 @@ namespace DungeDexBE.Controllers
 		}
 
 		[HttpPatch]
-		public IActionResult PatchUserDungemon(DungeMon dungemon)
+		public IActionResult PatchUserDungemon(Dungemon dungemon)
 		{
 			var result = _userDungeMonService.UpdateDungemon(dungemon);
 
