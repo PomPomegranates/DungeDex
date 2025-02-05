@@ -38,6 +38,7 @@ namespace DungeDexBE.Services
 				DungeMon monster = pokemon!.ToMonster();
                 TextInfo myTI = new CultureInfo("en-GB", false).TextInfo;
                 monster!.BasePokemon = myTI.ToTitleCase(monster.BasePokemon.Replace('-',' '));
+				monster!.NickName = monster!.BasePokemon;
 
                 var spellResult = await _dndApiRepository.GetRandomSpell();
 				monster.Spells.Add(spellResult.Value as Spell);
