@@ -1,10 +1,13 @@
 ﻿using DungeDexBE.Interfaces.ServiceInterfaces;
 using DungeDexBE.Models;
 using DungeDexBE.Models.Dtos;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+
 namespace DungeDexBE.Controllers
 {
 	[ApiController]
+	[EnableCors("AllowLocalHost")]
 	[Route("api/[controller]")]
 	public class UserDungeMonController : ControllerBase
 	{
@@ -43,6 +46,7 @@ namespace DungeDexBE.Controllers
 			if (result.Item2.Contains("No Userdata")) return NotFound(result.Item2);
 
 			return BadRequest(result.Item2);
+
 		}
 
 		[HttpPost]
@@ -61,8 +65,7 @@ namespace DungeDexBE.Controllers
 		{
 			var result = _userDungeMonService.UpdateDungemon(dungemon);
 
-			if (result.Item2 == "Success")
-				return Ok(result.Item1);
+			if (result.Item2 == "Success") return Ok(result.Item1);
 
 			return StatusCode(304, "Unable to update Dungemon.");
 		}
