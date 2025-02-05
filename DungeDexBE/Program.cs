@@ -42,7 +42,10 @@ namespace DungeDexBE
                                             tags: new[] { "api" })
                 .AddCheck<PokeAPIHealthCheck>("PokéAPI Status Check",
                                             failureStatus: Microsoft.Extensions.Diagnostics.HealthChecks.HealthStatus.Unhealthy,
-                                            tags: new[] { "api" });
+                                            tags: new[] { "api" })
+                .AddCheck<DbHealthCheck>("Database Connection Check",
+                                        failureStatus: Microsoft.Extensions.Diagnostics.HealthChecks.HealthStatus.Unhealthy,
+                                        tags: new[] { "database" });
 
 			builder.Services.AddScoped<IPokeApiRepository, PokeApiRepository>();
 			builder.Services.AddScoped<IPokemonService, PokemonService>();
@@ -58,8 +61,6 @@ namespace DungeDexBE
 			builder.Configuration
 			 .SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("Secrets.json");
 
-			//var cnn = new SqliteConnection("Filename=:memory:");
-			//cnn.Open();
 			builder.Services.AddDbContext<MyDbContext>(o =>
 			{
 				o.UseSqlServer(builder.Configuration.GetConnectionString("MyCnString"));
