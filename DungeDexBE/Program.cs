@@ -3,12 +3,14 @@ using DungeDexBE.HealthChecks;
 using DungeDexBE.Interfaces.RepositoryInterfaces;
 using DungeDexBE.Interfaces.ServiceInterfaces;
 using DungeDexBE.Models;
+using DungeDexBE.Models.Identity;
 using DungeDexBE.Persistence;
 using DungeDexBE.Repositories;
 using DungeDexBE.Services;
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
@@ -55,9 +57,10 @@ namespace DungeDexBE
 			// NEW
 			builder.Configuration.SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("Secrets.json");
 			builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-			builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+			builder.Services.AddIdentity<ApplicationUser, IdentityUser>()
 				.AddEntityFrameworkStores<ApplicationDbContext>()
 				.AddDefaultTokenProviders();
+
 			var key = Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]);
 			builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 				.AddJwtBearer(options =>
@@ -122,125 +125,86 @@ namespace DungeDexBE
 			app.Run();
 		}
 
-		static void AddData(WebApplication app)
-		{
-			var scope = app.Services.CreateScope();
-			var db = scope.ServiceProvider.GetService<ApplicationDbContext>();
 
+		static async Task AddData(WebApplication app)
+        {
+            var scope = app.Services.CreateScope();
+            var db = scope.ServiceProvider.GetService<ApplicationDbContext>();
+            db.Database.EnsureDeleted();
+            db.Database.EnsureCreated();
 
+            User user = new() { UserName = "Testina" };
+            User user2 = new() { UserName = "John Doe" };
 
-			db.Database.EnsureDeleted();
-			db.Database.EnsureCreated();
+            Spell spell = new() { Name = "Goodberry", Description = "Up to ten berries appear in your hand and are infused with magic for the duration. A creature can use its action to eat one berry. Eating a berry restores 1 hit point, and the berry provides enough nourishment to sustain a creature for a day." };
+            Spell spell2 = new() { Name = "Sunbeam", Description = "A beam of brilliant light flashes out fro m your hand in a 5-foot-wide, 60-foot-long line. Each creature in the line must make a constitution saving throw. On a failed save, a creature takes 6d8 radiant damage and is blinded until your next turn. On a successful save, it takes half as much damage and isn't blinded by this spell. Undead and oozes have disadvantage on this saving throw." };
+            Spell spell3 = new() { Name = "Acid Splash", Description = "You hurl a bubble of acid. Choose one creature within range, or choose two creatures within range that are within 5 feet of each other. A target must succeed on a dexterity saving throw or take 1d6 acid damage." };
 
+            db.Users.Add(user);
+            db.Users.Add(user2);
 
-			var user = new User
-			{
-				UserName = "Testina"
+            await db.SaveChangesAsync();
 
+            var monster = new Dungemon
+            {
+                BasePokemon = "Lilligant",
+                NickName = "Lilly",
+                UserId = 1,
+                ChallengeRating = 12,
+                ArmorClass = 12,
+                HitPoints = 100,
+                Strength = 14,
+                Constitution = 13,
+                Wisdom = 14,
+                Intelligence = 12,
+                Dexterity = 18,
+                Charisma = 9,
+                Spells = [spell, spell3],
+                ImageLink = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/shiny/186.png"
+            };
+            var monster2 = new Dungemon
+            {
 
-			};
-			var user2 = new User
-			{
-				UserName = "John Doe"
+                BasePokemon = "Venusaur",
+                NickName = "Jimmy",
+                UserId = 1,
+                ChallengeRating = 12,
+                ArmorClass = 12,
+                HitPoints = 100,
+                Strength = 14,
+                Constitution = 13,
+                Wisdom = 14,
+                Intelligence = 12,
+                Dexterity = 18,
+                Charisma = 9,
+                Spells = [spell, spell2],
+                ImageLink = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/shiny/186.png"
+            };
+            var monster3 = new Dungemon
+            {
 
+                BasePokemon = "Bayleaf",
+                NickName = "Baybeee",
+                UserId = 2,
+                ChallengeRating = 12,
+                ArmorClass = 12,
+                HitPoints = 100,
+                Strength = 14,
+                Constitution = 13,
+                Wisdom = 14,
+                Intelligence = 12,
+                Dexterity = 18,
+                Charisma = 9,
+                Spells = [spell2, spell3],
+                ImageLink = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/shiny/186.png"
+            };
 
-			};
+            db.Dungemon.Add(monster);
+            db.Dungemon.Add(monster2);
+            db.Dungemon.Add(monster3);
 
-			var spell = new Spell
-			{
-				Name = "Goodberry",
-				Description = "Up to ten berries appear in your hand and are infused with magic for the duration. A creature can use its action to eat one berry. Eating a berry restores 1 hit point, and the berry provides enough nourishment to sustain a creature for a day."
-
-			};
-
-			var spell2 = new Spell
-			{
-				Name = "Sunbeam",
-				Description = "A beam of brilliant light flashes out fro m your hand in a 5-foot-wide, 60-foot-long line. Each creature in the line must make a constitution saving throw. On a failed save, a creature takes 6d8 radiant damage and is blinded until your next turn. On a successful save, it takes half as much damage and isn't blinded by this spell. Undead and oozes have disadvantage on this saving throw."
-			};
-
-			var spell3 = new Spell
-			{
-				Name = "Acid Splash",
-				Description = "You hurl a bubble of acid. Choose one creature within range, or choose two creatures within range that are within 5 feet of each other. A target must succeed on a dexterity saving throw or take 1d6 acid damage."
-			};
-
-
-			var monster = new Dungemon
-			{
-
-				BasePokemon = "Lilligant",
-				NickName = "Lilly",
-				User = user,
-				ChallengeRating = 12,
-				ArmorClass = 12,
-				HitPoints = 100,
-				Strength = 14,
-				Constitution = 13,
-				Wisdom = 14,
-				Intelligence = 12,
-				Dexterity = 18,
-				Charisma = 9,
-				Spells = new List<Spell>
-				{
-					spell,
-					spell3
-				},
-				ImageLink = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/shiny/186.png"
-			};
-
-			var monster2 = new Dungemon
-			{
-
-				BasePokemon = "Venusaur",
-				NickName = "Jimmy",
-				User = user,
-				ChallengeRating = 12,
-				ArmorClass = 12,
-				HitPoints = 100,
-				Strength = 14,
-				Constitution = 13,
-				Wisdom = 14,
-				Intelligence = 12,
-				Dexterity = 18,
-				Charisma = 9,
-				Spells = new List<Spell>
-				{
-					spell,
-					spell2
-				},
-				ImageLink = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/shiny/186.png"
-			};
-			var monster3 = new Dungemon
-			{
-
-				BasePokemon = "Bayleaf",
-				NickName = "Baybeee",
-				User = user2,
-				ChallengeRating = 12,
-				ArmorClass = 12,
-				HitPoints = 100,
-				Strength = 14,
-				Constitution = 13,
-				Wisdom = 14,
-				Intelligence = 12,
-				Dexterity = 18,
-				Charisma = 9,
-				Spells = new List<Spell>
-				{
-					spell2,
-					spell3
-				},
-				ImageLink = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/shiny/186.png"
-			};
-
-
-			db.Dungemon.Add(monster);
-			db.Dungemon.Add(monster2);
-			db.Dungemon.Add(monster3);
-
-			db.SaveChanges();
-		}
+            db.SaveChanges();
+        }
 	}
 
 }

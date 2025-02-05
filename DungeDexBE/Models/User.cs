@@ -1,13 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
 
 namespace DungeDexBE.Models
 {
-	[Index(nameof(UserName), IsUnique = true)]
-	public class User
+	public class User : IdentityUser
 	{
-		public int Id { get; set; }
-		public string UserName { get; set; } = null!;
-		public virtual List<Dungemon> Dungemon { get; set; } = [];
+		public ICollection<Dungemon> Dungemon { get; set; } = [];
 	}
 }
 

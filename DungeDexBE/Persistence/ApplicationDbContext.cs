@@ -1,15 +1,12 @@
-﻿using System.Reflection.Emit;
-using DungeDexBE.Models;
-using Microsoft.AspNetCore.Identity;
+﻿using DungeDexBE.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace DungeDexBE.Persistence
 {
-    public class ApplicationDbContext : IdentityDbContext<IdentityUser>
+	public class ApplicationDbContext : IdentityDbContext<User>
     {
         public DbSet<Dungemon> Dungemon { get; set; }
-        public DbSet<User> DungemonUsers { get; set; }
         public DbSet<Spell> Spells { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
@@ -18,10 +15,6 @@ namespace DungeDexBE.Persistence
 		{
             builder.Entity<User>(entity =>
             {
-                entity.Property(u => u.Id).ValueGeneratedOnAdd();
-                entity.HasKey(u => u.Id);
-                entity.Property(u => u.UserName).IsRequired();
-                entity.HasIndex(u => u.UserName).IsUnique();
                 entity.HasMany(u => u.Dungemon).WithOne(d => d.User).HasForeignKey(d => d.UserId).OnDelete(DeleteBehavior.Cascade);
 			});
 
