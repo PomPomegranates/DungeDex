@@ -46,6 +46,8 @@ namespace DungeDexBE.Persistence
                 entity.Property(s => s.Description).IsRequired();
                 entity.Property(s => s.DungemonId).IsRequired();
             });
+
+            base.OnModelCreating(builder);
         }
     }
 }

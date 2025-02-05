@@ -1,24 +1,24 @@
 ﻿using DungeDexBE.Interfaces.RepositoryInterfaces;
 using DungeDexBE.Models;
+using DungeDexBE.Persistence;
 using Microsoft.EntityFrameworkCore;
 
 namespace DungeDexBE.Repositories
 {
 	public class UserRepository : IUserRepository
 	{
-		private readonly MyDbContext myDbContext;
+		private readonly ApplicationDbContext _db;
 
-		public UserRepository(MyDbContext db)
+		public UserRepository(ApplicationDbContext dbContext)
 		{
-			myDbContext = db;
+			_db = dbContext;
 		}
 
 		public List<User>? GetUsers()
 		{
-			//get all users
 			try
 			{
-				return myDbContext.Users.AsNoTracking().Include(m => m.DungeMons).ToList();
+				return _db.Users.AsNoTracking().Include(m => m.Dungemon).ToList();
 			}
 			catch
 			{
@@ -28,11 +28,9 @@ namespace DungeDexBE.Repositories
 
 		public User? GetUserByName(string name)
 		{
-
 			try
 			{
 				return GetUsers().Where(U => U.UserName == name).FirstOrDefault();
-
 			}
 			catch
 			{
@@ -44,19 +42,14 @@ namespace DungeDexBE.Repositories
 		{
 			try
 			{
-				myDbContext.Users.Add(newUser);
-				myDbContext.SaveChanges();
+				_db.Users.Add(newUser);
+				_db.SaveChanges();
 				return (newUser, "Success");
-
 			}
 			catch (Exception e)
 			{
 				return (newUser, e.Message);
 			}
-
-
 		}
-
-
 	}
 }

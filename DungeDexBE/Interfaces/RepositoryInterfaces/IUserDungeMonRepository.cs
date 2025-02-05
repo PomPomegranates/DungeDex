@@ -5,10 +5,10 @@ namespace DungeDexBE.Interfaces.RepositoryInterfaces
 {
 	public interface IUserDungeMonRepository
 	{
-		List<Dungemon>? GetMonsters(DungemonFilterDto filterDto);
-		(Dungemon?, string) GetSingularMonster(int id);
-		(Dungemon, string) PostUserMonster(Dungemon monster);
-		(Dungemon, string) PatchUserMonster(Dungemon monster);
-		string DeleteUserMonster(int monsterId);
+		List<Dungemon>? GetDungemon(DungemonFilterDto filterDto);
+		(Dungemon?, string) GetDungemonById(int id);
+		(Dungemon, string) AddDungemon(Dungemon monster);
+		(Dungemon, string) UpdateDungemon(Dungemon monster);
+		string DeleteDungemonById(int monsterId);
 	}
 }

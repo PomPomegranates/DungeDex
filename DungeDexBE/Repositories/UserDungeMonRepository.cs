@@ -1,23 +1,24 @@
 ﻿using DungeDexBE.Interfaces.RepositoryInterfaces;
 using DungeDexBE.Models;
 using DungeDexBE.Models.Dtos;
+using DungeDexBE.Persistence;
 
 namespace DungeDexBE.Repositories
 {
 	public class UserDungeMonRepository : IUserDungeMonRepository
 	{
-		private readonly MyDbContext myDbContext;
+		private readonly ApplicationDbContext _db;
 
-		public UserDungeMonRepository(MyDbContext myDbContext)
+		public UserDungeMonRepository(ApplicationDbContext dbContext)
 		{
-			this.myDbContext = myDbContext;
+			_db = dbContext;
 		}
 
-		public List<Dungemon>? GetMonsters(DungemonFilterDto filterDto)
+		public List<Dungemon>? GetDungemon(DungemonFilterDto filterDto)
 		{
 			try
 			{
-				var dungemon = myDbContext.MonsterDb.AsQueryable<Dungemon>();
+				var dungemon = _db.Dungemon.AsQueryable<Dungemon>();
 
 				if (!string.IsNullOrEmpty(filterDto.BasePokemon))
 					dungemon = dungemon.Where(d => d.BasePokemon == filterDto.BasePokemon);
@@ -32,9 +33,9 @@ namespace DungeDexBE.Repositories
 			}
 		}
 
-		public (Dungemon?, string) GetSingularMonster(int id)
+		public (Dungemon?, string) GetDungemonById(int id)
 		{
-			var value = myDbContext.MonsterDb.Where(x => (x.Id == id)).FirstOrDefault();
+			var value = _db.Dungemon.Where(x => (x.Id == id)).FirstOrDefault();
 
 			try
 			{
@@ -54,30 +55,12 @@ namespace DungeDexBE.Repositories
 		}
 
 
-		public (Dungemon, string) PostUserMonster(Dungemon monster)
+		public (Dungemon, string) AddDungemon(Dungemon monster)
 		{
 			try
 			{
-				myDbContext.MonsterDb.Add(monster);
-				myDbContext.SaveChanges();
-				return (monster, "Success");
-
-			}
-			catch (Exception e)
-			{
-				return (monster, e.Message);
-			}
-
-
-		}
-
-		public (Dungemon, string) PatchUserMonster(Dungemon monster)
-		{
-			try
-			{
-				var monsterToChange = myDbContext.MonsterDb.Single(x => x.Id == monster.Id);
-				myDbContext.MonsterDb.Entry(monsterToChange).CurrentValues.SetValues(monster);
-				myDbContext.SaveChanges();
+				_db.Dungemon.Add(monster);
+				_db.SaveChanges();
 				return (monster, "Success");
 			}
 			catch (Exception e)
@@ -86,13 +69,28 @@ namespace DungeDexBE.Repositories
 			}
 		}
 
-		public string DeleteUserMonster(int monsterId)
+		public (Dungemon, string) UpdateDungemon(Dungemon monster)
 		{
 			try
 			{
-				var existingMonster = myDbContext.MonsterDb.Single(m => m.Id == monsterId);
-				myDbContext.MonsterDb.Remove(existingMonster);
-				myDbContext.SaveChanges();
+				var monsterToChange = _db.Dungemon.Single(x => x.Id == monster.Id);
+				_db.Dungemon.Entry(monsterToChange).CurrentValues.SetValues(monster);
+				_db.SaveChanges();
+				return (monster, "Success");
+			}
+			catch (Exception e)
+			{
+				return (monster, e.Message);
+			}
+		}
+
+		public string DeleteDungemonById(int monsterId)
+		{
+			try
+			{
+				var existingMonster = _db.Dungemon.Single(m => m.Id == monsterId);
+				_db.Dungemon.Remove(existingMonster);
+				_db.SaveChanges();
 				return "Success";
 			}
 			catch (Exception e)

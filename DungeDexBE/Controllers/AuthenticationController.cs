@@ -1,6 +1,8 @@
-﻿using System.IdentityModel.Tokens.Jwt;
+﻿using System.ComponentModel.DataAnnotations;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using DungeDexBE.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -11,10 +13,10 @@ namespace DungeDexBE.Controllers
 	[ApiController]
 	public class AuthenticationController : ControllerBase
 	{
-		private readonly UserManager<IdentityUser> _userManager;
+		private readonly UserManager<User> _userManager;
         private readonly IConfiguration _configuration;
 
-        public AuthenticationController(UserManager<IdentityUser> userManager, IConfiguration configuration)
+        public AuthenticationController(UserManager<User> userManager, IConfiguration configuration)
         {
             _userManager = userManager;
             _configuration = configuration;
@@ -35,7 +37,7 @@ namespace DungeDexBE.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] LoginModel model)
         {
-            var user = new IdentityUser { UserName = model.UserName };
+            var user = new User { UserName = model.UserName };
             var result = await _userManager.CreateAsync(user, model.Password);
             if (result.Succeeded) return Ok(new { Message = "Successfully registered!" });
             return BadRequest(result.Errors);
@@ -58,7 +60,9 @@ namespace DungeDexBE.Controllers
 
     public class LoginModel
     {
-        public string UserName { get; set; }
-        public string Password { get; set; }
+        [Required]
+        public string UserName { get; set; } = null!;
+        [Required]
+        public string Password { get; set; } = null!;
     }
 }
