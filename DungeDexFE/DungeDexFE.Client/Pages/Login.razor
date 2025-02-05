@@ -9,7 +9,7 @@
     </Authorized>
     <NotAuthorized>
         <p>You're not logged in.</p>
-        <input @bind="userIdentifier" />
+        <input @bind="userName" />
         <input @bind="password" />
         <button @onclick="SignIn">Sign in</button>
     </NotAuthorized>
@@ -17,23 +17,32 @@
 
 @code {
     [CascadingParameter]
-    public AuthenticationState authenticationState { get; set; }
+    public AuthenticationState authenticationState { get; set; } = null!;
 
-    public string userIdentifier = string.Empty;
+    public string userName = string.Empty;
     public string password = string.Empty;
 
-    private void SignIn()
+    private async Task SignIn()
     {
-        var currentUser = AuthService.CurrentUser;
+        using var client = new HttpClient();
+        var result = await client.PostAsJsonAsync<LoginModel>("https://localhost:7298/api/authentication/login", new(userName, password));
 
-        var identity = new ClaimsIdentity(
-            [
-                new Claim(ClaimTypes.Name, userIdentifier),
-            ],
-            "Custom Authentication");
+        if (result.IsSuccessStatusCode)
+        {
+            var jwt = await result.Content.ReadFromJsonAsync<Jwt>();
 
-        var newUser = new ClaimsPrincipal(identity);
+        }
 
-        AuthService.CurrentUser = newUser;
+    }
+
+    public class LoginModel(string username, string password)
+    {
+        public string Username = username;
+        public string Password = password;
+    }
+
+    public class Jwt()
+    {
+        public string Token { get; set; } = null!;
     }
 }
