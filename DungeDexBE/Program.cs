@@ -4,6 +4,7 @@ using DungeDexBE.Interfaces.ServiceInterfaces;
 using DungeDexBE.Models;
 using DungeDexBE.Repositories;
 using DungeDexBE.Services;
+using HealthChecks.UI.Client;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 
@@ -80,7 +81,10 @@ namespace DungeDexBE
 
 			app.UseAuthorization();
 
-            app.UseHealthChecks("/health");
+            app.UseHealthChecks("/health", new Microsoft.AspNetCore.Diagnostics.HealthChecks.HealthCheckOptions
+            {
+                ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+            });
 
 			app.MapControllers();
 
