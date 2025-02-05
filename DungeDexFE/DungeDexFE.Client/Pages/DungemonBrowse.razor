@@ -14,7 +14,8 @@
 else if (allDungemon != null)
 {
 	<DungemonTable dungemonList="allDungemon" />
-	<button @onclick="NextPage">Next ➡️</button>
+	<button hidden=@atStart @onclick="PreviousPage">⬅️ Previous</button>
+	<button hidden=@lessThan20 @onclick="NextPage">Next ➡️</button>
 }
 
 @code {
@@ -24,6 +25,10 @@ else if (allDungemon != null)
 
 	private int currentOffset = 0;
 
+	private bool atStart = true;
+
+	private bool lessThan20 = true;
+
 	protected override async Task OnInitializedAsync()
 	{
 		await PopulateTable();
@@ -32,6 +37,17 @@ else if (allDungemon != null)
 	private async Task NextPage(MouseEventArgs e)
 	{
 		currentOffset += 20;
+		atStart = false;
+		await PopulateTable();
+	}
+
+	private async Task PreviousPage(MouseEventArgs e)
+	{
+		currentOffset -= 20;
+		if (currentOffset == 0)
+		{
+			atStart = true;
+		}
 		await PopulateTable();
 	}
 
@@ -42,6 +58,7 @@ else if (allDungemon != null)
 			using var client = new HttpClient();
 			allDungemon = await client.GetFromJsonAsync<List<Dungemon>>($"https://localhost:7298/api/UserDungeMon?number=20&offset={currentOffset}")
 				?? throw new Exception("Unable to convert the server response into Dungémon.");
+			if (allDungemon.Count >= 20) lessThan20 = false; else lessThan20 = true;
 		}
 		catch (HttpRequestException ex)
 		{
