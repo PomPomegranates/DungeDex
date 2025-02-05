@@ -5,7 +5,8 @@
 
     <div class="row justify-content-start">
         <div class="col">
-            <h3 class="w-auto">@Dungemon.Name</h3>
+            <InputText class="w-auto" @bind-Value="@Dungemon.NickName" placeholder="@Dungemon.BasePokemon" @onblur="HandleNicknameChange"/>
+            <!--<button @onclick="HandleNicknameChange">Save Name</button>-->
         </div>
         <div class="col"></div>
     </div>
@@ -13,7 +14,7 @@
     <div class="row">
         <div class="col-auto flex-column justify-space-between">
             <img src="@Dungemon.ImageLink" style="height: 250px;" />
-            <h5 class="text-center align-bottom fst-italic my-auto">@Dungemon.Name</h5>
+            <h5 class="text-center align-bottom fst-italic my-auto">@Dungemon.BasePokemon</h5>
         </div>
 
         <div class="col">
@@ -21,7 +22,7 @@
         </div>
     </div>
 
-    <SpellEditor Spells="Dungemon.Spells" />
+    <SpellEditor Spells="Dungemon.Spells" SpellsChanged="SpellsChanged"/>
 </div>
 
 @code {
@@ -30,4 +31,14 @@
 
     [Parameter]
     public EventCallback<Dungemon> DungemonChanged { get; set; }
+    private void HandleNicknameChange()
+    {
+        DungemonChanged.InvokeAsync(Dungemon);
+    }
+
+    private void SpellsChanged(List<Spell> spells)
+    {
+        Dungemon.Spells = spells;
+        DungemonChanged.InvokeAsync(Dungemon);
+    }
 }

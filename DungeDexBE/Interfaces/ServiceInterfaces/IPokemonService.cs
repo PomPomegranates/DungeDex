@@ -6,5 +6,6 @@ namespace DungeDexBE.Interfaces.ServiceInterfaces
 	{
 		Task<Result> GetBasePokemonAsync(string pokemonName);
 		Task<Result> GetMonsterByPokemonAsync(string pokemonName);
+
 	}
 }

@@ -5,24 +5,25 @@ namespace DungeDexFE.Client.Models
 	public class Dungemon
 	{
 		public int Id { get; set; }
-		public string Name { get; set; } = null!;
+		public string BasePokemon { get; set; } = null!;
+		public string NickName { get; set; } = null!;
 		public int UserId { get; set; }
-		[Range(0f,100f, ErrorMessage = "Challenge Rating must be between 0 and 100.")]
+		[Range(0f, 100f, ErrorMessage = "Challenge Rating must be between 0 and 100.")]
 		public float ChallengeRating { get; set; }
 		public int ArmorClass { get; set; }
-        [Range(0, 30, ErrorMessage = "Strength must be between 0 and 30")]
-        public int Strength { get; set; }
-        [Range(0, 30, ErrorMessage = "Dexterity must be between 0 and 30")]
-        public int Dexterity { get; set; }
-        [Range(0, 30, ErrorMessage = "Constitution must be between 0 and 30")]
-        public int Constitution { get; set; }
-        [Range(0, 30, ErrorMessage = "Intelligence must be between 0 and 30")]
-        public int Intelligence { get; set; }
-        [Range(0, 30, ErrorMessage = "Wisdom must be between 0 and 30")]
-        public int Wisdom { get; set; }
-        [Range(0, 30, ErrorMessage = "Charisma must be between 0 and 30")]
-        public int Charisma { get; set; }
-        public int HitPoints { get; set; }
+		[Range(0, 30, ErrorMessage = "Strength must be between 0 and 30")]
+		public int Strength { get; set; }
+		[Range(0, 30, ErrorMessage = "Dexterity must be between 0 and 30")]
+		public int Dexterity { get; set; }
+		[Range(0, 30, ErrorMessage = "Constitution must be between 0 and 30")]
+		public int Constitution { get; set; }
+		[Range(0, 30, ErrorMessage = "Intelligence must be between 0 and 30")]
+		public int Intelligence { get; set; }
+		[Range(0, 30, ErrorMessage = "Wisdom must be between 0 and 30")]
+		public int Wisdom { get; set; }
+		[Range(0, 30, ErrorMessage = "Charisma must be between 0 and 30")]
+		public int Charisma { get; set; }
+		public int HitPoints { get; set; }
 		public string ImageLink { get; set; } = null!;
 		public virtual List<Spell> Spells { get; set; } = null!;
 

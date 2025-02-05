@@ -1,4 +1,6 @@
-﻿using System.Net;
+using System.Globalization;
+using System.Net;
+
 using DungeDexBE.ConversionFunctions;
 using DungeDexBE.Interfaces.RepositoryInterfaces;
 using DungeDexBE.Interfaces.ServiceInterfaces;
@@ -31,7 +33,11 @@ namespace DungeDexBE.Services
 			try
 			{
 				var pokemon = result.Value as Pokemon;
-				Monster monster = pokemon!.ToMonster();
+				DungeMon monster = pokemon!.ToMonster();
+				TextInfo myTI = new CultureInfo("en-GB", false).TextInfo;
+				monster!.BasePokemon = myTI.ToTitleCase(monster.BasePokemon.Replace('-', ' '));
+				monster!.NickName = monster!.BasePokemon;
+
 				var spellResult = await _dndApiRepository.GetRandomSpell();
 				monster.Spells.Add(spellResult.Value as Spell);
 				result.Value = monster;
@@ -45,5 +51,6 @@ namespace DungeDexBE.Services
 
 			return result;
 		}
+
 	}
 }

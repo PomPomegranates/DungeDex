@@ -1,55 +1,62 @@
-﻿using System.Net;
+using System.Net;
 using DungeDexBE.Interfaces.RepositoryInterfaces;
 using DungeDexBE.Models;
 using Newtonsoft.Json.Linq;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace DungeDexBE.Repositories
 {
 	public class DNDApiRepository : IDNDApiRepository
 	{
 		private readonly IHttpClientFactory _httpClient;
+		private readonly IMemoryCache _cache;
 
-		public DNDApiRepository(IHttpClientFactory httpClientFactory)
+		public DNDApiRepository(IHttpClientFactory httpClientFactory, IMemoryCache memoryCache)
 		{
 			_httpClient = httpClientFactory;
+			_cache = memoryCache;
 		}
 		public async Task<Dictionary<string, string>?> GetAllSpellsNamesAsync()
 		{
-			Dictionary<string, string> result = new();
+			
 
-			var http = _httpClient.CreateClient("dnd");
-
-			var httpResult = await http.GetAsync("spells");
-
-			if (!httpResult.IsSuccessStatusCode) return null;
-
-			try
+            if (!_cache.TryGetValue("AllSpells", out Dictionary<string, string>  result))
 			{
-				string json = await httpResult.Content.ReadAsStringAsync();
+                result = new();
+				var http = _httpClient.CreateClient("dnd");
 
-				JObject jsonResult = JObject.Parse(json);
+				var httpResult = await http.GetAsync("spells");
 
-				var allJSpells = jsonResult["results"].ToList();
+				if (!httpResult.IsSuccessStatusCode) return null;
 
-
-				foreach (var jSpell in allJSpells)
+				try
 				{
-					string name = jSpell["name"].Value<string>();
-					string index = jSpell["index"].Value<string>();
-					result.Add(name, index);
+					string json = await httpResult.Content.ReadAsStringAsync();
+
+					JObject jsonResult = JObject.Parse(json);
+
+					var allJSpells = jsonResult["results"].ToList();
+
+
+					foreach (var jSpell in allJSpells)
+					{
+						string name = jSpell["name"].Value<string>();
+						string index = jSpell["index"].Value<string>();
+						result.Add(name, index);
+					}
+					var cacheEntryOptions = new MemoryCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromMinutes(60));
+
+					_cache.Set("AllSpells", result, cacheEntryOptions);
 				}
-
-
+				catch (Exception ex)
+				{
+					Console.WriteLine(ex.Message);
+				}
 			}
-			catch (Exception ex)
-			{
-
-			}
-
 			return result;
 		}
 
-		public async Task<Result> GetSpellByNameOrIndex(string nameOrIndex)
+		public async Task<Result> GetSpellByNameOrIndex(string index)
 		{
 			var allSpells = await GetAllSpellsNamesAsync();
 			Result result = new Result();
@@ -58,7 +65,7 @@ namespace DungeDexBE.Repositories
 			{
 				try
 				{
-					if (keyValuePair.Key == nameOrIndex || keyValuePair.Value == nameOrIndex)
+					if (keyValuePair.Key == index || keyValuePair.Value == index)
 					{
 						var http = _httpClient.CreateClient("dnd");
 
@@ -98,9 +105,9 @@ namespace DungeDexBE.Repositories
 
 			spell.Name = jObj["name"]!.Value<string>()!;
 
-			spell.Id = 0; spell.MonsterId = 0; // These will be handled in another way once we have a database.
 
 			spell.Description = jObj["desc"]![0]!.Value<string>()!;
+
 
 			return spell;
 		}
