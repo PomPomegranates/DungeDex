@@ -1,11 +1,10 @@
 ﻿using DungeDexBE.Interfaces.RepositoryInterfaces;
 using DungeDexBE.Interfaces.ServiceInterfaces;
 using DungeDexBE.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace DungeDexBE.Services
 {
-    public class UserDungeMonService : IUserDungeMonService
+	public class UserDungeMonService : IUserDungeMonService
 	{
 		private readonly IUserDungeMonRepository _userDungeMonRepository;
 
@@ -18,7 +17,7 @@ namespace DungeDexBE.Services
 		{
 			return _userDungeMonRepository.GetMonsters();
 		}
-		public ( DungeMon? , string ) GetSingularMonster(int id)
+		public (DungeMon?, string) GetSingularMonster(int id)
 		{
 			return _userDungeMonRepository.GetSingularMonster(id);
 		}
@@ -27,30 +26,11 @@ namespace DungeDexBE.Services
 			return _userDungeMonRepository.PostUserMonster(monster);
 		}
 
-		public (DungeMon?, string) PatchUserMonster(DungeMon dungemon, User user)
+		public (DungeMon?, string) PatchUserMonster(DungeMon dungemon)
 		{
-			
-                var result = _userDungeMonRepository.GetSingularMonster(dungemon.Id);
-				if (result.Item2 == "Success")
-			{
-				if(result.Item1!.UserId == user.Id)
-				{
-                    return _userDungeMonRepository.PatchUserMonster(dungemon);
-				}
-				else
-				{
-					return (null, "Not Authorised - You are not the Dungemon's creator");
-				}
-			}
-			else
-			{
-				return result;
-			}
+			var result = _userDungeMonRepository.GetSingularMonster(dungemon.Id);
 
-                    
-
-			
-			
+			return _userDungeMonRepository.PatchUserMonster(dungemon);
 		}
 	}
 }

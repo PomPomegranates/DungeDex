@@ -57,7 +57,7 @@ namespace DungeDexBE.Controllers
 			}
 		}
 
-		[HttpPost("post")]
+		[HttpPost]
         public IActionResult PostUserMonster(DungeMon monster)
 
 		{
@@ -72,13 +72,16 @@ namespace DungeDexBE.Controllers
 				return BadRequest((monster, result.Item2));
 			}
 		}
-        [HttpPatch("patch")]
+
+        [HttpPatch]
         public IActionResult PatchUserDungemon(DungeMon dungemon)
         {
-            //var result = _userService
+			var result = _userDungeMonService.PatchUserMonster(dungemon);
 
+			if (result.Item2 == "Success")
+				return Ok(result.Item1);
 
-            return null;
+			return StatusCode(304, "Unable to update Dungemon.");
         }
     }
 }

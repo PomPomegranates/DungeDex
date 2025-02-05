@@ -7,12 +7,10 @@ namespace DungeDexBE.Repositories
 
     public class UserDungeMonRepository : IUserDungeMonRepository
 	{
-		//private readonly IHttpClientFactory _httpClient;
 		private readonly MyDbContext myDbContext;
 
-		public UserDungeMonRepository(IHttpClientFactory httpClient, MyDbContext myDbContext)
+		public UserDungeMonRepository(MyDbContext myDbContext)
 		{
-			//_httpClient = httpClient;
 			this.myDbContext = myDbContext;
 		}
 
@@ -20,21 +18,20 @@ namespace DungeDexBE.Repositories
 		{
 			try
 			{
-
 				return myDbContext.MonsterDb.AsNoTracking().Include(m=> m.Spells).ToList();
-				
-
 			}
-			catch { return null; }
+			catch 
+			{
+				return null; 
+			}
 		}
 
 		public (DungeMon?, string) GetSingularMonster(int id)
 		{
 			var value = myDbContext.MonsterDb.Where(x => (x.Id == id)).FirstOrDefault();
+
 			try
 			{
-
-
 				if (value != null)
 				{
 					return (value, "Success");
@@ -48,9 +45,6 @@ namespace DungeDexBE.Repositories
 			{
 				return (null, e.Message);
 			}
-
-
-
 		}
 
 
@@ -75,19 +69,15 @@ namespace DungeDexBE.Repositories
 		{
             try
             {
-
 				var monsterToChange = myDbContext.MonsterDb.Single(x => x.Id == monster.Id);
-				monsterToChange = monster;
-                myDbContext.SaveChanges();
+				myDbContext.Entry(monsterToChange).CurrentValues.SetValues(monster);
+				myDbContext.SaveChanges();
                 return (monster, "Success");
-
             }
             catch (Exception e)
             {
                 return (monster, e.Message);
             }
-
         }
-
     }
 }
