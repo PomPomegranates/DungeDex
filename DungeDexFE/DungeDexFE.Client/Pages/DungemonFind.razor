@@ -1,5 +1,6 @@
 ﻿@using DungeDexFE.Client.Models
 @rendermode InteractiveServer
+@inject NavigationManager nav
 @page "/dungemon/{Id:int}"
 
 <PageTitle>DungéDex : Find</PageTitle>
@@ -12,6 +13,12 @@ else if (PublishedDungemon != null)
 {
 	<h3>@PublishedDungemon.NickName</h3>
 	<DungemonDisplay Dungemon=PublishedDungemon DungemonChanged="DungemonChanged"/>
+	<div id="DeleteDungemon">
+		<button @onclick="DeleteDungemonCheck">🗑️</button>
+		<p>@areYouSure</p>
+		<button hidden="@deleteButtonsHidden" @onclick="DeleteDungemon">Yes</button>
+		<button hidden="@deleteButtonsHidden" @onclick="Rehide">No</button>
+	</div>
 }
 
 @code {
@@ -21,6 +28,12 @@ else if (PublishedDungemon != null)
 	public Dungemon PublishedDungemon { get; set; } = null!;
 
 	private string errorMessage { get; set; } = null!;
+
+	private string areYouSure = string.Empty;
+
+	private bool deleteButtonsHidden = true;
+
+
 
 	protected override async Task OnParametersSetAsync()
 	{
@@ -45,5 +58,36 @@ else if (PublishedDungemon != null)
 	{
 		PublishedDungemon = updatedDungemon;
 		// Make a patch request
+	}
+
+	private void DeleteDungemonCheck()
+	{
+		areYouSure = "Are you sure?";
+		deleteButtonsHidden = false;
+	}
+	private void Rehide()
+	{
+		areYouSure = string.Empty;
+		deleteButtonsHidden = true;
+	}
+	private async Task DeleteDungemon(MouseEventArgs e)
+	{
+		try
+		{
+			using var client = new HttpClient();
+			var response = await client.DeleteAsync($"https://localhost:7298/api/UserDungeMon?dungemonId={Id}");
+			response.EnsureSuccessStatusCode();
+			areYouSure = "Dungémon deleted.";
+			await Task.Delay(1000);
+			nav.NavigateTo("/");
+		}
+		catch (HttpRequestException hEx)
+		{
+			errorMessage = $"There was an issue retrieving data from the Database: {hEx.Message}";
+		}
+		catch (Exception ex)
+		{
+			errorMessage = $"There was an issue fetching the Dungémon data: {ex.Message}";
+		}
 	}
 }
