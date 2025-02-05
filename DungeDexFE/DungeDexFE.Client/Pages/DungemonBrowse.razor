@@ -14,6 +14,7 @@
 else if (allDungemon != null)
 {
 	<DungemonTable dungemonList="allDungemon" />
+	<button @onclick="NextPage">Next ➡️</button>
 }
 
 @code {
@@ -24,6 +25,17 @@ else if (allDungemon != null)
 	private int currentOffset = 0;
 
 	protected override async Task OnInitializedAsync()
+	{
+		await PopulateTable();
+	}
+
+	private async Task NextPage(MouseEventArgs e)
+	{
+		currentOffset += 20;
+		await PopulateTable();
+	}
+
+	private async Task PopulateTable()
 	{
 		try
 		{
