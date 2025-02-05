@@ -13,6 +13,11 @@
 }
 else if (allDungemon != null)
 {
+	<div id="FilterBar">
+		<InputText @bind-Value="pokeFilter" placeholder="Pokémon" />
+		<button @onclick="PopulateTable">Filter By Pokémon</button>
+		<button hidden=@filterEmpty @onclick="WipeFilter">❌</button>
+	</div>
 	<DungemonTable dungemonList="allDungemon" />
 	<button hidden=@atStart @onclick="PreviousPage">⬅️ Previous</button>
 	<button hidden=@lessThan20 @onclick="NextPage">Next ➡️</button>
@@ -28,6 +33,10 @@ else if (allDungemon != null)
 	private bool atStart = true;
 
 	private bool lessThan20 = true;
+
+	private string pokeFilter = string.Empty;
+
+	private bool filterEmpty = true;
 
 	protected override async Task OnInitializedAsync()
 	{
@@ -53,11 +62,20 @@ else if (allDungemon != null)
 
 	private async Task PopulateTable()
 	{
+		if (!String.IsNullOrEmpty(pokeFilter)) filterEmpty = false; else filterEmpty = true;
 		try
 		{
 			using var client = new HttpClient();
-			allDungemon = await client.GetFromJsonAsync<List<Dungemon>>($"https://localhost:7298/api/UserDungeMon?number=20&offset={currentOffset}")
-				?? throw new Exception("Unable to convert the server response into Dungémon.");
+			if (String.IsNullOrEmpty(pokeFilter))
+			{
+				allDungemon = await client.GetFromJsonAsync<List<Dungemon>>($"https://localhost:7298/api/UserDungeMon?number=20&offset={currentOffset}")
+					?? throw new Exception("Unable to convert the server response into Dungémon.");
+			}
+			else
+			{
+				allDungemon = await client.GetFromJsonAsync<List<Dungemon>>($"https://localhost:7298/api/UserDungeMon?number=20&offset={currentOffset}&basePokemon={pokeFilter}")
+					?? throw new Exception("Unable to convert the server response into Dungémon.");
+			}
 			if (allDungemon.Count >= 20) lessThan20 = false; else lessThan20 = true;
 		}
 		catch (HttpRequestException ex)
@@ -68,5 +86,10 @@ else if (allDungemon != null)
 		{
 			errorMessage = "An error occurred while fetching the Dungémon data: " + ex.Message;
 		}
+	}
+	private async Task WipeFilter()
+	{
+		pokeFilter = String.Empty;
+		await PopulateTable();
 	}
 }
