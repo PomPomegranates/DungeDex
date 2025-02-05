@@ -1,8 +1,10 @@
+using DungeDexBE.HealthChecks;
 using DungeDexBE.Interfaces.RepositoryInterfaces;
 using DungeDexBE.Interfaces.ServiceInterfaces;
 using DungeDexBE.Models;
 using DungeDexBE.Repositories;
 using DungeDexBE.Services;
+using HealthChecks.UI.Client;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 
@@ -34,6 +36,16 @@ namespace DungeDexBE
 									.AllowAnyMethod()
 									.AllowAnyHeader());
 			});
+            builder.Services.AddHealthChecks()
+                .AddCheck<DnDAPIHealthCheck>("DnD API Status Check",
+                                            failureStatus: Microsoft.Extensions.Diagnostics.HealthChecks.HealthStatus.Unhealthy,
+                                            tags: new[] { "api" })
+                .AddCheck<PokeAPIHealthCheck>("PokéAPI Status Check",
+                                            failureStatus: Microsoft.Extensions.Diagnostics.HealthChecks.HealthStatus.Unhealthy,
+                                            tags: new[] { "api" })
+                .AddCheck<DbHealthCheck>("Database Connection Check",
+                                        failureStatus: Microsoft.Extensions.Diagnostics.HealthChecks.HealthStatus.Unhealthy,
+                                        tags: new[] { "database" });
 
 			builder.Services.AddScoped<IPokeApiRepository, PokeApiRepository>();
 			builder.Services.AddScoped<IPokemonService, PokemonService>();
@@ -49,8 +61,6 @@ namespace DungeDexBE
 			builder.Configuration
 			 .SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("Secrets.json");
 
-			//var cnn = new SqliteConnection("Filename=:memory:");
-			//cnn.Open();
 			builder.Services.AddDbContext<MyDbContext>(o =>
 			{
 				o.UseSqlServer(builder.Configuration.GetConnectionString("MyCnString"));
@@ -71,6 +81,11 @@ namespace DungeDexBE
 			app.UseCors("AllowLocalhost");
 
 			app.UseAuthorization();
+
+            app.UseHealthChecks("/health", new Microsoft.AspNetCore.Diagnostics.HealthChecks.HealthCheckOptions
+            {
+                ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+            });
 
 			app.MapControllers();
 
