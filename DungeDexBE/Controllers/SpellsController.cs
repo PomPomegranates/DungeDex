@@ -17,7 +17,7 @@ namespace DungeDexBE.Controllers
 		}
 
 		[HttpGet]
-		[ResponseCache(Location = ResponseCacheLocation.Any, NoStore =false, Duration = 604800)]
+		[ResponseCache(Location = ResponseCacheLocation.Any, NoStore = false, Duration = 604800)]
 		public async Task<IActionResult> GetAllSpellNamesAsync()
 		{
 			var result = await _service.GetAllSpellNamesAsync();

@@ -1,48 +1,112 @@
 ﻿@page "/login"
 @using System.Security.Claims
-@inject CustomAuthenticationService AuthService
-@rendermode @(new InteractiveWebAssemblyRenderMode(prerender: false))
+@inject AuthenticationStateProvider auth
+@inject Blazored.SessionStorage.ISessionStorageService sessionStorage
 
-<AuthorizeView>
-    <Authorized>
-        <p>Hello, @context.User.Identity?.Name!</p>
-    </Authorized>
-    <NotAuthorized>
-        <p>You're not logged in.</p>
-        <input @bind="userName" />
-        <input @bind="password" />
-        <button @onclick="SignIn">Sign in</button>
-    </NotAuthorized>
-</AuthorizeView>
+@rendermode @(new InteractiveWebAssemblyRenderMode(false))
+
+@if (!string.IsNullOrEmpty(username))
+{
+	<p>Welcome, @username!</p>
+}
+else
+{
+	<p>@message</p>
+}
+
+@if (username is null)
+{
+	<EditForm Model="@loginModel" Context="LoginForm">
+		<InputText @bind-Value="loginModel.UserName" placeholder="Username" />
+		<InputText type="password" @bind-Value="loginModel.Password" placeholder="Password" />
+		<button type="submit" @onclick="SignIn">Sign In!</button>
+	</EditForm>
+}
+else
+{
+	<button @onclick="SignOut">Sign Out!</button>
+}
+
+@if (!string.IsNullOrEmpty(loginErrorMessage))
+{
+	<p>@loginErrorMessage</p>
+}
 
 @code {
-    [CascadingParameter]
-    public AuthenticationState authenticationState { get; set; } = null!;
+	public LoginModel loginModel = new();
+	public string? username = null;
+	private string? message = "You are not logged in.";
+	private string? loginErrorMessage = null;
+	private AuthenticationState authState = null!;
 
-    public string userName = string.Empty;
-    public string password = string.Empty;
+	protected override async Task OnInitializedAsync()
+	{
+		authState = await auth.GetAuthenticationStateAsync();
 
-    private async Task SignIn()
-    {
-        using var client = new HttpClient();
-        var result = await client.PostAsJsonAsync<LoginModel>("https://localhost:7298/api/authentication/login", new(userName, password));
+		if (authState?.User?.Identity?.IsAuthenticated == true)
+		{
+			username = authState.User.Identity.Name;
+			return;
+		}
 
-        if (result.IsSuccessStatusCode)
-        {
-            var jwt = await result.Content.ReadFromJsonAsync<Jwt>();
+		var token = await sessionStorage.GetItemAsStringAsync("Jwt");
+		if (token is null) return;
 
-        }
+		using var client = new HttpClient();
+		client.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");
 
-    }
+		var result = await client.GetFromJsonAsync<LoginModel>("https://localhost:7298/api/authentication/CurrentUser");
+		if (result == null) return;
 
-    public class LoginModel(string username, string password)
-    {
-        public string Username = username;
-        public string Password = password;
-    }
+		username = result.UserName;
+	}
 
-    public class Jwt()
-    {
-        public string Token { get; set; } = null!;
-    }
+	private async Task SignIn()
+	{
+		using var client = new HttpClient();
+		var result = await client.PostAsJsonAsync<LoginModel>("https://localhost:7298/api/authentication/login", loginModel);
+
+		if (!result.IsSuccessStatusCode)
+		{
+			loginErrorMessage = "Incorrect credentials provided.";
+			ClearLoginModel();
+			return;
+		}
+
+		var jwt = await result.Content.ReadFromJsonAsync<Jwt>();
+		if (jwt is null) return;
+
+		await sessionStorage.SetItemAsStringAsync("Jwt", jwt.Token);
+		var claim = new Claim(ClaimTypes.Name, loginModel.UserName);
+		var identity = new ClaimsIdentity(new[] { claim });
+		var user = new ClaimsPrincipal(identity);
+		authState = new AuthenticationState(user);
+
+		username = loginModel.UserName;
+		ClearLoginModel();
+	}
+
+	private async void SignOut(MouseEventArgs e)
+	{
+		await sessionStorage.RemoveItemAsync("Jwt");
+		username = null;
+		ClearLoginModel();
+		StateHasChanged();
+	}
+
+	public class LoginModel
+	{
+		public string UserName { get; set; } = null!;
+		public string Password { get; set; } = null!;
+	}
+
+	public class Jwt
+	{
+		public string Token { get; set; } = null!;
+	}
+
+	private void ClearLoginModel()
+	{
+		loginModel = new();
+	}
 }

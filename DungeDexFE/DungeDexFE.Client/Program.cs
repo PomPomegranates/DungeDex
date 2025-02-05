@@ -1,6 +1,5 @@
+using Blazored.SessionStorage;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using Microsoft.AspNetCore.Components.Authorization;
-using DungeDexFE.Client.Services;
 
 namespace DungeDexFE.Client
 {
@@ -12,8 +11,8 @@ namespace DungeDexFE.Client
 
 			builder.Services.AddAuthorizationCore();
 			builder.Services.AddCascadingAuthenticationState();
-			builder.Services.AddSingleton<CustomAuthenticationService>();
-			builder.Services.AddSingleton<AuthenticationStateProvider, CustomAuthStateProvider>();
+			builder.Services.AddAuthenticationStateDeserialization();
+			builder.Services.AddBlazoredSessionStorageAsSingleton();
 
 			await builder.Build().RunAsync();
 		}
