@@ -23,7 +23,6 @@ namespace DungeDexBE.Repositories
             if (!_cache.TryGetValue("AllSpells", out Dictionary<string, string>  result))
 			{
                 result = new();
-                Console.WriteLine("Cache Empty");
 				var http = _httpClient.CreateClient("dnd");
 
 				var httpResult = await http.GetAsync("spells");
@@ -54,7 +53,6 @@ namespace DungeDexBE.Repositories
 					Console.WriteLine(ex.Message);
 				}
 			}
-			else Console.WriteLine("Returning Cached Value");
 			return result;
 		}
 

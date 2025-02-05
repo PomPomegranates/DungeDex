@@ -20,7 +20,6 @@ namespace DungeDexBE.Controllers
 		[ResponseCache(Location = ResponseCacheLocation.Any, NoStore =false, Duration = 604800)]
 		public async Task<IActionResult> GetAllSpellNamesAsync()
 		{
-			Console.WriteLine("ControllerCache is empty");
 			var result = await _service.GetAllSpellNamesAsync();
 
 			if (result == null) return BadRequest("There was an issue contacting the API.");
