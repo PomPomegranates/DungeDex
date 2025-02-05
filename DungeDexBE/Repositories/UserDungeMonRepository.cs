@@ -1,40 +1,43 @@
 ﻿using DungeDexBE.Interfaces.RepositoryInterfaces;
 using DungeDexBE.Models;
-using Microsoft.EntityFrameworkCore;
+using DungeDexBE.Models.Dtos;
 
 namespace DungeDexBE.Repositories
 {
-
-    public class UserDungeMonRepository : IUserDungeMonRepository
+	public class UserDungeMonRepository : IUserDungeMonRepository
 	{
-		//private readonly IHttpClientFactory _httpClient;
 		private readonly MyDbContext myDbContext;
 
-		public UserDungeMonRepository(IHttpClientFactory httpClient, MyDbContext myDbContext)
+		public UserDungeMonRepository(MyDbContext myDbContext)
 		{
-			//_httpClient = httpClient;
 			this.myDbContext = myDbContext;
 		}
 
-		public List<DungeMon>? GetMonsters()
+		public List<DungeMon>? GetMonsters(DungemonFilterDto filterDto)
 		{
 			try
 			{
+				var dungemon = myDbContext.MonsterDb.AsQueryable<DungeMon>();
 
-				return myDbContext.MonsterDb.AsNoTracking().Include(m=> m.Spells).ToList();
-				
+				if (!string.IsNullOrEmpty(filterDto.BasePokemon))
+					dungemon = dungemon.Where(d => d.BasePokemon == filterDto.BasePokemon);
 
+				dungemon = dungemon.Skip(filterDto.Offset).Take(filterDto.Number);
+
+				return dungemon.ToList();
 			}
-			catch { return null; }
+			catch
+			{
+				return null;
+			}
 		}
 
 		public (DungeMon?, string) GetSingularMonster(int id)
 		{
 			var value = myDbContext.MonsterDb.Where(x => (x.Id == id)).FirstOrDefault();
+
 			try
 			{
-
-
 				if (value != null)
 				{
 					return (value, "Success");
@@ -48,13 +51,10 @@ namespace DungeDexBE.Repositories
 			{
 				return (null, e.Message);
 			}
-
-
-
 		}
 
 
-        public (DungeMon, string) PostUserMonster(DungeMon monster)
+		public (DungeMon, string) PostUserMonster(DungeMon monster)
 		{
 			try
 			{
@@ -71,5 +71,34 @@ namespace DungeDexBE.Repositories
 
 		}
 
+		public (DungeMon, string) PatchUserMonster(DungeMon monster)
+		{
+			try
+			{
+				var monsterToChange = myDbContext.MonsterDb.Single(x => x.Id == monster.Id);
+				myDbContext.MonsterDb.Entry(monsterToChange).CurrentValues.SetValues(monster);
+				myDbContext.SaveChanges();
+				return (monster, "Success");
+			}
+			catch (Exception e)
+			{
+				return (monster, e.Message);
+			}
+		}
+
+		public string DeleteUserMonster(int monsterId)
+		{
+			try
+			{
+				var existingMonster = myDbContext.MonsterDb.Single(m => m.Id == monsterId);
+				myDbContext.MonsterDb.Remove(existingMonster);
+				myDbContext.SaveChanges();
+				return "Success";
+			}
+			catch (Exception e)
+			{
+				return e.Message;
+			}
+		}
 	}
 }

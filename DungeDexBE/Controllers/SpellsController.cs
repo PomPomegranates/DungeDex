@@ -10,6 +10,7 @@ namespace DungeDexBE.Controllers
 	public class SpellsController : ControllerBase
 	{
 		private readonly IDNDService _service;
+
 		public SpellsController(IDNDService service)
 		{
 			_service = service;
@@ -20,18 +21,11 @@ namespace DungeDexBE.Controllers
 		{
 			var result = await _service.GetAllSpellNamesAsync();
 
-			if (result == null)
-			{
-				return BadRequest("There was an issue contacting the API.");
-			}
+			if (result == null) return BadRequest("There was an issue contacting the API.");
 
-			if (result.Count == 0)
-			{
-				return StatusCode(500, "There was an issue converting from JSON to SpellDTO.");
-			}
+			if (result.Count == 0) return StatusCode(500, "There was an issue converting from JSON to SpellDTO.");
 
 			return Ok(result);
-
 		}
 
 		[HttpGet("{nameOrIndex}")]
