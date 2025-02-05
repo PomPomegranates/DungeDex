@@ -1,3 +1,4 @@
+using DungeDexBE.HealthChecks;
 using DungeDexBE.Interfaces.RepositoryInterfaces;
 using DungeDexBE.Interfaces.ServiceInterfaces;
 using DungeDexBE.Models;
@@ -34,6 +35,10 @@ namespace DungeDexBE
 									.AllowAnyMethod()
 									.AllowAnyHeader());
 			});
+            builder.Services.AddHealthChecks()
+                .AddCheck<DnDAPIHealthCheck>("DnD API Status Check",
+                                            failureStatus: Microsoft.Extensions.Diagnostics.HealthChecks.HealthStatus.Unhealthy,
+                                            tags: new[] { "api" });
 
 			builder.Services.AddScoped<IPokeApiRepository, PokeApiRepository>();
 			builder.Services.AddScoped<IPokemonService, PokemonService>();
@@ -71,6 +76,8 @@ namespace DungeDexBE
 			app.UseCors("AllowLocalhost");
 
 			app.UseAuthorization();
+
+            app.UseHealthChecks("/health");
 
 			app.MapControllers();
 
