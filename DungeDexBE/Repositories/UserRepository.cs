@@ -4,59 +4,59 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DungeDexBE.Repositories
 {
-    public class UserRepository : IUserRepository
-    {
-        private readonly MyDbContext myDbContext;
+	public class UserRepository : IUserRepository
+	{
+		private readonly MyDbContext myDbContext;
 
-        public UserRepository(MyDbContext db)
-        {
-            myDbContext = db;
-        }
+		public UserRepository(MyDbContext db)
+		{
+			myDbContext = db;
+		}
 
-        public List<User>? GetUsers()
-        {
-            //get all users
-            try
-            {
-                return myDbContext.Users.AsNoTracking().Include(m => m.DungeMons).ToList();
-            }
-            catch
-            {
-                return null;
-            }
-        }
+		public List<User>? GetUsers()
+		{
+			//get all users
+			try
+			{
+				return myDbContext.Users.AsNoTracking().Include(m => m.DungeMons).ToList();
+			}
+			catch
+			{
+				return null;
+			}
+		}
 
-        public User? GetUserByName(string name)
-        {
+		public User? GetUserByName(string name)
+		{
 
-            try
-            {
-                return GetUsers().Where(U => U.UserName == name).FirstOrDefault();
+			try
+			{
+				return GetUsers().Where(U => U.UserName == name).FirstOrDefault();
 
-            }
-            catch
-            {
-                return null;
-            }
-        }
+			}
+			catch
+			{
+				return null;
+			}
+		}
 
-        public (User, string) PostUser(User newUser)
-        {
-            try
-            {
-                myDbContext.Users.Add(newUser);
-                myDbContext.SaveChanges();
-                return (newUser, "Success");
+		public (User, string) PostUser(User newUser)
+		{
+			try
+			{
+				myDbContext.Users.Add(newUser);
+				myDbContext.SaveChanges();
+				return (newUser, "Success");
 
-            }
-            catch (Exception e)
-            {
-                return (newUser, e.Message);
-            }
-
-
-        }
+			}
+			catch (Exception e)
+			{
+				return (newUser, e.Message);
+			}
 
 
-    }
+		}
+
+
+	}
 }

@@ -1,6 +1,7 @@
 ﻿using DungeDexBE.Interfaces.RepositoryInterfaces;
 using DungeDexBE.Interfaces.ServiceInterfaces;
 using DungeDexBE.Models;
+using DungeDexBE.Models.Dtos;
 
 namespace DungeDexBE.Services
 {
@@ -13,27 +14,27 @@ namespace DungeDexBE.Services
 			_userDungeMonRepository = userDungeMonRepository;
 		}
 
-		public List<DungeMon>? GetMonsters()
+		public List<DungeMon>? GetDungemon(DungemonFilterDto filterDto)
 		{
-			return _userDungeMonRepository.GetMonsters();
+			return _userDungeMonRepository.GetMonsters(filterDto);
 		}
-		public (DungeMon?, string) GetSingularMonster(int id)
+		public (DungeMon?, string) GetDungemonById(int id)
 		{
 			return _userDungeMonRepository.GetSingularMonster(id);
 		}
-		public (DungeMon, string) PostUserMonster(DungeMon monster)
+		public (DungeMon, string) AddDungemon(DungeMon monster)
 		{
 			return _userDungeMonRepository.PostUserMonster(monster);
 		}
 
-		public (DungeMon?, string) PatchUserMonster(DungeMon dungemon)
+		public (DungeMon?, string) UpdateDungemon(DungeMon dungemon)
 		{
 			var result = _userDungeMonRepository.GetSingularMonster(dungemon.Id);
 
 			return _userDungeMonRepository.PatchUserMonster(dungemon);
 		}
 
-		public string DeleteUserMonster(int dungemonId)
+		public string DeleteDungemonById(int dungemonId)
 		{
 			return _userDungeMonRepository.DeleteUserMonster(dungemonId);
 		}

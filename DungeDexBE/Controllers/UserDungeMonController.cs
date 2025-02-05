@@ -1,5 +1,6 @@
 ﻿using DungeDexBE.Interfaces.ServiceInterfaces;
 using DungeDexBE.Models;
+using DungeDexBE.Models.Dtos;
 using Microsoft.AspNetCore.Mvc;
 namespace DungeDexBE.Controllers
 {
@@ -15,83 +16,65 @@ namespace DungeDexBE.Controllers
 		}
 
 		[HttpGet]
-		public IActionResult GetAllPokemon()
+		public IActionResult GetAllDungemon(
+			[FromQuery] int number,
+			[FromQuery] int offset,
+			[FromQuery] string? basePokemon = null
+		)
 		{
-			var result = _userDungeMonService.GetMonsters();
+			var dungemonFilterOptions = new DungemonFilterDto(basePokemon, number, offset);
 
-			if (result != null && result.Count > 0)
-			{
-				return Ok(result);
-			}
-			else if (result is null)
-			{
-				return BadRequest();
-			}
-			else if (result.Count == 0)
-			{
-				return NotFound();
-			}
-			else
-			{
-				return BadRequest();
-			}
+			var result = _userDungeMonService.GetDungemon(dungemonFilterOptions);
+
+			if (result is null) return BadRequest();
+
+			if (result.Count == 0) return NotFound();
+
+			return Ok(result);
 		}
+
 		[HttpGet("{id}")]
-		public IActionResult GetPokemonById(int id)
+		public IActionResult GetDungemonById(int id)
 		{
+			var result = _userDungeMonService.GetDungemonById(id);
 
-			var result = _userDungeMonService.GetSingularMonster(id);
+			if (result.Item1 != null) return Ok(result.Item1);
 
-			if (result.Item1 != null)
-			{
-				return Ok(result.Item1);
-			}
-			else if (result.Item2.Contains("No Userdata"))
-			{
-				return NotFound(result.Item2);
+			if (result.Item2.Contains("No Userdata")) return NotFound(result.Item2);
 
-			}
-			else
-			{
-				return BadRequest(result.Item2);
-			}
+			return BadRequest(result.Item2);
 		}
 
 		[HttpPost]
-        public IActionResult PostUserMonster(DungeMon monster)
-
+		public IActionResult PostUserDungemon(DungeMon monster)
 		{
-			var result = _userDungeMonService.PostUserMonster(monster);
+			var result = _userDungeMonService.AddDungemon(monster);
 
 			if (result.Item2 == "Success")
-			{
-				return CreatedAtAction("GetPokemonById", new { result.Item1.Id }, result.Item1);
-			}
-			else
-			{
-				return BadRequest((monster, result.Item2));
-			}
+				return CreatedAtAction("GetDungemonById", new { result.Item1!.Id }, result.Item1);
+
+			return BadRequest((monster, result.Item2));
 		}
 
-        [HttpPatch]
-        public IActionResult PatchUserDungemon(DungeMon dungemon)
-        {
-			var result = _userDungeMonService.PatchUserMonster(dungemon);
+		[HttpPatch]
+		public IActionResult PatchUserDungemon(DungeMon dungemon)
+		{
+			var result = _userDungeMonService.UpdateDungemon(dungemon);
 
 			if (result.Item2 == "Success")
 				return Ok(result.Item1);
 
 			return StatusCode(304, "Unable to update Dungemon.");
-        }
+		}
 
 		[HttpDelete]
 		public IActionResult DeleteUserDungemon(int dungemonId)
 		{
-			var result = _userDungeMonService.DeleteUserMonster(dungemonId);
+			var result = _userDungeMonService.DeleteDungemonById(dungemonId);
 
 			if (result == "Success") return NoContent();
 
 			return NotFound(result);
 		}
-    }
+	}
 }
