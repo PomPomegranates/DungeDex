@@ -66,9 +66,10 @@ namespace DungeDexBE
 				o.UseSqlServer(builder.Configuration.GetConnectionString("MyCnString"));
 			});
 
+            builder.Services.AddMemoryCache();
+			builder.Services.AddResponseCaching();
 
-
-			var app = builder.Build();
+            var app = builder.Build();
 			AddData(app);
 			if (app.Environment.IsDevelopment())
 			{
@@ -79,7 +80,7 @@ namespace DungeDexBE
 			app.UseHttpsRedirection();
 
 			app.UseCors("AllowLocalhost");
-
+			app.UseResponseCaching();
 			app.UseAuthorization();
 
             app.UseHealthChecks("/health", new Microsoft.AspNetCore.Diagnostics.HealthChecks.HealthCheckOptions
