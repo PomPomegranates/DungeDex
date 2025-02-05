@@ -6,8 +6,8 @@ namespace DungeDexBE.Interfaces.ServiceInterfaces
     {
         List<DungeMon>? GetMonsters();
         (DungeMon?, string) GetSingularMonster(int id);
-        public (DungeMon?, string) PostUserMonster(DungeMon monster);
-
-        public (DungeMon?, string) PatchUserMonster(DungeMon monster);
+        (DungeMon?, string) PostUserMonster(DungeMon monster);
+        (DungeMon?, string) PatchUserMonster(DungeMon monster);
+        string DeleteUserMonster(int monster);
     }
 }

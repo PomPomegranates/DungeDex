@@ -83,5 +83,15 @@ namespace DungeDexBE.Controllers
 
 			return StatusCode(304, "Unable to update Dungemon.");
         }
+
+		[HttpDelete]
+		public IActionResult DeleteUserDungemon(int dungemonId)
+		{
+			var result = _userDungeMonService.DeleteUserMonster(dungemonId);
+
+			if (result == "Success") return NoContent();
+
+			return NotFound(result);
+		}
     }
 }

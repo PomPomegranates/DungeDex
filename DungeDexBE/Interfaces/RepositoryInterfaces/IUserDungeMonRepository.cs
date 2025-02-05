@@ -8,5 +8,6 @@ namespace DungeDexBE.Interfaces.RepositoryInterfaces
         (DungeMon?, string) GetSingularMonster(int id);
         (DungeMon, string) PostUserMonster(DungeMon monster);
         (DungeMon, string) PatchUserMonster(DungeMon monster);
+        string DeleteUserMonster(int monsterId);
     }
 }

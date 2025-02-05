@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 namespace DungeDexBE.Repositories
 {
 
-    public class UserDungeMonRepository : IUserDungeMonRepository
+	public class UserDungeMonRepository : IUserDungeMonRepository
 	{
 		private readonly MyDbContext myDbContext;
 
@@ -70,7 +70,7 @@ namespace DungeDexBE.Repositories
             try
             {
 				var monsterToChange = myDbContext.MonsterDb.Single(x => x.Id == monster.Id);
-				myDbContext.Entry(monsterToChange).CurrentValues.SetValues(monster);
+				myDbContext.MonsterDb.Entry(monsterToChange).CurrentValues.SetValues(monster);
 				myDbContext.SaveChanges();
                 return (monster, "Success");
             }
@@ -79,5 +79,20 @@ namespace DungeDexBE.Repositories
                 return (monster, e.Message);
             }
         }
-    }
+
+		public string DeleteUserMonster(int monsterId)
+		{
+			try
+			{
+				var existingMonster = myDbContext.MonsterDb.Single(m => m.Id == monsterId);
+				myDbContext.MonsterDb.Remove(existingMonster);
+				myDbContext.SaveChanges();
+				return "Success";
+			}
+			catch (Exception e)
+			{
+				return e.Message;
+			}
+		}
+	}
 }

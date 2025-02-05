@@ -32,5 +32,10 @@ namespace DungeDexBE.Services
 
 			return _userDungeMonRepository.PatchUserMonster(dungemon);
 		}
+
+		public string DeleteUserMonster(int dungemonId)
+		{
+			return _userDungeMonRepository.DeleteUserMonster(dungemonId);
+		}
 	}
 }
