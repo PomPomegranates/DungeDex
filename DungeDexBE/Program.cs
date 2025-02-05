@@ -38,6 +38,9 @@ namespace DungeDexBE
             builder.Services.AddHealthChecks()
                 .AddCheck<DnDAPIHealthCheck>("DnD API Status Check",
                                             failureStatus: Microsoft.Extensions.Diagnostics.HealthChecks.HealthStatus.Unhealthy,
+                                            tags: new[] { "api" })
+                .AddCheck<PokeAPIHealthCheck>("PokéAPI Status Check",
+                                            failureStatus: Microsoft.Extensions.Diagnostics.HealthChecks.HealthStatus.Unhealthy,
                                             tags: new[] { "api" });
 
 			builder.Services.AddScoped<IPokeApiRepository, PokeApiRepository>();
