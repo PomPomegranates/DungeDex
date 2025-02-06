@@ -3,8 +3,15 @@
     display: flex;
     flex-direction: column;
 }
-
+.bg {
+    background-image: url("https://img.freepik.com/free-photo/wooden-floor-background_53876-88628.jpg");
+    height: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
 main {
+    
     flex: 1;
 }
 
