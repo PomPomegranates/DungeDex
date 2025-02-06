@@ -38,6 +38,8 @@ else if (allDungemon != null)
 
 	private bool filterEmpty = true;
 
+	private bool initialisedFilter = true;
+
 	protected override async Task OnInitializedAsync()
 	{
 		await PopulateTable();
@@ -73,8 +75,15 @@ else if (allDungemon != null)
 			}
 			else
 			{
+				if (initialisedFilter)
+				{
+					currentOffset = 0;
+					initialisedFilter = false;
+					atStart = true;
+				}
 				allDungemon = await client.GetFromJsonAsync<List<Dungemon>>($"https://localhost:7298/api/UserDungeMon?number=20&offset={currentOffset}&basePokemon={pokeFilter}")
 					?? throw new Exception("Unable to convert the server response into Dungémon.");
+
 			}
 			if (allDungemon.Count >= 20) lessThan20 = false; else lessThan20 = true;
 		}
@@ -90,6 +99,7 @@ else if (allDungemon != null)
 	private async Task WipeFilter()
 	{
 		pokeFilter = String.Empty;
+		initialisedFilter = true;
 		await PopulateTable();
 	}
 }
