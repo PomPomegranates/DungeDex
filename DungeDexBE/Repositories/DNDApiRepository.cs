@@ -1,8 +1,8 @@
 using System.Net;
 using DungeDexBE.Interfaces.RepositoryInterfaces;
 using DungeDexBE.Models;
-using Newtonsoft.Json.Linq;
 using Microsoft.Extensions.Caching.Memory;
+using Newtonsoft.Json.Linq;
 
 namespace DungeDexBE.Repositories
 {
@@ -18,11 +18,11 @@ namespace DungeDexBE.Repositories
 		}
 		public async Task<Dictionary<string, string>?> GetAllSpellsNamesAsync()
 		{
-			
 
-            if (!_cache.TryGetValue("AllSpells", out Dictionary<string, string>  result))
+
+			if (!_cache.TryGetValue("AllSpells", out Dictionary<string, string> result))
 			{
-                result = new();
+				result = new();
 				var http = _httpClient.CreateClient("dnd");
 
 				var httpResult = await http.GetAsync("spells");
@@ -88,6 +88,7 @@ namespace DungeDexBE.Repositories
 				}
 				catch (Exception ex)
 				{
+					Console.WriteLine(ex.Message);
 					result.IsSuccess = false;
 					result.StatusCode = HttpStatusCode.InternalServerError;
 					result.ErrorMessage = $"An error occurred while deserializing the DnDAPI response.";

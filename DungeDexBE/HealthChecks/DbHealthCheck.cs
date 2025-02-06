@@ -1,7 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Newtonsoft.Json.Linq;
-using System.Linq.Expressions;
 
 namespace DungeDexBE.HealthChecks
 {
@@ -26,7 +25,7 @@ namespace DungeDexBE.HealthChecks
 					return Task.FromResult(HealthCheckResult.Unhealthy(ex.Message));
 				}
 			}
-			
+
 		}
 	}
 }
