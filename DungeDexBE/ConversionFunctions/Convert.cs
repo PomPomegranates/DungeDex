@@ -21,6 +21,8 @@ namespace DungeDexBE.ConversionFunctions
 
 			monster.GiveMeleeAttack(pokemon);
 
+			ProficiencyDeciders.UpdateDungemon(monster, pokemon);
+
 			return monster;
 		}
 		public static void ConvertBaseStats(Pokemon pokemon, DungeMon monster)
