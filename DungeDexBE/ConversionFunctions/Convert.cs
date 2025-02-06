@@ -19,6 +19,8 @@ namespace DungeDexBE.ConversionFunctions
 
 			monster.ImageLink = pokemon.ImageLink;
 
+			monster.GiveMeleeAttack(pokemon);
+
 			return monster;
 		}
 		public static void ConvertBaseStats(Pokemon pokemon, DungeMon monster)

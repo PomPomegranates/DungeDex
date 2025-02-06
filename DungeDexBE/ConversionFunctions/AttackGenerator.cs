@@ -18,6 +18,7 @@ namespace DungeDexBE.ConversionFunctions
 
 			//Edit base attack with Dungemon data:
 			meleeAttack.DamageDice = $"{GetDamageDiceBase(dungeMon.ChallengeRating)} + {Convert.GetModifier(dungeMon.Strength)}";
+			meleeAttack.AttackBonus = Convert.GetModifier(dungeMon.Strength) + dungeMon.ProficiencyBonus;
 
 			//Make Action:
 			Models.Action finalAction = new Models.Action
