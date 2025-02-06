@@ -19,7 +19,6 @@ namespace DungeDexBE.ConversionFunctions
 
 			return monster;
 		}
-
 		public static void ConvertBaseStats(Pokemon pokemon, DungeMon monster)
 		{
 			ConvertAttackToStrength(pokemon, monster);
@@ -433,6 +432,10 @@ namespace DungeDexBE.ConversionFunctions
 			if (BST >= 778) expectedCR = 30f;
 
 			return expectedCR;
+		}
+		public static int GetModifier(int attribute)
+		{
+			return (int)Math.Floor(((double)attribute / 2) - 5);
 		}
 
 		//public static void SetFinalCR(Pokemon pokemon, Monster monster) {} Needs attack data before actionable
