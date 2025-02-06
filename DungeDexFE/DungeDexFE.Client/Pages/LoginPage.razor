@@ -1,9 +1,11 @@
 ﻿@page "/login"
+@rendermode @(new InteractiveWebAssemblyRenderMode(false))
+
 @using System.Security.Claims
+
+@inject IHttpClientFactory clientFactory
 @inject AuthenticationStateProvider auth
 @inject Blazored.SessionStorage.ISessionStorageService sessionStorage
-
-@rendermode @(new InteractiveWebAssemblyRenderMode(false))
 
 @if (!string.IsNullOrEmpty(username))
 {
@@ -33,7 +35,7 @@ else
 }
 
 @code {
-	public LoginModel loginModel = new();
+	public Login loginModel = new();
 	public string? username = null;
 	private string? message = "You are not logged in.";
 	private string? loginErrorMessage = null;
@@ -49,13 +51,11 @@ else
 			return;
 		}
 
-		var token = await sessionStorage.GetItemAsStringAsync("Jwt");
-		if (token is null) return;
+		if (!(await sessionStorage.ContainKeyAsync("Jwt"))) return;
 
-		using var client = new HttpClient();
-		client.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");
+		using var client = clientFactory.CreateClient("BackendAPI");
+		var result = await client.GetFromJsonAsync<Login>("authentication/CurrentUser");
 
-		var result = await client.GetFromJsonAsync<LoginModel>("https://localhost:7298/api/authentication/CurrentUser");
 		if (result == null) return;
 
 		username = result.UserName;
@@ -63,8 +63,8 @@ else
 
 	private async Task SignIn()
 	{
-		using var client = new HttpClient();
-		var result = await client.PostAsJsonAsync<LoginModel>("https://localhost:7298/api/authentication/login", loginModel);
+		using var client = clientFactory.CreateClient("BackendAPI");
+		var result = await client.PostAsJsonAsync("authentication/login", loginModel);
 
 		if (!result.IsSuccessStatusCode)
 		{
@@ -75,8 +75,8 @@ else
 
 		var jwt = await result.Content.ReadFromJsonAsync<Jwt>();
 		if (jwt is null) return;
-
 		await sessionStorage.SetItemAsStringAsync("Jwt", jwt.Token);
+
 		var claim = new Claim(ClaimTypes.Name, loginModel.UserName);
 		var identity = new ClaimsIdentity(new[] { claim });
 		var user = new ClaimsPrincipal(identity);
@@ -94,19 +94,5 @@ else
 		StateHasChanged();
 	}
 
-	public class LoginModel
-	{
-		public string UserName { get; set; } = null!;
-		public string Password { get; set; } = null!;
-	}
-
-	public class Jwt
-	{
-		public string Token { get; set; } = null!;
-	}
-
-	private void ClearLoginModel()
-	{
-		loginModel = new();
-	}
+	private void ClearLoginModel() => loginModel = new();
 }
