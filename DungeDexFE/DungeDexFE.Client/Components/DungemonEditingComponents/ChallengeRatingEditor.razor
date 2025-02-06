@@ -1,0 +1,16 @@
+﻿<div class="grid-item" spaceId="CR-Label">
+			<label for="CR">CR</label>
+<InputNumber id="cr" TValue="float" @bind-Value="@Dungemon.ChallengeRating" disabled="@(!IsEditing)" style="width: 100%; text-align: center; border: none;" />
+</div>
+<div class="grid-item" spaceId="CR-Id">
+</div>
+<div class="grid-item" spaceId="CR-Warn">
+	<ValidationMessage For="() => Dungemon.ChallengeRating" />
+</div>
+
+@code {
+    [Parameter]
+    public Dungemon Dungemon { get; set; } = null!;
+    [Parameter]
+    public bool IsEditing { get; set; }
+}

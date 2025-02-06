@@ -1,110 +1,25 @@
-﻿<EditForm model=@Dungemon OnInvalidSubmit=@InvalidFormSubmitted OnValidSubmit=@ValidFormSubmitted>
+﻿@using DungeDexFE.Client.Components.DungemonEditingComponents
 
-	<DataAnnotationsValidator />
+
+<EditForm model=@Dungemon OnInvalidSubmit=@InvalidFormSubmitted OnValidSubmit=@ValidFormSubmitted>
+
+	
 	<div class="grid-container">
-
-		<div class="grid-item" spaceId="CR-Label">
-			<label for="CR">CR</label>
-		</div>
-		<div class="grid-item" spaceId="CR-Id">
-			<InputNumber id="cr" TValue="float" @bind-Value="@Dungemon.ChallengeRating" disabled="@(!_isEditing)" style="width: 100%; text-align: center; border: none;"   />
-		</div>
-
-		<div class="grid-item" spaceId="CR-Warn">
-			<ValidationMessage For="() => Dungemon.ChallengeRating" />
-		</div>
-
-
-		<div class="grid-item" spaceId="4">
-			<label for="HP">HP</label>
-		</div>
-		<div class="grid-item" spaceId="5">
-			<InputNumber id="hp" TValue="int" @bind-Value="@Dungemon.HitPoints" disabled="@(!_isEditing)" style="width: 100%; text-align: center; border: none;" class="inputNum" />
-		</div>
-		<div class="grid-item" spaceId="6"  >
-			<ValidationMessage For="() => Dungemon.HitPoints" />
-		</div>
-
-
-		<div class="grid-item" spaceId="7")>
-			<label for="STR">STR</label>
-		</div>
-		<div class="grid-item" spaceId="8">
-			<InputNumber id="STR" TValue="int" @bind-Value="@Dungemon.Strength" disabled="@(!_isEditing)" style="width: 100%; text-align: center; border: none;" class="inputNum" />
-		</div>
-
-		<div class="grid-item" spaceId="9">
-			<ValidationMessage For="() => Dungemon.Strength" />
-		</div>
-
-
-		<div class="grid-item text-center" spaceId="10">
-			<label for="DEX">DEX</label>
-		</div>
-		<div class="grid-item" spaceId = "11">
-			<InputNumber id="DEX" TValue="int" @bind-Value="@Dungemon.Dexterity" disabled="@(!_isEditing)" style="width: 100%; text-align: center; border: none;" class="inputNum" />
-		</div>
-		<div class="grid-item text-center" spaceId="12">
-			<ValidationMessage For="() => Dungemon.Dexterity" />
-		</div>
-
-
-		<div class="grid-item  text-center" spaceId="13">
-			<label for="CON">CON</label>
-		</div>
-		<div class="grid-item" spaceId="14">
-			<InputNumber id="CON" TValue="int" @bind-Value="@Dungemon.Constitution" disabled="@(!_isEditing)" style="width: 100%; text-align: center; border: none;" class="inputNum" />
-		</div>
-		<div class="grid-item text-center" spaceId="15">
-			<ValidationMessage For="() => Dungemon.Constitution" />
-		</div>
-
-
-		<div class="grid-item text-center" spaceId="16">
-			<label for="INT">INT</label>
-		</div>
-		<div class="grid-item" spaceId="17">
-			<InputNumber id="cr" TValue="int" @bind-Value="@Dungemon.Intelligence" disabled="@(!_isEditing)" style="width: 100%; text-align: center; border: none;" class="inputNum" />
-		</div>
-		<div class="grid-item text-center" spaceId="18">
-			<ValidationMessage For="() => Dungemon.Intelligence" />
-		</div>
-
-
-		<div class="grid-item text-center" spaceId="19">
-			<label for="WIS">WIS</label>
-		</div>
-		<div class="grid-item " spaceId="20">
-			<InputNumber id="WIS" TValue="int" @bind-Value="@Dungemon.Wisdom" disabled="@(!_isEditing)" style="width: 100%; text-align: center; border: none;" class="inputNum" />
-		</div>
-		<div class="grid-item text-center" spaceId="21">
-			<ValidationMessage For="() => Dungemon.Wisdom" />
-		</div>
-
-
-		<div class="grid-item text-center " spaceId="22">
-			<label for="CHA">CHA</label>
-		</div>
-		<div class="grid-item"spaceId="23">
-			<InputNumber id="CHA" TValue="int" @bind-Value="@Dungemon.Charisma" disabled="@(!_isEditing)" style="width: 100%; text-align: center; border: none;" class="inpu" />
-		</div>
-		<div class="grid-item text-center" spaceId="24">
-			<ValidationMessage For="() => Dungemon.Charisma" />
-		</div>
-
-
-		<div class="grid-item" spaceId="25">
-			@if (_isEditing)
-			{
-				<input type="submit" class="btn-primary" value="Save!" style="width: 100%;"/>
-			}
-			else
-			{
-				<button type="button" class="btn-primary" style="width: 100%;" @onclick="HandleButtonClick">Edit!</button>
-			}
-		</div>
-		<div class="grid-item" spaceId = "submit">@_submitResult</div>
 	</div>
+
+		
+
+		
+
+
+		
+
+
+		
+
+
+		
+	
 </EditForm>
 
 @code {

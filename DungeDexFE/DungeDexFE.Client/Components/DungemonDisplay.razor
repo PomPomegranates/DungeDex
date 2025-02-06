@@ -1,31 +1,48 @@
 ﻿@using System.Text.Json;
 @using System.Linq.Expressions
+@using DungeDexFE.Client.Components.DungemonEditingComponents
 
-<div class="container p-4 align-items-center" style="background-color:rgba(230,206,158,255); border: 5px outset grey; border-radius: 2rem;">
 
-    <div class="row justify-content-start">
-        <div class="col">
-            <InputText class="w-auto" @bind-Value="@Dungemon.NickName" placeholder="@Dungemon.BasePokemon" @onblur="HandleNicknameChange"/>
-            <!--<button @onclick="HandleNicknameChange">Save Name</button>-->
+<EditForm model=@Dungemon OnInvalidSubmit=@InvalidFormSubmitted OnValidSubmit=@ValidFormSubmitted>
+    <DataAnnotationsValidator />
+    <div class="container p-4 align-items-center" style="background-color:rgba(230,206,158,255); border: 5px outset grey; border-radius: 2rem;">
+
+        <div class="row justify-content-start">
+            <div class="col">
+                <NicknameEditor Dungemon="Dungemon" DungemonChanged="DungemonChanged"/>
+            </div>
+            <div class="col"></div>
         </div>
-        <div class="col"></div>
-    </div>
-
-    <div class="row">
-        <div class="col-auto flex-column justify-space-between">
-            <img src="@Dungemon.ImageLink" style="height: 250px;" />
-            <h5 class="text-center align-bottom fst-italic my-auto">@Dungemon.BasePokemon</h5>
-        </div>
-        <br />
-        <div class="row">
         
-            <DungemonAttributeEditor Dungemon="Dungemon" DungemonChanged="DungemonChanged"/>
+        <div class="row">
+            <div class="col-auto flex-column justify-space-between">
+                <DungemonImage Dungemon="Dungemon"/>
+            </div>
+            <br />
+            <div class="row">
+                <ChallengeRatingEditor Dungemon="Dungemon" IsEditing="_isEditing" />
+                <HitPointsEditor Dungemon="Dungemon" IsEditing="_isEditing" />
+                <AttributesEditor Dungemon="Dungemon" IsEditing="_isEditing" />
+            </div>
+        </div>
+        <div class="col">
+            <SpellEditor Spells="Dungemon.Spells" SpellsChanged="SpellsChanged"/>
         </div>
     </div>
-    <div class="col">
-    <SpellEditor Spells="Dungemon.Spells" SpellsChanged="SpellsChanged"/>
-    </div>
+
+</EditForm>
+<div class="grid-item" spaceId="25">
+    @if (_isEditing)
+    {
+        <input type="submit" class="btn-primary" value="Save!" style="width: 100%;" />
+    }
+    else
+    {
+        <button type="button" class="btn-primary" style="width: 100%;" @onclick="HandleButtonClick">Edit!</button>
+    }
 </div>
+<div class="grid-item" spaceId="submit">@_submitResult</div>
+
 
 @code {
     [Parameter]
@@ -33,14 +50,32 @@
 
     [Parameter]
     public EventCallback<Dungemon> DungemonChanged { get; set; }
-    private void HandleNicknameChange()
-    {
-        DungemonChanged.InvokeAsync(Dungemon);
-    }
+
+    private bool _isEditing { get; set; } = false;
+
+    private string _submitResult = null!;
 
     private void SpellsChanged(List<Spell> spells)
     {
         Dungemon.Spells = spells;
         DungemonChanged.InvokeAsync(Dungemon);
     }
+    private void HandleButtonClick(MouseEventArgs e)
+    {
+        _isEditing = true;
+    }
+
+        public async Task ValidFormSubmitted(EditContext editContext)
+        {
+        await DungemonChanged.InvokeAsync(Dungemon);
+
+        _submitResult = "Dungémon updated!";
+
+        _isEditing = false;
+        }
+
+        public void InvalidFormSubmitted(EditContext editContext)
+        {
+        _submitResult = "Please enter valid values.";
+        }
 }
