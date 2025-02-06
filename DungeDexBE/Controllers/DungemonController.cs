@@ -81,7 +81,7 @@ namespace DungeDexBE.Controllers
 			return StatusCode(304, "Unable to update Dungemon.");
 		}
 
-		[HttpDelete]
+		[HttpDelete("{dungemonId}")]
 		public async Task<IActionResult> DeleteDungemon(int dungemonId)
 		{
 			var jwtUserId = _jwtService.ValidateUserIdFromJwt(Request);

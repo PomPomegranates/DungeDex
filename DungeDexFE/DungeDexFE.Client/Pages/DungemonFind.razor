@@ -1,10 +1,12 @@
-﻿@page "/dungemon/{Id:int}"
+@page "/dungemon/{Id:int}"
+@rendermode @(new InteractiveWebAssemblyRenderMode(false))
+
 @using System.Security.Claims
 @using System.Net
-@rendermode @(new InteractiveWebAssemblyRenderMode(false))
 
 @inject IHttpClientFactory clientFactory
 @inject AuthStateProvider auth
+@inject NavigationManager nav
 
 <PageTitle>DungéDex : Find</PageTitle>
 
@@ -16,27 +18,30 @@
 @if (Dungemon != null)
 {
 	<h3>@Dungemon.NickName</h3>
-	<DungemonDisplay Dungemon=Dungemon DungemonChanged="DungemonChanged" />
-
-	@if(!dungemonBelongsToUser)
-	{
-		<p>This is not your Dungémon, you may not edit it.</p>
-	}
-	else
-	{
-		<button class="btn btn-primary" @onclick="HandlePatchRequest">Update Dungémon!</button>
-	}
+	<DungemonDisplay Dungemon=Dungemon DungemonChanged="DungemonChanged"/>
+	<div id="DeleteDungemon">
+		<button @onclick="DeleteDungemonCheck">🗑️</button>
+		<p>@areYouSure</p>
+		<button hidden="@deleteButtonsHidden" @onclick="DeleteDungemon">Yes</button>
+		<button hidden="@deleteButtonsHidden" @onclick="Rehide">No</button>
+	</div>
 }
 
 @code {
 	[Parameter]
 	public int Id { get; set; }
 
+	private string? userId { get; set; } = null!;
+
 	public Dungemon Dungemon { get; set; } = null!;
 
 	private string errorMessage { get; set; } = null!;
 
 	private bool dungemonBelongsToUser = false;
+
+	private string areYouSure = string.Empty;
+
+	private bool deleteButtonsHidden = true;
 
 	protected override async Task OnParametersSetAsync()
 	{
@@ -56,7 +61,7 @@
 			errorMessage = $"There was an issue fetching the Dungémon data: {ex.Message}";
 		}
 
-		dungemonBelongsToUser = auth.GetUserId() == Dungemon.UserId;
+		deleteButtonsHidden = auth.GetUserId() != Dungemon.UserId;
 	}
 
 	private void DungemonChanged(Dungemon updatedDungemon)
@@ -98,6 +103,39 @@
 		catch (Exception ex)
 		{
 			errorMessage = ex.Message;
+		}
+	}
+
+	private void DeleteDungemonCheck()
+	{
+		areYouSure = "Are you sure?";
+		deleteButtonsHidden = false;
+	}
+
+	private void Rehide()
+	{
+		areYouSure = string.Empty;
+		deleteButtonsHidden = true;
+	}
+
+	private async Task DeleteDungemon(MouseEventArgs e)
+	{
+		try
+		{
+			using var client = clientFactory.CreateClient("BackendAPI");
+			var response = await client.DeleteAsync($"dungemon/{Id}");
+			response.EnsureSuccessStatusCode();
+			areYouSure = "Dungémon deleted.";
+			await Task.Delay(1000);
+			nav.NavigateTo("/");
+		}
+		catch (HttpRequestException hEx)
+		{
+			errorMessage = $"There was an issue retrieving data from the Database: {hEx.Message}";
+		}
+		catch (Exception ex)
+		{
+			errorMessage = $"There was an issue fetching the Dungémon data: {ex.Message}";
 		}
 	}
 }
