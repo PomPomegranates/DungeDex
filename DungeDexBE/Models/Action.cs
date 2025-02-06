@@ -1,6 +1,6 @@
 ﻿namespace DungeDexBE.Models
 {
-    public class ActionSend
+    public class Action
     {
         public string Name { get; set; }
         public string Description { get; set; }

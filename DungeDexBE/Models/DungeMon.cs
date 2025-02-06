@@ -21,7 +21,7 @@ namespace DungeDexBE.Models
 		public int Charisma { get; set; }
 		public int HitPoints { get; set; }
 		public virtual List<Spell> Spells { get; set; } = [];
-		public virtual List<ActionSend> Actions { get; set; } = [];
+		public virtual List<Action> Actions { get; set; } = [];
 		public string ImageLink { get; set; }
 
 		#region stretch
