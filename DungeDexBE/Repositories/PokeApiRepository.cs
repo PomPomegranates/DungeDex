@@ -69,6 +69,10 @@ namespace DungeDexBE.Repositories
 			if (speciesPageObj != null)
 			{
 				pokemon.Shape = speciesPageObj["shape"]!["name"]!.ToString();
+				if ((bool)speciesPageObj["is_legendary"]! || (bool)speciesPageObj["is_mythical"]!)
+				{
+					pokemon.IsLegendaryOrMythical = true;
+				}
 			}
 
 			if (jObj["sprites"]!["other"]!["home"]!["front_default"] != null)
