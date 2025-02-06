@@ -16,15 +16,15 @@
     text-align: center;
 }
 
-    .grid-item[spaceId="1"] {
+    .grid-item[spaceId="CR-Label"] {
         grid-column: 1; /* Place item 3 in column 2 */
         grid-row: 1; /* Place item 3 in row 2 */
     }
-    .grid-item[spaceId="2"] {
+    .grid-item[spaceId="CR-Id"] {
         grid-column: 1; /* Place item 3 in column 2 */
         grid-row: 2; /* Place item 3 in row 2 */
     }
-    .grid-item[spaceId="3"] {
+    .grid-item[spaceId="CR-Warn"] {
         grid-column: 1; /* Place item 3 in column 2 */
         grid-row: 3; /* Place item 3 in row 2 */
     }
@@ -114,6 +114,10 @@
     }
     .grid-item[spaceId="25"] {
         grid-column: 1; /* Place item 3 in column 2 */
+        grid-row: 4; /* Place item 3 in row 2 */
+    }
+    .grid-item[spaceId="submit"] {
+        grid-column: 2; /* Place item 3 in column 2 */
         grid-row: 4; /* Place item 3 in row 2 */
     }
 

@@ -3,13 +3,14 @@
 	<DataAnnotationsValidator />
 	<div class="grid-container">
 
-		<div class="grid-item" spaceId="1">
+		<div class="grid-item" spaceId="CR-Label">
 			<label for="CR">CR</label>
 		</div>
-		<div class="grid-item" spaceId="2">
-			<InputNumber id="cr" TValue="float" @bind-Value="@Dungemon.ChallengeRating" disabled="@(!_isEditing)" style="width: 100%; text-align: center; border: none;" class="inputNum"  />
+		<div class="grid-item" spaceId="CR-Id">
+			<InputNumber id="cr" TValue="float" @bind-Value="@Dungemon.ChallengeRating" disabled="@(!_isEditing)" style="width: 100%; text-align: center; border: none;"   />
 		</div>
-		<div class="grid-item" spaceId="3">
+
+		<div class="grid-item" spaceId="CR-Warn">
 			<ValidationMessage For="() => Dungemon.ChallengeRating" />
 		</div>
 
@@ -31,6 +32,7 @@
 		<div class="grid-item" spaceId="8">
 			<InputNumber id="STR" TValue="int" @bind-Value="@Dungemon.Strength" disabled="@(!_isEditing)" style="width: 100%; text-align: center; border: none;" class="inputNum" />
 		</div>
+
 		<div class="grid-item" spaceId="9">
 			<ValidationMessage For="() => Dungemon.Strength" />
 		</div>
@@ -101,7 +103,7 @@
 				<button type="button" class="btn-primary" style="width: 100%;" @onclick="HandleButtonClick">Edit!</button>
 			}
 		</div>
-		<div class="col-10">@_submitResult</div>
+		<div class="grid-item" spaceId = "submit">@_submitResult</div>
 	</div>
 </EditForm>
 
