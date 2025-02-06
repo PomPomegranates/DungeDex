@@ -28,6 +28,7 @@ namespace DungeDexBE
 				.WithOne(e => e.User)
 				.HasForeignKey(e => e.UserId)
 				.IsRequired();
+
 		}
 
 		//protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -37,6 +38,7 @@ namespace DungeDexBE
 
 		public DbSet<DungeMon> MonsterDb { get; set; }
 		public DbSet<Spell> SpellTable { get; set; }
+		public DbSet<Models.Action> ActionTable { get; set; }
 
 		public DbSet<User> Users { get; set; }
 	}
