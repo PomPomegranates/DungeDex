@@ -2,8 +2,8 @@
 {
 	public class User
 	{
-		public int Id { get; set; }
+		public string Id { get; set; } = null!;
 		public string UserName { get; set; } = null!;
-		public List<Dungemon> Creations = [];
+		public List<Dungemon> Dungemon = [];
 	}
 }

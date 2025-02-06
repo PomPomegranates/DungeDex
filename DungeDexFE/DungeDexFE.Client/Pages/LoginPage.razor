@@ -4,29 +4,22 @@
 @using System.Security.Claims
 
 @inject IHttpClientFactory clientFactory
-@inject AuthenticationStateProvider auth
+@inject AuthStateProvider auth
 @inject Blazored.SessionStorage.ISessionStorageService sessionStorage
 
 @if (!string.IsNullOrEmpty(username))
 {
 	<p>Welcome, @username!</p>
+	<button @onclick="SignOut">Sign Out!</button>
 }
 else
 {
 	<p>@message</p>
-}
-
-@if (username is null)
-{
 	<EditForm Model="@loginModel" Context="LoginForm">
 		<InputText @bind-Value="loginModel.UserName" placeholder="Username" />
 		<InputText type="password" @bind-Value="loginModel.Password" placeholder="Password" />
-		<button type="submit" @onclick="SignIn">Sign In!</button>
+		<button type="submit" @onclick="(e) => SignIn(e)">Sign In!</button>
 	</EditForm>
-}
-else
-{
-	<button @onclick="SignOut">Sign Out!</button>
 }
 
 @if (!string.IsNullOrEmpty(loginErrorMessage))
@@ -39,29 +32,22 @@ else
 	public string? username = null;
 	private string? message = "You are not logged in.";
 	private string? loginErrorMessage = null;
-	private AuthenticationState authState = null!;
 
 	protected override async Task OnInitializedAsync()
 	{
-		authState = await auth.GetAuthenticationStateAsync();
+		username = auth.GetUserName();
 
-		if (authState?.User?.Identity?.IsAuthenticated == true)
-		{
-			username = authState.User.Identity.Name;
-			return;
-		}
-
-		if (!(await sessionStorage.ContainKeyAsync("Jwt"))) return;
+		if (string.IsNullOrEmpty(username) && !(await sessionStorage.ContainKeyAsync("Jwt"))) return;
 
 		using var client = clientFactory.CreateClient("BackendAPI");
-		var result = await client.GetFromJsonAsync<Login>("authentication/CurrentUser");
+		var result = await client.GetFromJsonAsync<UserClaims>("authentication/CurrentUser");
 
 		if (result == null) return;
 
-		username = result.UserName;
+		await auth.ChangeUserAsync(result);
 	}
 
-	private async Task SignIn()
+	private async Task SignIn(MouseEventArgs e)
 	{
 		using var client = clientFactory.CreateClient("BackendAPI");
 		var result = await client.PostAsJsonAsync("authentication/login", loginModel);
@@ -77,20 +63,20 @@ else
 		if (jwt is null) return;
 		await sessionStorage.SetItemAsStringAsync("Jwt", jwt.Token);
 
-		var claim = new Claim(ClaimTypes.Name, loginModel.UserName);
-		var identity = new ClaimsIdentity(new[] { claim });
-		var user = new ClaimsPrincipal(identity);
-		authState = new AuthenticationState(user);
+		var authResult = await client.GetFromJsonAsync<UserClaims>("authentication/CurrentUser");
+		if (authResult == null) return;
 
-		username = loginModel.UserName;
+		await auth.ChangeUserAsync(authResult);
+		username = auth.GetUserName();
 		ClearLoginModel();
 	}
 
-	private async void SignOut(MouseEventArgs e)
+	private async Task SignOut(MouseEventArgs e)
 	{
+		ClearLoginModel();
 		await sessionStorage.RemoveItemAsync("Jwt");
 		username = null;
-		ClearLoginModel();
+		await auth.Logout();
 		StateHasChanged();
 	}
 

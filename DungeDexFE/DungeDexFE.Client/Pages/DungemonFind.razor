@@ -1,6 +1,10 @@
-﻿@using DungeDexFE.Client.Models
-@rendermode InteractiveWebAssembly
-@page "/dungemon/{Id:int}"
+﻿@page "/dungemon/{Id:int}"
+@using System.Security.Claims
+@using System.Net
+@rendermode @(new InteractiveWebAssemblyRenderMode(false))
+
+@inject IHttpClientFactory clientFactory
+@inject AuthStateProvider auth
 
 <PageTitle>DungéDex : Find</PageTitle>
 
@@ -8,28 +12,40 @@
 {
 	<p>@errorMessage</p>
 }
-else if (PublishedDungemon != null)
+
+@if (Dungemon != null)
 {
-	<h3>@PublishedDungemon.NickName</h3>
-	<DungemonDisplay Dungemon=PublishedDungemon DungemonChanged="DungemonChanged"/>
+	<h3>@Dungemon.NickName</h3>
+	<DungemonDisplay Dungemon=Dungemon DungemonChanged="DungemonChanged" />
+
+	@if(!dungemonBelongsToUser)
+	{
+		<p>This is not your Dungémon, you may not edit it.</p>
+	}
+	else
+	{
+		<button class="btn btn-primary" @onclick="HandlePatchRequest">Update Dungémon!</button>
+	}
 }
 
 @code {
 	[Parameter]
 	public int Id { get; set; }
 
-	public Dungemon PublishedDungemon { get; set; } = null!;
+	public Dungemon Dungemon { get; set; } = null!;
 
 	private string errorMessage { get; set; } = null!;
+
+	private bool dungemonBelongsToUser = false;
 
 	protected override async Task OnParametersSetAsync()
 	{
 		try
 		{
-			using var client = new HttpClient();
-			var response = await client.GetAsync($"https://localhost:7298/api/UserPokemon/{Id}");
+			using var client = clientFactory.CreateClient("BackendAPI");
+			var response = await client.GetAsync($"dungemon/{Id}");
 			response.EnsureSuccessStatusCode();
-			PublishedDungemon = await response.Content.ReadFromJsonAsync<Dungemon>() ?? throw new Exception();
+			Dungemon = await response.Content.ReadFromJsonAsync<Dungemon>() ?? throw new Exception();
 		}
 		catch (HttpRequestException hEx)
 		{
@@ -39,11 +55,49 @@ else if (PublishedDungemon != null)
 		{
 			errorMessage = $"There was an issue fetching the Dungémon data: {ex.Message}";
 		}
+
+		dungemonBelongsToUser = auth.GetUserId() == Dungemon.UserId;
 	}
 
-	private async Task DungemonChanged(Dungemon updatedDungemon)
+	private void DungemonChanged(Dungemon updatedDungemon)
 	{
-		PublishedDungemon = updatedDungemon;
-		// Make a patch request
+		Dungemon = updatedDungemon;
+	}
+
+	private async Task HandlePatchRequest(MouseEventArgs e)
+	{
+		var authState = await auth.GetAuthenticationStateAsync();
+
+		if (authState.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid) == null)
+		{
+			errorMessage = "You must be signed-in to edit Dungémon.";
+			return;
+		}
+
+		try
+		{
+			using var client = clientFactory.CreateClient("BackendAPI");
+			var response = await client.PatchAsJsonAsync<Dungemon>("dungemon", Dungemon!);
+			response.EnsureSuccessStatusCode();
+			var patchedDungemon = await response.Content.ReadFromJsonAsync<Dungemon>();
+
+			if (patchedDungemon == null)
+			{
+				errorMessage = "There was an error updating the Dungémon.";
+				return;
+			}
+
+			Dungemon = patchedDungemon;
+		}
+		catch (HttpRequestException hex)
+		{
+			if (hex.StatusCode == HttpStatusCode.Unauthorized) errorMessage = "You must be signed-in to publish Dungémon.";
+
+			else errorMessage = hex.Message;
+		}
+		catch (Exception ex)
+		{
+			errorMessage = ex.Message;
+		}
 	}
 }

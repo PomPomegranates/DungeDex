@@ -1,6 +1,8 @@
 ﻿@page "/dungemon"
-@rendermode InteractiveWebAssembly
 
+@rendermode @(new InteractiveWebAssemblyRenderMode(false))
+
+@inject IHttpClientFactory clientFactory
 @inject NavigationManager Nav
 
 <PageTitle>DungéDex : Browse</PageTitle>
@@ -48,8 +50,8 @@ else if (allDungemon != null)
 	{
 		try
 		{
-			using var client = new HttpClient();
-			allDungemon = await client.GetFromJsonAsync<List<Dungemon>>("https://localhost:7298/api/UserPokemon/")
+			using var client = clientFactory.CreateClient("BackendAPI");
+			allDungemon = await client.GetFromJsonAsync<List<Dungemon>>("dungemon?number=10&offset=0")
 				?? throw new Exception("Unable to convert the server response into Dungémon.");
 		}
 		catch (HttpRequestException ex)

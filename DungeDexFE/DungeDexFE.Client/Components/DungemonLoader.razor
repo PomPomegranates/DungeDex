@@ -1,8 +1,13 @@
-﻿@rendermode InteractiveAuto
+﻿@rendermode @(new InteractiveWebAssemblyRenderMode(false))
+
+@inject AuthStateProvider auth
+@inject IHttpClientFactory clientFactory
 @inject NavigationManager nav
 
 @using System.Text.Json
 @using System.Text.RegularExpressions
+@using System.Net
+@using System.Security.Claims
 
 @if(!string.IsNullOrEmpty(errorMessage))
 {
@@ -12,7 +17,7 @@
 else if (Dungemon != null)
 {
 	<DungemonDisplay Dungemon="Dungemon" DungemonChanged="DungemonChanged"/>
-	<button class="m-2" @onclick="PostDungemon">Publish!</button>
+	<button class="m-2" type="submit" @onclick="PostDungemon">Publish!</button>
 	<p>@publishErrorMessage</p>
 }
 
@@ -30,8 +35,8 @@ else if (Dungemon != null)
 	{
 		try
 		{
-			using var client = new HttpClient();
-			var response = await client.GetAsync($"https://localhost:7298/api/Pokemon/{idOrName}/monsterify");
+			using var client = clientFactory.CreateClient("BackendAPI");
+			var response = await client.GetAsync($"pokemon/{idOrName}/monsterify");
 			response.EnsureSuccessStatusCode();
 			Dungemon = await response.Content.ReadFromJsonAsync<Dungemon>();
 		}
@@ -53,18 +58,27 @@ else if (Dungemon != null)
 
 	private async Task PostDungemon(MouseEventArgs e)
 	{
+		var authState = await auth.GetAuthenticationStateAsync();
+
+		if (string.IsNullOrEmpty(authState.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid)?.Value))
+		{
+			publishErrorMessage = "You must be signed-in to publish Dungémon.";
+			return;
+		}
+
 		try
 		{
-			using var client = new HttpClient();
-			var response = await client.PostAsJsonAsync<Dungemon>("https://localhost:7298/api/UserPokemon", Dungemon!);
+			using var client = clientFactory.CreateClient("BackendAPI");
+			var response = await client.PostAsJsonAsync<Dungemon>("dungemon", Dungemon!);
 			response.EnsureSuccessStatusCode();
-			var locationHeader = response.Headers.GetValues("Location").First();
-			var dungemonId = Regex.Match(locationHeader, @"(\d+)$").Value;
-			nav.NavigateTo($"dungemon/{dungemonId}");
+			var addedDungemon = await response.Content.ReadFromJsonAsync<Dungemon>();
+			nav.NavigateTo($"dungemon/{addedDungemon?.Id}");
 		}
 		catch (HttpRequestException hex)
 		{
-			publishErrorMessage = hex.Message;
+			if (hex.StatusCode == HttpStatusCode.Unauthorized) publishErrorMessage = "You must be signed-in to publish Dungémon.";
+
+			else publishErrorMessage = hex.Message;
 		}
 		catch (Exception ex)
 		{
