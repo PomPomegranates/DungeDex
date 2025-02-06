@@ -3,7 +3,7 @@
 
 namespace DungeDexBE.Models
 {
-	public class DungeMon : IReturnable
+    public class DungeMon : IReturnable
 	{
 		public int Id { get; set; }
 		public int UserId { get; set; }
@@ -11,6 +11,7 @@ namespace DungeDexBE.Models
 		public string BasePokemon { get; set; } = null!;
 		public string NickName { get; set; } = string.Empty;
 		public float ChallengeRating { get; set; }
+		public int ProficiencyBonus { get; set; }
 		public int ArmorClass { get; set; }
 		public int Strength { get; set; }
 		public int Dexterity { get; set; }
@@ -20,6 +21,7 @@ namespace DungeDexBE.Models
 		public int Charisma { get; set; }
 		public int HitPoints { get; set; }
 		public virtual List<Spell> Spells { get; set; } = [];
+		public virtual List<ActionSend> Actions { get; set; } = [];
 		public string ImageLink { get; set; }
 
 		#region stretch
