@@ -1,6 +1,7 @@
 ﻿using DungeDexBE.Interfaces.RepositoryInterfaces;
 using DungeDexBE.Models;
 using DungeDexBE.Models.Dtos;
+using Microsoft.EntityFrameworkCore;
 
 namespace DungeDexBE.Repositories
 {
@@ -34,7 +35,7 @@ namespace DungeDexBE.Repositories
 
 		public (DungeMon?, string) GetSingularMonster(int id)
 		{
-			var value = myDbContext.MonsterDb.Where(x => (x.Id == id)).FirstOrDefault();
+			var value = myDbContext.MonsterDb.Include(m => m.Spells).Where(x => (x.Id == id)).FirstOrDefault();
 
 			try
 			{
