@@ -12,10 +12,10 @@ namespace DungeDexBE.Models
 		public int SpecialDefense { get; set; }
 		public int Speed { get; set; }
 		public string ImageLink { get; set; }
-		#region stretch
-		//public string Type1 { get; set; }
-		//public string? Type2 { get; set; }
-		#endregion
+		public string Type1 { get; set; }
+		public string? Type2 { get; set; }
+		public string Shape {  get; set; }
+
 
 
 		public override string ToString() =>
