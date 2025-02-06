@@ -5,32 +5,42 @@
 
 <EditForm model=@Dungemon OnInvalidSubmit=@InvalidFormSubmitted OnValidSubmit=@ValidFormSubmitted>
     <DataAnnotationsValidator />
-    <div class="container p-4 align-items-center" style="background-color:rgba(230,206,158,255); border: 5px outset grey; border-radius: 2rem;">
+   
+    <div class="gridContainer" style="background-color:rgba(230,206,158,0); border: 5px outset grey; border-radius: 2rem; position:relative "  >
+     
 
-        <div class="row justify-content-start">
-            <div class="col">
-                <NicknameEditor Dungemon="Dungemon" DungemonChanged="DungemonChanged"/>
-            </div>
-            <div class="col"></div>
-        </div>
-        
-        <div class="row">
-            <div class="col-auto flex-column justify-space-between">
-                <DungemonImage Dungemon="Dungemon"/>
-            </div>
-            <br />
-            <div class="row">
+        <div class="LeftSide">
+          
+            <div class="TopPart">
                 <ChallengeRatingEditor Dungemon="Dungemon" IsEditing="_isEditing" />
-                <HitPointsEditor Dungemon="Dungemon" IsEditing="_isEditing" />
+                 <NicknameEditor Dungemon="Dungemon" DungemonChanged="DungemonChanged"/>
+                 <HitPointsEditor Dungemon="Dungemon" IsEditing="_isEditing" />
+
+            </div>
+       
+        
+        
+            <div class="PokemonImage">
+                <DungemonImage Dungemon="Dungemon"/>
+                
+            </div>
+         
+         
+            <div class="attributes">
                 <AttributesEditor Dungemon="Dungemon" IsEditing="_isEditing" />
             </div>
+      
+
         </div>
-        <div class="col">
-            <SpellEditor Spells="Dungemon.Spells" SpellsChanged="SpellsChanged"/>
+        <div class="RightSide">
+
+            <SpellEditor Spells="Dungemon.Spells" SpellsChanged="SpellsChanged" />
+
+            <p>Descriptions</p>
+
         </div>
     </div>
 
-</EditForm>
 <div class="grid-item" spaceId="25">
     @if (_isEditing)
     {
@@ -42,7 +52,10 @@
     }
 </div>
 <div class="grid-item" spaceId="submit">@_submitResult</div>
+        
+    
 
+</EditForm>
 
 @code {
     [Parameter]
@@ -64,6 +77,10 @@
     {
         _isEditing = true;
     }
+
+
+
+
 
         public async Task ValidFormSubmitted(EditContext editContext)
         {
