@@ -23,6 +23,7 @@ namespace DungeDexBE.Models
 		public virtual List<Spell> Spells { get; set; } = [];
 		public virtual List<Action> Actions { get; set; } = [];
 		public string ImageLink { get; set; }
+		public string Proficiencies { get; set; } = string.Empty;
 
 		#region stretch
 		//public Size Size { get; set; }
