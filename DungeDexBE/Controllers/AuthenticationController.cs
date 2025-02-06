@@ -1,26 +1,25 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
+using DungeDexBE.Interfaces.ServiceInterfaces;
 using DungeDexBE.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
 
 namespace DungeDexBE.Controllers
 {
 	[Route("api/[controller]")]
+	[EnableCors("AllowLocalhost")]
 	[ApiController]
 	public class AuthenticationController : ControllerBase
 	{
 		private readonly UserManager<User> _userManager;
-		private readonly IConfiguration _configuration;
+		private readonly IJwtService _jwtService;
 
-		public AuthenticationController(UserManager<User> userManager, IConfiguration configuration)
+		public AuthenticationController(UserManager<User> userManager, IJwtService jwtService)
 		{
 			_userManager = userManager;
-			_configuration = configuration;
+			_jwtService = jwtService;
 		}
 
 		[AllowAnonymous]
@@ -30,7 +29,7 @@ namespace DungeDexBE.Controllers
 			var user = await _userManager.FindByNameAsync(model.UserName);
 			if (user != null && await _userManager.CheckPasswordAsync(user, model.Password))
 			{
-				var token = GenerateJwtToken(user);
+				var token = _jwtService.GenerateJwtToken(user);
 				return Ok(new { token });
 			}
 			return Unauthorized();
@@ -49,59 +48,20 @@ namespace DungeDexBE.Controllers
 		[HttpGet("currentUser")]
 		public IActionResult GetCurrentUser()
 		{
-			var authorizationHeader = Request.Headers["Authorization"].FirstOrDefault();
-
-			if (string.IsNullOrEmpty(authorizationHeader)) return Unauthorized("No session token provided.");
-
-			var token = authorizationHeader.StartsWith("Bearer ")
-				? authorizationHeader.Substring(7)
-				: authorizationHeader;
-
 			try
 			{
-				var principal = ValidateToken(token);
+				var userId = _jwtService.ValidateUserIdFromJwt(Request);
+				var userName = _jwtService.ValidateUserNameFromJwt(Request);
 
-				var username = principal.Identity?.Name;
+				if (userId is null || userName is null) return Unauthorized("Session token is missing or invalid.");
 
-				return Ok(new { Username = username });
+				return Ok(new { UserId = userId, UserName = userName });
 			}
 			catch (Exception ex)
 			{
 				Console.WriteLine(ex.Message);
 				return Unauthorized("Invalid session token.");
 			}
-		}
-
-		private ClaimsPrincipal ValidateToken(string token)
-		{
-			var key = Encoding.ASCII.GetBytes(_configuration["Jwt:Key"]);
-			var tokenHandler = new JwtSecurityTokenHandler();
-
-			var validationParameters = new TokenValidationParameters
-			{
-				ValidateIssuer = false,
-				ValidateAudience = false,
-				ValidateLifetime = true,
-				IssuerSigningKey = new SymmetricSecurityKey(key)
-			};
-
-			var principal = tokenHandler.ValidateToken(token, validationParameters, out var validatedToken);
-
-			return principal;
-		}
-
-		private string GenerateJwtToken(IdentityUser user)
-		{
-			var key = Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]);
-			var tokenHandler = new JwtSecurityTokenHandler();
-			var tokenDescriptor = new SecurityTokenDescriptor
-			{
-				Subject = new ClaimsIdentity([new Claim(ClaimTypes.Name, user.UserName)]),
-				Expires = DateTime.UtcNow.AddHours(1),
-				SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-			};
-			var token = tokenHandler.CreateToken(tokenDescriptor);
-			return tokenHandler.WriteToken(token);
 		}
 	}
 

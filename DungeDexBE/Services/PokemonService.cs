@@ -1,6 +1,5 @@
 using System.Globalization;
 using System.Net;
-
 using DungeDexBE.ConversionFunctions;
 using DungeDexBE.Interfaces.RepositoryInterfaces;
 using DungeDexBE.Interfaces.ServiceInterfaces;
@@ -24,7 +23,7 @@ namespace DungeDexBE.Services
 			return await _pokeApiRepository.GetPokemon(pokemonName);
 		}
 
-		public async Task<Result> GetMonsterByPokemonAsync(string pokemonName)
+		public async Task<Result> GetDungemonFromPokemonAsync(string pokemonName)
 		{
 			var result = await GetBasePokemonAsync(pokemonName);
 
@@ -39,7 +38,8 @@ namespace DungeDexBE.Services
 				monster!.NickName = monster!.BasePokemon;
 
 				var spellResult = await _dndApiRepository.GetRandomSpell();
-				monster.Spells.Add(spellResult.Value as Spell);
+				monster.Spells.Add(spellResult.Value as Spell 
+					?? throw new InvalidDataException("Spell result value is null."));
 				result.Value = monster;
 			}
 			catch (Exception ex)

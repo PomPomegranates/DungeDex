@@ -35,6 +35,7 @@ namespace DungeDexBE.Persistence
 				entity.Property(d => d.ChallengeRating).IsRequired();
 				entity.Property(d => d.ImageLink).IsRequired();
 				entity.Property(d => d.NickName).IsRequired();
+				entity.Property(d => d.UserId).IsRequired();
 				entity.HasOne(d => d.User).WithMany(u => u.Dungemon).HasForeignKey(d => d.UserId).OnDelete(DeleteBehavior.NoAction);
 			});
 

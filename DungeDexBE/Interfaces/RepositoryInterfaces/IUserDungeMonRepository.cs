@@ -3,12 +3,12 @@ using DungeDexBE.Models.Dtos;
 
 namespace DungeDexBE.Interfaces.RepositoryInterfaces
 {
-	public interface IUserDungeMonRepository
+	public interface IUserDungemonRepository
 	{
-		List<Dungemon>? GetDungemon(DungemonFilterDto filterDto);
-		(Dungemon?, string) GetDungemonById(int id);
-		(Dungemon, string) AddDungemon(Dungemon monster);
-		(Dungemon, string) UpdateDungemon(Dungemon monster);
-		string DeleteDungemonById(int monsterId);
+		Task<List<Dungemon>?> GetDungemon(DungemonFilterDto filterDto);
+		Task<(Dungemon?, string)> GetDungemonById(int id);
+		Task<(Dungemon, string)> AddDungemon(Dungemon monster);
+		Task<(Dungemon, string)> UpdateDungemon(Dungemon monster);
+		Task<string> DeleteDungemonById(int monsterId, string jwtUserId);
 	}
 }

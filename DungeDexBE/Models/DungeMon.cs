@@ -5,7 +5,7 @@ namespace DungeDexBE.Models
 	public class Dungemon : IReturnable
 	{
 		public int Id { get; set; }
-		public string UserId { get; set; } = null!;
+		public string? UserId { get; set; } = null;
 		public virtual User? User { get; set; }
 		public string BasePokemon { get; set; } = null!;
 		public string NickName { get; set; } = string.Empty;
@@ -18,8 +18,8 @@ namespace DungeDexBE.Models
 		public int Wisdom { get; set; }
 		public int Charisma { get; set; }
 		public int HitPoints { get; set; }
-		public virtual List<Spell> Spells { get; set; } = [];
 		public string ImageLink { get; set; } = null!;
+		public virtual List<Spell> Spells { get; set; } = [];
 
 		#region stretch
 		//public Size Size { get; set; }

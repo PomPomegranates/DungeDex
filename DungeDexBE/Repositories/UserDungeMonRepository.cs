@@ -2,19 +2,20 @@
 using DungeDexBE.Models;
 using DungeDexBE.Models.Dtos;
 using DungeDexBE.Persistence;
+using Microsoft.EntityFrameworkCore;
 
 namespace DungeDexBE.Repositories
 {
-	public class UserDungeMonRepository : IUserDungeMonRepository
+	public class UserDungemonRepository : IUserDungemonRepository
 	{
 		private readonly ApplicationDbContext _db;
 
-		public UserDungeMonRepository(ApplicationDbContext dbContext)
+		public UserDungemonRepository(ApplicationDbContext dbContext)
 		{
 			_db = dbContext;
 		}
 
-		public List<Dungemon>? GetDungemon(DungemonFilterDto filterDto)
+		public async Task<List<Dungemon>?> GetDungemon(DungemonFilterDto filterDto)
 		{
 			try
 			{
@@ -25,7 +26,7 @@ namespace DungeDexBE.Repositories
 
 				dungemon = dungemon.Skip(filterDto.Offset).Take(filterDto.Number);
 
-				return dungemon.ToList();
+				return await dungemon.Include(d => d.Spells).ToListAsync();
 			}
 			catch
 			{
@@ -33,34 +34,24 @@ namespace DungeDexBE.Repositories
 			}
 		}
 
-		public (Dungemon?, string) GetDungemonById(int id)
+		public async Task<(Dungemon?, string)> GetDungemonById(int id)
 		{
-			var value = _db.Dungemon.Where(x => (x.Id == id)).FirstOrDefault();
+			var value = await _db.Dungemon.Where(x => (x.Id == id)).Include(d => d.Spells).FirstOrDefaultAsync();
 
-			try
-			{
-				if (value != null)
-				{
-					return (value, "Success");
-				}
-				else
-				{
-					return (null, $"No Userdata for Pokemon Number {id}");
-				}
-			}
-			catch (Exception e)
-			{
-				return (null, e.Message);
-			}
+			var result = value == null
+				? $"No Userdata for Pokemon Number {id}"
+				: "Success";
+
+			return (value, result);
 		}
 
 
-		public (Dungemon, string) AddDungemon(Dungemon monster)
+		public async Task<(Dungemon, string)> AddDungemon(Dungemon monster)
 		{
 			try
 			{
-				_db.Dungemon.Add(monster);
-				_db.SaveChanges();
+				await _db.Dungemon.AddAsync(monster);
+				await _db.SaveChangesAsync();
 				return (monster, "Success");
 			}
 			catch (Exception e)
@@ -69,13 +60,13 @@ namespace DungeDexBE.Repositories
 			}
 		}
 
-		public (Dungemon, string) UpdateDungemon(Dungemon monster)
+		public async Task<(Dungemon, string)> UpdateDungemon(Dungemon monster)
 		{
 			try
 			{
-				var monsterToChange = _db.Dungemon.Single(x => x.Id == monster.Id);
+				var monsterToChange = await _db.Dungemon.SingleAsync(x => x.Id == monster.Id);
 				_db.Dungemon.Entry(monsterToChange).CurrentValues.SetValues(monster);
-				_db.SaveChanges();
+				await _db.SaveChangesAsync();
 				return (monster, "Success");
 			}
 			catch (Exception e)
@@ -84,13 +75,18 @@ namespace DungeDexBE.Repositories
 			}
 		}
 
-		public string DeleteDungemonById(int monsterId)
+		public async Task<string> DeleteDungemonById(int monsterId, string jwtUserId)
 		{
 			try
 			{
-				var existingMonster = _db.Dungemon.Single(m => m.Id == monsterId);
+				var existingMonster = await _db.Dungemon.SingleOrDefaultAsync(m => m.Id == monsterId);
+
+				if (existingMonster == null) return $"No Dungémon with Id {monsterId} could be found.";
+
+				if (existingMonster.UserId != jwtUserId) return $"User Id and Dungémon User Id do not match.";
+
 				_db.Dungemon.Remove(existingMonster);
-				_db.SaveChanges();
+				await _db.SaveChangesAsync();
 				return "Success";
 			}
 			catch (Exception e)

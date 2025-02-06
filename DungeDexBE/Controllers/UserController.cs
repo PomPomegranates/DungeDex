@@ -1,12 +1,14 @@
 ﻿using DungeDexBE.Interfaces.ServiceInterfaces;
 using DungeDexBE.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DungeDexBE.Controllers
 {
 	[ApiController]
-	[EnableCors("AllowLocalHost")]
+	[Authorize]
+	[EnableCors("AllowLocalhost")]
 	[Route("api/[controller]")]
 	public class UserController : ControllerBase
 	{
@@ -37,16 +39,6 @@ namespace DungeDexBE.Controllers
 			if (result != null) return Ok(result);
 
 			return NotFound();
-		}
-
-		[HttpPost]
-		public IActionResult PostUser(User newUser)
-		{
-			var result = _userService.PostUser(newUser);
-
-			if (result.Item2 == "Success") return Created($"api/User/{newUser.UserName}", newUser);
-
-			return BadRequest(result.Item1);
 		}
 	}
 }

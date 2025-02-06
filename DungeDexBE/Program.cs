@@ -75,14 +75,15 @@ namespace DungeDexBE
 					};
 				});
 			builder.Services.AddAuthorization();
+			builder.Services.AddTransient<IJwtService, JwtService>();
 			// END
 
 			builder.Services.AddScoped<IPokeApiRepository, PokeApiRepository>();
 			builder.Services.AddScoped<IPokemonService, PokemonService>();
 			builder.Services.AddScoped<IDNDApiRepository, DNDApiRepository>();
 			builder.Services.AddScoped<IDNDService, DNDService>();
-			builder.Services.AddScoped<IUserDungeMonRepository, UserDungeMonRepository>();
-			builder.Services.AddScoped<IUserDungeMonService, UserDungeMonService>();
+			builder.Services.AddScoped<IUserDungemonRepository, UserDungemonRepository>();
+			builder.Services.AddScoped<IDungemonService, DungemonService>();
 			builder.Services.AddScoped<IUserRepository, UserRepository>();
 			builder.Services.AddScoped<IUserService, UserService>();
 
