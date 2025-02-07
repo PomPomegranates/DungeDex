@@ -60,9 +60,9 @@ namespace DungeDexFE.Client.Services
 		{
 			var identity = new ClaimsIdentity(new[]
 			{
-				new Claim(ClaimTypes.Sid, "0"),
-				new Claim(ClaimTypes.Name, "Anonymous"),
-				new Claim(ClaimTypes.Role, "Anonymous")
+				new Claim(ClaimTypes.Sid, string.Empty),
+				new Claim(ClaimTypes.Name, string.Empty),
+				new Claim(ClaimTypes.Role, string.Empty)
 			}, null);
 			return new ClaimsPrincipal(identity);
 		}
