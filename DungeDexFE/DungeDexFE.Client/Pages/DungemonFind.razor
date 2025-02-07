@@ -64,12 +64,13 @@
 		deleteButtonsHidden = auth.GetUserId() != Dungemon.UserId;
 	}
 
-	private void DungemonChanged(Dungemon updatedDungemon)
+	private async Task DungemonChanged(Dungemon updatedDungemon)
 	{
 		Dungemon = updatedDungemon;
+		await HandlePatchRequest();
 	}
 
-	private async Task HandlePatchRequest(MouseEventArgs e)
+	private async Task HandlePatchRequest()
 	{
 		var authState = await auth.GetAuthenticationStateAsync();
 
