@@ -4,7 +4,7 @@ namespace DungeDexBE.Models
 {
 	public class Pokemon : IReturnable
 	{
-		public string Name { get; set; }
+		public string Name { get; set; } = null!;
 		public int HP { get; set; }
 		public int Attack { get; set; }
 		public int Defense { get; set; }

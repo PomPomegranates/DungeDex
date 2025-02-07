@@ -9,11 +9,10 @@ namespace DungeDexBE.Repositories
 	public class PokeApiRepository : IPokeApiRepository
 	{
 		private readonly IHttpClientFactory _httpClient;
-		private readonly MyDbContext myDbContext;
-		public PokeApiRepository(IHttpClientFactory httpClientFactory, MyDbContext db)
+
+		public PokeApiRepository(IHttpClientFactory httpClientFactory)
 		{
 			_httpClient = httpClientFactory;
-			myDbContext = db;
 		}
 
 		public async Task<Result> GetPokemon(string pokemonName)

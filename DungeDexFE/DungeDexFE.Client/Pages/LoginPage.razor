@@ -1,0 +1,84 @@
+﻿@page "/login"
+@rendermode @(new InteractiveWebAssemblyRenderMode(false))
+
+@using System.Security.Claims
+
+@inject IHttpClientFactory clientFactory
+@inject AuthStateProvider auth
+@inject Blazored.SessionStorage.ISessionStorageService sessionStorage
+
+@if (!string.IsNullOrEmpty(username))
+{
+	<p>Welcome, @username!</p>
+	<button @onclick="SignOut">Sign Out!</button>
+}
+else
+{
+	<p>@message</p>
+	<EditForm Model="@loginModel" Context="LoginForm">
+		<InputText @bind-Value="loginModel.UserName" placeholder="Username" />
+		<InputText type="password" @bind-Value="loginModel.Password" placeholder="Password" />
+		<button type="submit" @onclick="(e) => SignIn(e)">Sign In!</button>
+	</EditForm>
+}
+
+@if (!string.IsNullOrEmpty(loginErrorMessage))
+{
+	<p>@loginErrorMessage</p>
+}
+
+@code {
+	public Login loginModel = new();
+	public string? username = null;
+	private string? message = "You are not logged in.";
+	private string? loginErrorMessage = null;
+
+	protected override async Task OnInitializedAsync()
+	{
+		username = auth.GetUserName();
+
+		if (string.IsNullOrEmpty(username) && !(await sessionStorage.ContainKeyAsync("Jwt"))) return;
+
+		using var client = clientFactory.CreateClient("BackendAPI");
+		var result = await client.GetFromJsonAsync<UserClaims>("authentication/CurrentUser");
+
+		if (result == null) return;
+
+		await auth.ChangeUserAsync(result);
+	}
+
+	private async Task SignIn(MouseEventArgs e)
+	{
+		using var client = clientFactory.CreateClient("BackendAPI");
+		var result = await client.PostAsJsonAsync("authentication/login", loginModel);
+
+		if (!result.IsSuccessStatusCode)
+		{
+			loginErrorMessage = "Incorrect credentials provided.";
+			ClearLoginModel();
+			return;
+		}
+
+		var jwt = await result.Content.ReadFromJsonAsync<Jwt>();
+		if (jwt is null) return;
+		await sessionStorage.SetItemAsStringAsync("Jwt", jwt.Token);
+
+		var authResult = await client.GetFromJsonAsync<UserClaims>("authentication/CurrentUser");
+		if (authResult == null) return;
+
+		await auth.ChangeUserAsync(authResult);
+		username = auth.GetUserName();
+		ClearLoginModel();
+	}
+
+	private async Task SignOut(MouseEventArgs e)
+	{
+		ClearLoginModel();
+		await sessionStorage.RemoveItemAsync("Jwt");
+		username = null;
+		await auth.Logout();
+		StateHasChanged();
+	}
+
+	private void ClearLoginModel() => loginModel = new();
+}

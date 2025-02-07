@@ -1,6 +1,8 @@
 ﻿@page "/dungemon"
-@rendermode InteractiveWebAssembly
 
+@rendermode @(new InteractiveWebAssemblyRenderMode(false))
+
+@inject IHttpClientFactory clientFactory
 @inject NavigationManager Nav
 
 <PageTitle>DungéDex : Browse</PageTitle>
@@ -67,25 +69,9 @@ else if (allDungemon != null)
 		if (!String.IsNullOrEmpty(pokeFilter)) filterEmpty = false; else filterEmpty = true;
 		try
 		{
-			using var client = new HttpClient();
-			if (String.IsNullOrEmpty(pokeFilter))
-			{
-				allDungemon = await client.GetFromJsonAsync<List<Dungemon>>($"https://localhost:7298/api/UserDungeMon?number=20&offset={currentOffset}")
-					?? throw new Exception("Unable to convert the server response into Dungémon.");
-			}
-			else
-			{
-				if (initialisedFilter)
-				{
-					currentOffset = 0;
-					initialisedFilter = false;
-					atStart = true;
-				}
-				allDungemon = await client.GetFromJsonAsync<List<Dungemon>>($"https://localhost:7298/api/UserDungeMon?number=20&offset={currentOffset}&basePokemon={pokeFilter}")
-					?? throw new Exception("Unable to convert the server response into Dungémon.");
-
-			}
-			if (allDungemon.Count >= 20) lessThan20 = false; else lessThan20 = true;
+			using var client = clientFactory.CreateClient("BackendAPI");
+			allDungemon = await client.GetFromJsonAsync<List<Dungemon>>($"dungemon?number=20&offset={currentOffset}")
+				?? throw new Exception("Unable to convert the server response into Dungémon.");
 		}
 		catch (HttpRequestException ex)
 		{

@@ -1,10 +1,12 @@
 ﻿using DungeDexBE.Interfaces.ServiceInterfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DungeDexBE.Controllers
 {
 	[ApiController]
+	[AllowAnonymous]
 	[EnableCors("AllowLocalhost")]
 	[Route("api/[controller]")]
 	public class SpellsController : ControllerBase
@@ -17,7 +19,7 @@ namespace DungeDexBE.Controllers
 		}
 
 		[HttpGet]
-		[ResponseCache(Location = ResponseCacheLocation.Any, NoStore =false, Duration = 604800)]
+		[ResponseCache(Location = ResponseCacheLocation.Any, NoStore = false, Duration = 604800)]
 		public async Task<IActionResult> GetAllSpellNamesAsync()
 		{
 			var result = await _service.GetAllSpellNamesAsync();

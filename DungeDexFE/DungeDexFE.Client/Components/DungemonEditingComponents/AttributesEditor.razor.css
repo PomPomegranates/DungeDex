@@ -1,0 +1,109 @@
+﻿body {
+}
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr); /* 6 columns with equal width */
+    grid-template-rows: repeat(3, auto); /* 2 rows, with height based on content */
+    width: 50%; /* Take up 50% of the viewport width */
+    height: 50%;
+    gap: 5px; /* Space between grid items */
+    
+}
+
+
+.grid-item {
+    text-align: center;
+}
+
+    .grid-item[spaceId="Str-Label"] {
+        grid-column: 1; /* Place item 3 in column 2 */
+        grid-row: 1; /* Place item 3 in row 2 */
+    }
+
+    .grid-item[spaceId="Str-Id"] {
+        grid-column: 1; /* Place item 3 in column 2 */
+        grid-row: 2; /* Place item 3 in row 2 */
+    }
+
+    .grid-item[spaceId="Str-Warn"] {
+        grid-column: 1; /* Place item 3 in column 2 */
+        grid-row: 3; /* Place item 3 in row 2 */
+    }
+
+    .grid-item[spaceId="Dex-Label"] {
+        grid-column: 2; /* Place item 3 in column 2 */
+        grid-row: 1; /* Place item 3 in row 2 */
+    }
+
+    .grid-item[spaceId="Dex-Id"] {
+        grid-column: 2; /* Place item 3 in column 2 */
+        grid-row: 2; /* Place item 3 in row 2 */
+    }
+
+    .grid-item[spaceId="Dex-Warn"] {
+        grid-column: 2; /* Place item 3 in column 2 */
+        grid-row: 3; /* Place item 3 in row 2 */
+    }
+
+    .grid-item[spaceId="Con-Label"] {
+        grid-column: 3; /* Place item 3 in column 2 */
+        grid-row: 1; /* Place item 3 in row 2 */
+    }
+
+    .grid-item[spaceId="Con-Id"] {
+        grid-column: 3; /* Place item 3 in column 2 */
+        grid-row: 2; /* Place item 3 in row 2 */
+    }
+
+    .grid-item[spaceId="Con-Warn"] {
+        grid-column: 3; /* Place item 3 in column 2 */
+        grid-row: 3; /* Place item 3 in row 2 */
+    }
+
+    .grid-item[spaceId="Int-Label"] {
+        grid-column: 4; /* Place item 3 in column 2 */
+        grid-row: 1; /* Place item 3 in row 2 */
+    }
+
+    .grid-item[spaceId="Int-Id"] {
+        grid-column: 4; /* Place item 3 in column 2 */
+        grid-row: 2; /* Place item 3 in row 2 */
+    }
+
+    .grid-item[spaceId="Int-Warn"] {
+        grid-column: 4; /* Place item 3 in column 2 */
+        grid-row: 3; /* Place item 3 in row 2 */
+    }
+
+    .grid-item[spaceId="Wis-Label"] {
+        grid-column: 5; /* Place item 3 in column 2 */
+        grid-row: 1; /* Place item 3 in row 2 */
+    }
+
+    .grid-item[spaceId="Wis-Id"] {
+        grid-column: 5; /* Place item 3 in column 2 */
+        grid-row: 2; /* Place item 3 in row 2 */
+    }
+
+    .grid-item[spaceId="Wis-Warn"] {
+        grid-column: 6; /* Place item 3 in column 2 */
+        grid-row: 3; /* Place item 3 in row 2 */
+    }
+
+    .grid-item[spaceId="Cha-Label"] {
+        grid-column: 6; /* Place item 3 in column 2 */
+        grid-row: 1; /* Place item 3 in row 2 */
+    }
+
+    .grid-item[spaceId="Cha-Id"] {
+        grid-column: 6; /* Place item 3 in column 2 */
+        grid-row: 2; /* Place item 3 in row 2 */
+    }
+
+    .grid-item[spaceId="Cha-Warn"] {
+        grid-column: 6; /* Place item 3 in column 2 */
+        grid-row: 3; /* Place item 3 in row 2 */
+    }
+
+  
+   

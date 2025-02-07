@@ -17,7 +17,6 @@
     public string UserAddress { get; set; }
     private void PerformNavigate()
     {
-        Console.WriteLine($"Going to {UserAddress}");
         Navigation.NavigateTo($"/users/{UserAddress}");
     }
 }

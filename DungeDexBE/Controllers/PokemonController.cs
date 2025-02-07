@@ -1,10 +1,12 @@
 ﻿using DungeDexBE.Interfaces.ServiceInterfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DungeDexBE.Controllers
 {
 	[ApiController]
+	[AllowAnonymous]
 	[EnableCors("AllowLocalhost")]
 	[Route("api/[controller]")]
 	public class PokemonController : ControllerBase
@@ -29,7 +31,7 @@ namespace DungeDexBE.Controllers
 		[HttpGet("{pokemonNameOrId}/monsterify")]
 		public async Task<IActionResult> GetMonsterFromPokemon(string pokemonNameOrId)
 		{
-			var result = await _pokemonService.GetMonsterByPokemonAsync(pokemonNameOrId);
+			var result = await _pokemonService.GetDungemonFromPokemonAsync(pokemonNameOrId);
 
 			if (result.IsSuccess) return Ok(result.Value);
 
