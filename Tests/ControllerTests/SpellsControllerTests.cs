@@ -2,6 +2,7 @@
 using DungeDexBE.Controllers;
 using DungeDexBE.Interfaces.RepositoryInterfaces;
 using DungeDexBE.Interfaces.ServiceInterfaces;
+using DungeDexBE.Models;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
@@ -60,6 +61,24 @@ namespace Tests.ControllerTests
 			var objectResult = result as ObjectResult;
 			objectResult?.StatusCode.Should().Be(500);
 			objectResult?.Value.Should().Be(expectedErrorMessage);
+		}
+
+		[Test]
+		public async Task GetAllSpellNamesAsync_NoExceptions_ReturnsOkExpectedSpellDtos()
+		{
+			// Arrange
+			var expectedSpells = _fixture.CreateMany<KeyValuePair<string, string>>(50).ToDictionary();
+			_mockDndService
+				.Setup(d => d.GetAllSpellNamesAsync())
+				.ReturnsAsync(expectedSpells);
+			
+			// Act
+			var result = await _controller.GetAllSpellNamesAsync();
+
+			// Assert
+			result.Should().BeOfType<OkObjectResult>();
+			var objectResult = result as OkObjectResult;
+			objectResult?.Value.Should().BeEquivalentTo(expectedSpells);
 		}
 	}
 }
