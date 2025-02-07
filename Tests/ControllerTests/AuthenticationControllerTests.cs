@@ -180,5 +180,29 @@ namespace Tests.ControllerTests
 			objectResult?.Value.Should().BeEquivalentTo(expected);
 		}
 
+		[Test]
+		public void GetCurrentUser_InvalidToken_ReturnsUnauthorized()
+		{
+			// Arrange
+			_mockJwtService.Setup(j => j.ValidateUserIdFromJwt(It.IsAny<HttpRequest>()))
+						   .Returns(() => null);
+			_mockJwtService.Setup(j => j.ValidateUserNameFromJwt(It.IsAny<HttpRequest>()))
+						   .Returns(() => null);
+			var httpContext = new DefaultHttpContext();
+			_controller.ControllerContext = new ControllerContext
+			{
+				HttpContext = httpContext
+			};
+			var expected = "Session token is missing or invalid.";
+
+			// Act
+			var result = _controller.GetCurrentUser();
+
+			// Assert
+			result.Should().BeOfType<UnauthorizedObjectResult>();
+			var objectResult = result as UnauthorizedObjectResult;
+			objectResult?.Value.Should().BeEquivalentTo(expected);
+		}
+
 	}
 }
