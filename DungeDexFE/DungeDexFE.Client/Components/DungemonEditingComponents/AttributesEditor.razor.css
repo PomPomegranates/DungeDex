@@ -12,6 +12,7 @@
 
 .grid-item {
     text-align: center;
+
 }
 
     .grid-item[spaceId="Str-Label"] {
@@ -22,6 +23,7 @@
     .grid-item[spaceId="Str-Id"] {
         grid-column: 1; /* Place item 3 in column 2 */
         grid-row: 2; /* Place item 3 in row 2 */
+
     }
 
     .grid-item[spaceId="Str-Warn"] {
