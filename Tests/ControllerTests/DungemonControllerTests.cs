@@ -4,6 +4,7 @@ using DungeDexBE.Interfaces.ServiceInterfaces;
 using DungeDexBE.Models;
 using DungeDexBE.Models.Dtos;
 using FluentAssertions;
+using Humanizer;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Client;
@@ -216,6 +217,77 @@ namespace Tests.ControllerTests
 			result.Should().BeOfType<UnauthorizedObjectResult>();
 			var objectResult = result as UnauthorizedObjectResult;
 			objectResult?.Value.Should().Be(expectedErrorMessage);
+		}
+
+		[Test]
+		public async Task DeleteDungemon_UserNotSignedIn_ReturnsUnauthorized()
+		{
+			// Arrange
+			var testDungemon = _fixture.Create<Dungemon>();
+			
+			_mockJwtService
+				.Setup(j => j.ValidateUserIdFromJwt(It.IsAny<HttpRequest>()))
+				.Returns(() => null);
+
+			var expectedErrorMessage = "You must be signed-in to delete a Dungémon.";
+
+			// Act
+			var result = await _controller.DeleteDungemon(testDungemon.Id);
+
+			// Assert
+			result.Should().BeOfType<UnauthorizedObjectResult>();
+			var objectResult = result as UnauthorizedObjectResult;
+			objectResult?.Value.Should().Be(expectedErrorMessage);
+		}
+
+		[Test]
+		public async Task DeleteDungemon_WrongUserSignedIn_ReturnsUnauthorized()
+		{
+			// Arrange
+			var testDungemon = _fixture.Create<Dungemon>();
+			var testUserId = _fixture.Create<string>();
+			while (testUserId == testDungemon.UserId)
+			{
+				testUserId = _fixture.Create<string>();
+			}
+
+			_mockJwtService
+				.Setup(j => j.ValidateUserIdFromJwt(It.IsAny<HttpRequest>()))
+				.Returns(() => testUserId);
+
+			var expectedErrorMessage = "User Id and Dungémon User Id do not match.";
+			_mockDungemonService
+				.Setup(d => d.DeleteDungemonById(testDungemon.Id, testUserId))
+				.ReturnsAsync(expectedErrorMessage);
+
+			// Act
+			var result = await _controller.DeleteDungemon(testDungemon.Id);
+
+			// Assert
+			result.Should().BeOfType<UnauthorizedObjectResult>();
+			var objectResult = result as UnauthorizedObjectResult;
+			objectResult?.Value.Should().Be(expectedErrorMessage);
+		}
+
+		[Test]
+		public async Task DeleteDungemon_CorrectUserSignedIn_ReturnsNoContent()
+		{
+			// Arrange
+			var testDungemonId = _fixture.Create<int>();
+			var testUserId = _fixture.Create<string>();
+			_mockJwtService
+				.Setup(j => j.ValidateUserIdFromJwt(It.IsAny<HttpRequest>()))
+				.Returns(testUserId);
+
+			_mockDungemonService
+				.Setup(d => d.DeleteDungemonById(testDungemonId, testUserId))
+				.ReturnsAsync("Success");
+
+			// Act
+			var result = await _controller.DeleteDungemon(testDungemonId);
+
+			// Assert
+			result.Should().BeOfType<NoContentResult>();
 		}
 	}
 }

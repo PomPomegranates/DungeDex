@@ -90,6 +90,8 @@ namespace DungeDexBE.Controllers
 
 			if (result == "Success") return NoContent();
 
+			if (result == "User Id and Dungémon User Id do not match.")	return Unauthorized(result);
+
 			return NotFound(result);
 		}
 	}

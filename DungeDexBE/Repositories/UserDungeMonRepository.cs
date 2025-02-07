@@ -81,9 +81,9 @@ namespace DungeDexBE.Repositories
 			{
 				var existingMonster = await _db.Dungemon.SingleOrDefaultAsync(m => m.Id == monsterId);
 
-				if (existingMonster == null) return $"No Dungémon with Id {monsterId} could be found.";
+				if (existingMonster == null) return $"No Dungémon with Id '{monsterId}' could be found.";
 
-				if (existingMonster.UserId != jwtUserId) return $"User Id and Dungémon User Id do not match.";
+				if (existingMonster.UserId != jwtUserId) return "User Id and Dungémon User Id do not match.";
 
 				_db.Dungemon.Remove(existingMonster);
 				await _db.SaveChangesAsync();
