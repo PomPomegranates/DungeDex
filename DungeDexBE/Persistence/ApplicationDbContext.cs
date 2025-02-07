@@ -15,7 +15,7 @@ namespace DungeDexBE.Persistence
 		{
 			builder.Entity<User>(entity =>
 			{
-				entity.HasMany(u => u.Dungemon).WithOne(d => d.User).HasForeignKey(d => d.UserId).OnDelete(DeleteBehavior.Cascade);
+				entity.HasMany(u => u.Dungemons).WithOne(d => d.User).HasForeignKey(d => d.UserId).OnDelete(DeleteBehavior.Cascade);
 			});
 
 			builder.Entity<Dungemon>(entity =>
@@ -36,7 +36,7 @@ namespace DungeDexBE.Persistence
 				entity.Property(d => d.ImageLink).IsRequired();
 				entity.Property(d => d.NickName).IsRequired();
 				entity.Property(d => d.UserId).IsRequired();
-				entity.HasOne(d => d.User).WithMany(u => u.Dungemon).HasForeignKey(d => d.UserId).OnDelete(DeleteBehavior.NoAction);
+				entity.HasOne(d => d.User).WithMany(u => u.Dungemons).HasForeignKey(d => d.UserId).OnDelete(DeleteBehavior.NoAction);
 			});
 
 			builder.Entity<Spell>(entity =>
