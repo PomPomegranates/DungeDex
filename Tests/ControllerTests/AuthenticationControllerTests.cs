@@ -2,8 +2,8 @@
 using DungeDexBE.Interfaces.ServiceInterfaces;
 using DungeDexBE.Models;
 using FluentAssertions;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 
@@ -55,7 +55,7 @@ namespace Tests.ControllerTests
 			var objectResult = result as OkObjectResult;
 			objectResult?.Value.Should().BeEquivalentTo(expected);
 		}
-		
+
 		[Test]
 		public async Task Login_IncorrectPassword_ReturnsUnauthorized()
 		{
@@ -77,8 +77,8 @@ namespace Tests.ControllerTests
 
 			// Assert
 			result.Should().BeOfType<UnauthorizedResult>();
-		}	
-		
+		}
+
 		[Test]
 		public async Task Login_IncorrectUsername_ReturnsUnauthorized()
 		{
@@ -152,5 +152,33 @@ namespace Tests.ControllerTests
 			var objectResult = result as BadRequestObjectResult;
 			objectResult?.Value.Should().BeEquivalentTo(expectedIdentityErrors);
 		}
+
+		[Test]
+		public void GetCurrentUser_ValidToken_ReturnsUserDetails()
+		{
+			// Arrange
+			var expectedUserId = "TestUserId";
+			var expectedUserName = "TestUserName";
+
+			_mockJwtService.Setup(j => j.ValidateUserIdFromJwt(It.IsAny<HttpRequest>()))
+						   .Returns(expectedUserId);
+			_mockJwtService.Setup(j => j.ValidateUserNameFromJwt(It.IsAny<HttpRequest>()))
+						   .Returns(expectedUserName);
+			var httpContext = new DefaultHttpContext();
+			_controller.ControllerContext = new ControllerContext
+			{
+				HttpContext = httpContext
+			};
+			var expected = new { UserId = expectedUserId, UserName = expectedUserName };
+
+			// Act
+			var result = _controller.GetCurrentUser();
+
+			// Assert
+			result.Should().BeOfType<OkObjectResult>();
+			var objectResult = result as OkObjectResult;
+			objectResult?.Value.Should().BeEquivalentTo(expected);
+		}
+
 	}
 }
