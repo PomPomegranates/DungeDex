@@ -7,7 +7,7 @@
 
 	<h4>Dungemon by @user.UserName</h4>
 	
-	<DungemonTable dungemonList="user.Dungemon" />
+	<DungemonTable dungemonList="user.Dungemons" />
 }
 
 @code {
@@ -15,7 +15,7 @@
 	public required User user { get; set; } = new User
 		{
 			UserName = "BigPokemonFan",
-			Dungemon = new List<Dungemon>
+			Dungemons = new List<Dungemon>
 			{
 				new Dungemon
 				{

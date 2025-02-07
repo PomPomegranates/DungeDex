@@ -4,13 +4,13 @@ namespace DungeDexBE.ConversionFunctions
 {
 	public static class ProficiencyDeciders
 	{
-		public static void UpdateDungemon(DungeMon dungemon, Pokemon pokemon)
+		public static void UpdateDungemon(Dungemon dungemon, Pokemon pokemon)
 		{
 			var possibleProficiencies = DetermineAllProficienciesByChance(dungemon, pokemon);
 			string proficiencies = FlattenProficienciesIntoString(possibleProficiencies, dungemon);
 			dungemon.Proficiencies = proficiencies;
 		}
-		public static string FlattenProficienciesIntoString(List<string> proficiencies, DungeMon dungemon)
+		public static string FlattenProficienciesIntoString(List<string> proficiencies, Dungemon dungemon)
 		{
 			string result = string.Empty;
 
@@ -92,7 +92,7 @@ namespace DungeDexBE.ConversionFunctions
 			result = result.Trim([',', ' ']);
 			return result;
 		}
-		public static List<string> DetermineAllProficienciesByChance(DungeMon dungemon, Pokemon pokemon)
+		public static List<string> DetermineAllProficienciesByChance(Dungemon dungemon, Pokemon pokemon)
 		{
 			var result = new List<string>();
 
@@ -118,18 +118,18 @@ namespace DungeDexBE.ConversionFunctions
 		
 		private static Random random = new Random();
 
-		public static void AssignAthleticsbyChance(List<string> possibleList, DungeMon dungemon, Pokemon pokemon)
+		public static void AssignAthleticsbyChance(List<string> possibleList, Dungemon dungemon, Pokemon pokemon)
 		{
 			if (pokemon.Type1 == "fighting" || pokemon.Type2 == "fighting")
 			{
 				if (random.Next(2) == 1) possibleList.Add("Athletics");
 			}
 		}
-		public static void AssignAcrobaticsbyChance(List<string> possibleList, DungeMon dungemon, Pokemon pokemon)
+		public static void AssignAcrobaticsbyChance(List<string> possibleList, Dungemon dungemon, Pokemon pokemon)
 		{
 			// What could decide this?
 		}
-		public static void AssignArcanabyChance(List<string> possibleList, DungeMon dungemon, Pokemon pokemon)
+		public static void AssignArcanabyChance(List<string> possibleList, Dungemon dungemon, Pokemon pokemon)
 		{
 			if (pokemon.Type1 == "psychic"
 				|| pokemon.Type2 == "psychic"
@@ -139,21 +139,21 @@ namespace DungeDexBE.ConversionFunctions
 				if (random.Next(2) == 1) possibleList.Add("Arcana");
 			}
 		}
-		public static void AssignDeceptionbyChance(List<string> possibleList, DungeMon dungemon, Pokemon pokemon)
+		public static void AssignDeceptionbyChance(List<string> possibleList, Dungemon dungemon, Pokemon pokemon)
 		{
 			if (pokemon.Type1 == "dark" || pokemon.Type2 == "dark")
 			{
 				if (random.Next(2) == 1) possibleList.Add("Deception");
 			}
 		}
-		public static void AssignHistorybyChance(List<string> possibleList, DungeMon dungemon, Pokemon pokemon)
+		public static void AssignHistorybyChance(List<string> possibleList, Dungemon dungemon, Pokemon pokemon)
 		{
 			if (pokemon.IsLegendaryOrMythical) 
 			{ 
 				if (random.Next(2) == 1) possibleList.Add("History"); 
 			}
 		}
-		public static void AssignIntimidationbyChance(List<string> possibleList, DungeMon dungemon, Pokemon pokemon)
+		public static void AssignIntimidationbyChance(List<string> possibleList, Dungemon dungemon, Pokemon pokemon)
 		{
 			// Could implement getting Pokemon Ability, and if one of them is Intimidate, could give it this
 			if (pokemon.Type1 == "dragon" || pokemon.Type2 == "dragon")
@@ -161,11 +161,11 @@ namespace DungeDexBE.ConversionFunctions
 				if (random.Next(2) == 1) possibleList.Add("Intimidation");
 			}
 		}
-		public static void AssignInvestigationbyChance(List<string> possibleList, DungeMon dungemon, Pokemon pokemon)
+		public static void AssignInvestigationbyChance(List<string> possibleList, Dungemon dungemon, Pokemon pokemon)
 		{
 			// What could decide this?
 		}
-		public static void AssignMedicinebyChance(List<string> possibleList, DungeMon dungemon, Pokemon pokemon)
+		public static void AssignMedicinebyChance(List<string> possibleList, Dungemon dungemon, Pokemon pokemon)
 		{
 			if (pokemon.Type1 == "grass"
 			|| pokemon.Type2 == "grass"
@@ -175,7 +175,7 @@ namespace DungeDexBE.ConversionFunctions
 				if (random.Next(2) == 1) possibleList.Add("Medicine");
 			}
 		}
-		public static void AssignNaturebyChance(List<string> possibleList, DungeMon dungemon, Pokemon pokemon)
+		public static void AssignNaturebyChance(List<string> possibleList, Dungemon dungemon, Pokemon pokemon)
 		{
 			if (pokemon.Type1 == "normal"
 			|| pokemon.Type2 == "normal"
@@ -185,7 +185,7 @@ namespace DungeDexBE.ConversionFunctions
 				if (random.Next(2) == 1) possibleList.Add("Nature");
 			}
 		}
-		public static void AssignPerceptionbyChance(List<string> possibleList, DungeMon dungemon, Pokemon pokemon)
+		public static void AssignPerceptionbyChance(List<string> possibleList, Dungemon dungemon, Pokemon pokemon)
 		{
 			if (pokemon.Type1 == "psychic"
 			|| pokemon.Type2 == "psychic")
@@ -193,29 +193,29 @@ namespace DungeDexBE.ConversionFunctions
 				if (random.Next(2) == 1) possibleList.Add("Perception");
 			}
 		}
-		public static void AssignPerformancebyChance(List<string> possibleList, DungeMon dungemon, Pokemon pokemon)
+		public static void AssignPerformancebyChance(List<string> possibleList, Dungemon dungemon, Pokemon pokemon)
 		{
 			// What could decide this?
 		}
-		public static void AssignPersuasionbyChance(List<string> possibleList, DungeMon dungemon, Pokemon pokemon)
+		public static void AssignPersuasionbyChance(List<string> possibleList, Dungemon dungemon, Pokemon pokemon)
 		{
 			if (pokemon.Shape == "upright")
 			{
 				if (random.Next(2) == 1) possibleList.Add("Persuasion");
 			}
 		}
-		public static void AssignSleightOfHandbyChance(List<string> possibleList, DungeMon dungemon, Pokemon pokemon)
+		public static void AssignSleightOfHandbyChance(List<string> possibleList, Dungemon dungemon, Pokemon pokemon)
 		{
 			if (pokemon.Type1 == "dark" || pokemon.Type2 == "dark")
 			{
 				if (random.Next(2) == 1) possibleList.Add("Sleight Of Hand");
 			}
 		}
-		public static void AssignStealthbyChance(List<string> possibleList, DungeMon dungemon, Pokemon pokemon)
+		public static void AssignStealthbyChance(List<string> possibleList, Dungemon dungemon, Pokemon pokemon)
 		{
 			// What could decide this? Dungemon size?
 		}
-		public static void AssignSurvivalbyChance(List<string> possibleList, DungeMon dungemon, Pokemon pokemon)
+		public static void AssignSurvivalbyChance(List<string> possibleList, Dungemon dungemon, Pokemon pokemon)
 		{
 			// What could decide this?
 		}

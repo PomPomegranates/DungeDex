@@ -18,7 +18,7 @@ namespace DungeDexBE.Repositories
 		{
 			try
 			{
-				return _db.Users.AsNoTracking().Include(m => m.Dungemon).ToList();
+				return _db.Users.AsNoTracking().Include(m => m.Dungemons).ToList();
 			}
 			catch
 			{

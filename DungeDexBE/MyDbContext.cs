@@ -18,13 +18,13 @@ namespace DungeDexBE
 			//    .IsRequired();
 			// base.OnModelCreating(modelBuilder);
 
-			//modelBuilder.Entity<DungeMon>()
+			//modelBuilder.Entity<Dungemon>()
 			//    .HasMany(e => e.Spells)
 			//    .WithMany(e => e.Monsters);
 
 
 			modelBuilder.Entity<User>()
-				.HasMany(e => e.DungeMons)
+				.HasMany(e => e.Dungemons)
 				.WithOne(e => e.User)
 				.HasForeignKey(e => e.UserId)
 				.IsRequired();
@@ -36,7 +36,7 @@ namespace DungeDexBE
 		//        //  optionsBuilder.UseLazyLoadingProxies();
 		//}
 
-		public DbSet<DungeMon> MonsterDb { get; set; }
+		public DbSet<Dungemon> MonsterDb { get; set; }
 		public DbSet<Spell> SpellTable { get; set; }
 		public DbSet<Models.Action> ActionTable { get; set; }
 

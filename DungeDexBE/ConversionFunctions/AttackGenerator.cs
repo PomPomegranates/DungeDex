@@ -7,7 +7,7 @@ namespace DungeDexBE.ConversionFunctions
 {
 	public static class AttackGenerator
 	{
-		public static void GiveMeleeAttack(this DungeMon dungeMon, Pokemon pokemon)
+		public static void GiveMeleeAttack(this Dungemon Dungemon, Pokemon pokemon)
 		{
 			// Check what moves the pokemon can learn and determine if there is an appropriate one, otherwise:
 
@@ -17,8 +17,8 @@ namespace DungeDexBE.ConversionFunctions
 			ActionDTO meleeAttack = MeleeAttackBases[randomIndex];
 
 			//Edit base attack with Dungemon data:
-			meleeAttack.DamageDice = $"{GetDamageDiceBase(dungeMon.ChallengeRating)} + {Convert.GetModifier(dungeMon.Strength)}";
-			meleeAttack.AttackBonus = Convert.GetModifier(dungeMon.Strength) + dungeMon.ProficiencyBonus;
+			meleeAttack.DamageDice = $"{GetDamageDiceBase(Dungemon.ChallengeRating)} + {Convert.GetModifier(Dungemon.Strength)}";
+			meleeAttack.AttackBonus = Convert.GetModifier(Dungemon.Strength) + Dungemon.ProficiencyBonus;
 
 			//Make Action:
 			Models.Action finalAction = new Models.Action
@@ -30,7 +30,7 @@ namespace DungeDexBE.ConversionFunctions
 			//Make edits to action based on CR and type (e.g. if Pokemon is Poison type, save or take Poison damage):
 
 			//Give to Dungemon:
-			dungeMon.Actions.Add(finalAction);
+			Dungemon.Actions.Add(finalAction);
 			
 	}
 

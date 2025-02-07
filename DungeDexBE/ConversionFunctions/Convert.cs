@@ -25,7 +25,7 @@ namespace DungeDexBE.ConversionFunctions
 
 			return monster;
 		}
-		public static void ConvertBaseStats(Pokemon pokemon, DungeMon monster)
+		public static void ConvertBaseStats(Pokemon pokemon, Dungemon monster)
 		{
 			ConvertAttackToStrength(pokemon, monster);
 			ConvertHPToConstitution(pokemon, monster);

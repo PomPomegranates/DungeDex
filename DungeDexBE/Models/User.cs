@@ -4,7 +4,7 @@ namespace DungeDexBE.Models
 {
 	public class User : IdentityUser
 	{
-		public ICollection<Dungemon> Dungemon { get; set; } = [];
+		public ICollection<Dungemon> Dungemons { get; set; } = [];
 	}
 }
 
