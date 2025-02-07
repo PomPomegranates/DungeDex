@@ -24,7 +24,7 @@ namespace DungeDexBE.Models
 		public virtual List<MonsterAction> Actions { get; set; } = [];
 		public string Proficiencies { get; set; } = string.Empty;
 		public string Cry { get; set; } = "";
-
+		public string Type { get; set; } = string.Empty;
 		#region stretch
 		//public Size Size { get; set; }
 		//public string Type { get; set; }
