@@ -45,7 +45,7 @@ namespace DungeDexBE.Controllers
 			return BadRequest(result.Errors);
 		}
 
-		[HttpGet("currentUser")]
+		[HttpGet("currentUser")]	
 		public IActionResult GetCurrentUser()
 		{
 			try

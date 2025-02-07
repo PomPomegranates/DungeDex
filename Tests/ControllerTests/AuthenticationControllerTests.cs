@@ -106,7 +106,6 @@ namespace Tests.ControllerTests
 				UserName = "ValidTestUserName",
 				Password = "ValidTestPassword"
 			};
-			var testIdentityResult = new Mock<IdentityResult>();
 			_mockUserManager
 				.Setup(u => u.CreateAsync(It.IsAny<User>(), testLoginModel.Password))
 				.ReturnsAsync(IdentityResult.Success);
@@ -122,6 +121,36 @@ namespace Tests.ControllerTests
 			result.Should().BeOfType<OkObjectResult>();
 			var objectResult = result as OkObjectResult;
 			objectResult?.Value.Should().BeEquivalentTo(expected);
+		}
+
+		[Test]
+		public async Task Register_InvalidDetails_ReturnsBadRequestWithErrors()
+		{
+			// Arrange
+			var testLoginModel = new LoginModel()
+			{
+				UserName = "ExistingUsername",
+				Password = "bad pw"
+			};
+			var expectedIdentityErrors = new IdentityError[]
+			{
+				new() { Code = "Password must be at least 8 characters long." },
+				new() { Code = "Password must contain at least 1 number." },
+				new() { Code = "Password must not contain spaces." },
+				new() { Code = "Password must contain at least 1 uppercase letter." },
+				new() { Code = "Username must be unique." },
+			};
+			_mockUserManager
+				.Setup(u => u.CreateAsync(It.IsAny<User>(), testLoginModel.Password))
+				.ReturnsAsync(IdentityResult.Failed(expectedIdentityErrors));
+
+			// Act
+			var result = await _controller.Register(testLoginModel);
+
+			// Assert
+			result.Should().BeOfType<BadRequestObjectResult>();
+			var objectResult = result as BadRequestObjectResult;
+			objectResult?.Value.Should().BeEquivalentTo(expectedIdentityErrors);
 		}
 	}
 }
