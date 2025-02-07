@@ -18,6 +18,7 @@ namespace DungeDexBE.ConversionFunctions
 			monster.ProficiencyBonus = DetermineProficiencyBonus(monster.ChallengeRating);
 
 			monster.ImageLink = pokemon.ImageLink;
+			monster.SpriteLink = pokemon.SpriteLink;
 
 			monster.Cry = pokemon.Cry;
 

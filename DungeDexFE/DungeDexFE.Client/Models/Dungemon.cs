@@ -26,6 +26,7 @@ namespace DungeDexFE.Client.Models
         [Range(1, 9999, ErrorMessage = "Dexterity must be between 0 and 9999")]
         public int HitPoints { get; set; }
 		public string ImageLink { get; set; } = null!;
+		public string SpriteLink { get; set; } = null!;
 		public virtual List<Spell> Spells { get; set; } = null!;
 		public virtual List<MonsterAction> Actions { get; set; } = null!;
         public string Proficiencies { get; set; } = string.Empty;
