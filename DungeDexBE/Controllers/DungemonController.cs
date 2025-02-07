@@ -14,9 +14,9 @@ namespace DungeDexBE.Controllers
 		private readonly IDungemonService _dungemonService;
 		private readonly IJwtService _jwtService;
 
-		public DungemonController(IDungemonService dungemonService, IJwtService jwtService)
+		public DungemonController(IDungemonService DungemonService, IJwtService jwtService)
 		{
-			_dungemonService = dungemonService;
+			_dungemonService = DungemonService;
 			_jwtService = jwtService;
 		}
 
