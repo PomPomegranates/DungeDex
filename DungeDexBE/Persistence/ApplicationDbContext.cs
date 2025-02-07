@@ -8,6 +8,7 @@ namespace DungeDexBE.Persistence
 	{
 		public DbSet<Dungemon> Dungemon { get; set; }
 		public DbSet<Spell> Spells { get; set; }
+		public DbSet<Models.MonsterAction> Actions { get; set; }
 
 		public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
@@ -23,6 +24,7 @@ namespace DungeDexBE.Persistence
 				entity.Property(d => d.Id).ValueGeneratedOnAdd();
 				entity.HasKey(d => d.Id);
 				entity.HasMany(d => d.Spells).WithOne().HasForeignKey(s => s.DungemonId);
+				entity.HasMany(d => d.Actions).WithOne().HasForeignKey(s => s.DungemonId);
 				entity.Property(d => d.HitPoints).IsRequired();
 				entity.Property(d => d.Strength).IsRequired();
 				entity.Property(d => d.Constitution).IsRequired();

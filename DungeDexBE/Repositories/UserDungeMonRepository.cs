@@ -27,7 +27,7 @@ namespace DungeDexBE.Repositories
 				dungemon = dungemon.Skip(filterDto.Offset).Take(filterDto.Number);
 
 
-				return await dungemon.Include(d => d.Spells).ToListAsync();
+				return await dungemon.Include(d => d.Spells).Include(d => d.Actions).ToListAsync();
 			}
 			catch
 			{
@@ -37,7 +37,7 @@ namespace DungeDexBE.Repositories
 
 		public async Task<(Dungemon?, string)> GetDungemonById(int id)
 		{
-			var value = await _db.Dungemon.Where(x => (x.Id == id)).Include(d => d.Spells).FirstOrDefaultAsync();
+			var value = await _db.Dungemon.Where(x => (x.Id == id)).Include(d => d.Spells).Include(d => d.Actions).FirstOrDefaultAsync();
 
 			var result = value == null
 				? $"No Userdata for Pokemon Number {id}"

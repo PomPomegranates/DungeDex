@@ -27,9 +27,8 @@ namespace DungeDexFE.Client.Models
 		public int HitPoints { get; set; }
 		public string ImageLink { get; set; } = null!;
 		public virtual List<Spell> Spells { get; set; } = null!;
-		public List<Action> Actions { get; set; } = null!;
-        public string Proficiences { get; set; } = null!;
-
+		public virtual List<MonsterAction> Actions { get; set; } = null!;
+        public string Proficiencies { get; set; } = string.Empty;
 		public string Cry { get; set; } = "";
 
         #region stretch
