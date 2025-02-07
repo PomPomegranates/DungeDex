@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using DungeDexFE.Client.Enums;
 namespace DungeDexFE.Client.Models
 {
 	public class Dungemon

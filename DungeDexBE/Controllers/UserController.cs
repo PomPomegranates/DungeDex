@@ -1,5 +1,4 @@
 ﻿using DungeDexBE.Interfaces.ServiceInterfaces;
-using DungeDexBE.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;

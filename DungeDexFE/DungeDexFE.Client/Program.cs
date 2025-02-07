@@ -1,6 +1,5 @@
 using Blazored.SessionStorage;
 using DungeDexFE.Client.Services;
-using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 
 namespace DungeDexFE.Client

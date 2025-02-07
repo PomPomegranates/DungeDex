@@ -38,7 +38,7 @@ namespace DungeDexBE.Services
 				monster!.NickName = monster!.BasePokemon;
 
 				var spellResult = await _dndApiRepository.GetRandomSpell();
-				monster.Spells.Add(spellResult.Value as Spell 
+				monster.Spells.Add(spellResult.Value as Spell
 					?? throw new InvalidDataException("Spell result value is null."));
 				result.Value = monster;
 			}
