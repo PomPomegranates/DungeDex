@@ -27,9 +27,13 @@
 
     .grid-item[spaceId="Str-Warn"] {
         grid-column: 1; /* Place item 3 in column 2 */
-        grid-row: 3; /* Place item 3 in row 2 */
+        grid-row: 4; /* Place item 3 in row 2 */
     }
 
+    .grid-item[spaceID="Str-Mod"] {
+        grid-column: 1; /* Place item 3 in column 2 */
+        grid-row: 3;
+    }
     .grid-item[spaceId="Dex-Label"] {
         grid-column: 2; /* Place item 3 in column 2 */
         grid-row: 1; /* Place item 3 in row 2 */
@@ -39,10 +43,13 @@
         grid-column: 2; /* Place item 3 in column 2 */
         grid-row: 2; /* Place item 3 in row 2 */
     }
-
+    .grid-item[spaceID="Dex-Mod"] {
+        grid-column: 2; /* Place item 3 in column 2 */
+        grid-row: 3;
+    }
     .grid-item[spaceId="Dex-Warn"] {
         grid-column: 2; /* Place item 3 in column 2 */
-        grid-row: 3; /* Place item 3 in row 2 */
+        grid-row: 4; /* Place item 3 in row 2 */
     }
 
     .grid-item[spaceId="Con-Label"] {
@@ -55,9 +62,13 @@
         grid-row: 2; /* Place item 3 in row 2 */
     }
 
+    .grid-item[spaceID="Con-Mod"] {
+        grid-column: 3; /* Place item 3 in column 2 */
+        grid-row: 3;
+    }
     .grid-item[spaceId="Con-Warn"] {
         grid-column: 3; /* Place item 3 in column 2 */
-        grid-row: 3; /* Place item 3 in row 2 */
+        grid-row: 4; /* Place item 3 in row 2 */
     }
 
     .grid-item[spaceId="Int-Label"] {
@@ -69,10 +80,13 @@
         grid-column: 4; /* Place item 3 in column 2 */
         grid-row: 2; /* Place item 3 in row 2 */
     }
-
+    .grid-item[spaceID="Int-Mod"] {
+        grid-column: 4; /* Place item 3 in column 2 */
+        grid-row: 3;
+    }
     .grid-item[spaceId="Int-Warn"] {
         grid-column: 4; /* Place item 3 in column 2 */
-        grid-row: 3; /* Place item 3 in row 2 */
+        grid-row: 4; /* Place item 3 in row 2 */
     }
 
     .grid-item[spaceId="Wis-Label"] {
@@ -84,10 +98,13 @@
         grid-column: 5; /* Place item 3 in column 2 */
         grid-row: 2; /* Place item 3 in row 2 */
     }
-
+    .grid-item[spaceID="Wis-Mod"] {
+        grid-column: 5; /* Place item 3 in column 2 */
+        grid-row: 3;
+    }
     .grid-item[spaceId="Wis-Warn"] {
-        grid-column: 6; /* Place item 3 in column 2 */
-        grid-row: 3; /* Place item 3 in row 2 */
+        grid-column: 5; /* Place item 3 in column 2 */
+        grid-row: 4; /* Place item 3 in row 2 */
     }
 
     .grid-item[spaceId="Cha-Label"] {
@@ -99,10 +116,13 @@
         grid-column: 6; /* Place item 3 in column 2 */
         grid-row: 2; /* Place item 3 in row 2 */
     }
-
+    .grid-item[spaceID="Cha-Mod"] {
+        grid-column: 6; /* Place item 3 in column 2 */
+        grid-row: 3;
+    }
     .grid-item[spaceId="Cha-Warn"] {
         grid-column: 6; /* Place item 3 in column 2 */
-        grid-row: 3; /* Place item 3 in row 2 */
+        grid-row: 4; /* Place item 3 in row 2 */
     }
 
   

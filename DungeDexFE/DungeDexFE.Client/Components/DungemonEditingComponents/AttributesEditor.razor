@@ -1,69 +1,130 @@
 ﻿
 <div class="grid-container">
 
-<div class="grid-item" spaceId="Str-Label" )>
-	<label for="STR">STR</label>
-</div>
-<div class="grid-item" spaceId="Str-Id">
-	<InputNumber id="STR" TValue="int" @bind-Value="@Dungemon.Strength" disabled="@(!IsEditing)" style="width: 100%; text-align: center; border: none;" class="inputNum" />
-</div>
+	<div class="grid-item" spaceId="Str-Label" )>
+		<label for="STR">STR</label>
+	</div>
+	<div class="grid-item" spaceId="Str-Id">
+		@if(!IsEditing){
+			<p id="STR" s style="width: 100%; text-align: center; border: none;" > @Dungemon.Strength </p>
+		}
+		else{
+			<InputNumber id="STR" TValue="int" @bind-Value="@Dungemon.Strength" disabled="@(!IsEditing)" style="width: 100%; text-align: center; border: none;" class="inputNum" />
+		}
 
-<div class="grid-item" spaceId="Str-Warn">
-	<ValidationMessage For="() => Dungemon.Strength" />
-</div>
-<div class="grid-item text-center" spaceId="Dex-Label">
-	<label for="DEX">DEX</label>
-</div>
-<div class="grid-item" spaceId="Dex-Id">
-	<InputNumber id="DEX" TValue="int" @bind-Value="@Dungemon.Dexterity" disabled="@(!IsEditing)" style="width: 100%; text-align: center; border: none;" class="inputNum" />
-</div>
-<div class="grid-item text-center" spaceId="Dex-Warn">
-	<ValidationMessage For="() => Dungemon.Dexterity" />
-</div>
+	</div>
+	<div class="grid-item" spaceID="Str-Mod">
+
+		<p>@GetModifier(Dungemon.Strength)</p>
+
+	</div>
+	<div class="grid-item" spaceId="Str-Warn">
+		<ValidationMessage For="() => Dungemon.Strength" />
+	</div>
+
+	<div class="grid-item text-center" spaceId="Dex-Label">
+		<label for="DEX">DEX</label>
+	</div>
+	<div class="grid-item" spaceId="Dex-Id">
+		@if(!IsEditing){
+			<p id="DEX" s style="width: 100%; text-align: center; border: none;" > @Dungemon.Dexterity </p>
+		}
+		else{
+			<InputNumber id="DEX" TValue="int" @bind-Value="@Dungemon.Dexterity" disabled="@(!IsEditing)" style="width: 100%; text-align: center; border: none;" class="inputNum" />
+		}
+	</div>
+	<div class="grid-item" spaceID="Dex-Mod">
+
+		<p>@GetModifier(Dungemon.Dexterity)</p>
+
+	</div>
+	<div class="grid-item text-center" spaceId="Dex-Warn">
+		<ValidationMessage For="() => Dungemon.Dexterity" />
+	</div>
+
+	<div class="grid-item  text-center" spaceId="Con-Label">
+		<label for="CON">CON</label>
+	</div>
+	<div class="grid-item" spaceId="Con-Id">
+		@if(!IsEditing){
+			<p id="CON" s style="width: 100%; text-align: center; border: none;" > @Dungemon.Constitution </p>
+		}
+		else{
+			<InputNumber id="CON" TValue="int" @bind-Value="@Dungemon.Constitution" disabled="@(!IsEditing)" style="width: 100%; text-align: center; border: none;" class="inputNum" />
+		}
+	</div>
+	<div class="grid-item" spaceID="Con-Mod">
+
+		<p>@GetModifier(Dungemon.Constitution)</p>
+
+	</div>
+	<div class="grid-item text-center" spaceId="Con-Warn">
+		<ValidationMessage For="() => Dungemon.Constitution" />
+	</div>
 
 
-<div class="grid-item  text-center" spaceId="Con-Label">
-	<label for="CON">CON</label>
-</div>
-<div class="grid-item" spaceId="Con-Id">
-	<InputNumber id="CON" TValue="int" @bind-Value="@Dungemon.Constitution" disabled="@(!IsEditing)" style="width: 100%; text-align: center; border: none;" class="inputNum" />
-</div>
-<div class="grid-item text-center" spaceId="Con-Warn">
-	<ValidationMessage For="() => Dungemon.Constitution" />
-</div>
+	<div class="grid-item text-center" spaceId="Int-Label">
+		<label for="INT">INT</label>
+	</div>
+	<div class="grid-item" spaceId="Int-Id">
+		@if(!IsEditing){
+			<p id="INT" s style="width: 100%; text-align: center; border: none;" > @Dungemon.Intelligence </p>
+		}
+		else{
+			<InputNumber id="INT" TValue="int" @bind-Value="@Dungemon.Intelligence" disabled="@(!IsEditing)" style="width: 100%; text-align: center; border: none;" class="inputNum" />
+		}
+	</div>
+	<div class="grid-item" spaceID="Int-Mod">
+
+		<p>@GetModifier(Dungemon.Intelligence)</p>
+
+	</div>
+	<div class="grid-item text-center" spaceId="Int-Warn">
+		<ValidationMessage For="() => Dungemon.Intelligence" />
+	</div>
 
 
-<div class="grid-item text-center" spaceId="Int-Label">
-	<label for="INT">INT</label>
-</div>
-<div class="grid-item" spaceId="Int-Id">
-	<InputNumber id="cr" TValue="int" @bind-Value="@Dungemon.Intelligence" disabled="@(!IsEditing)" style="width: 100%; text-align: center; border: none;" class="inputNum" />
-</div>
-<div class="grid-item text-center" spaceId="Int-Warn">
-	<ValidationMessage For="() => Dungemon.Intelligence" />
-</div>
+	<div class="grid-item text-center" spaceId="Wis-Label">
+		<label for="WIS">WIS</label>
+	</div>
+	<div class="grid-item " spaceId="Wis-Id">
+		@if(!IsEditing){
+			<p id="WIS" s style="width: 100%; text-align: center; border: none;" > @Dungemon.Wisdom </p>
+		}
+		else{
+			<InputNumber id="WIS" TValue="int" @bind-Value="@Dungemon.Wisdom" disabled="@(!IsEditing)" style="width: 100%; text-align: center; border: none;" class="inputNum" />
+		}
+	</div>
+	<div class="grid-item" spaceID="Wis-Mod">
+
+		<p>@GetModifier(Dungemon.Wisdom)</p>
+
+	</div>
+	<div class="grid-item text-center" spaceId="Wis-Warn">
+		<ValidationMessage For="() => Dungemon.Wisdom" />
+	</div>
 
 
-<div class="grid-item text-center" spaceId="Wis-Label">
-	<label for="WIS">WIS</label>
-</div>
-<div class="grid-item " spaceId="Wis-Id">
-	<InputNumber id="WIS" TValue="int" @bind-Value="@Dungemon.Wisdom" disabled="@(!IsEditing)" style="width: 100%; text-align: center; border: none;" class="inputNum" />
-</div>
-<div class="grid-item text-center" spaceId="Wis-Warn">
-	<ValidationMessage For="() => Dungemon.Wisdom" />
-</div>
+	<div class="grid-item text-center " spaceId="Cha-Label">
+		<label for="CHA">CHA</label>
+	</div>
+	<div class="grid-item" spaceId="Cha-Id">
+		@if(!IsEditing){
+			<p id="CHA" s style="width: 100%; text-align: center; border: none;" > @Dungemon.Charisma </p>
+		}
+		else{
+			<InputNumber id="CHA" TValue="int" @bind-Value="@Dungemon.Charisma" disabled="@(!IsEditing)" style="width: 100%; text-align: center; border: none;"  />
+		}
+	</div>
+	<div class="grid-item" spaceID="Cha-Mod">
 
+		<p>@GetModifier(Dungemon.Charisma)</p>
 
-<div class="grid-item text-center " spaceId="Cha-Label">
-	<label for="CHA">CHA</label>
-</div>
-<div class="grid-item" spaceId="Cha-Id">
-	<InputNumber id="CHA" TValue="int" @bind-Value="@Dungemon.Charisma" disabled="@(!IsEditing)" style="width: 100%; text-align: center; border: none;" class="inpu" />
-</div>
-<div class="grid-item text-center" spaceId="Cha-Warn">
-	<ValidationMessage For="() => Dungemon.Charisma" />
-</div>
+	</div>
+	<div class="grid-item text-center" spaceId="Cha-Warn">
+		<ValidationMessage For="() => Dungemon.Charisma" />
+	</div>
+
 </div>
 
 @code {
@@ -71,5 +132,24 @@
 	public Dungemon Dungemon { get; set; } = null!;
 	[Parameter]
 	public bool IsEditing { get; set; }
+	public float modd;
 
+	public string GetModifier(int mod){
+		modd = mod;
+		modd = MathF.Floor((mod - 10 )/ 2);
+		if(mod > 10){
+
+
+
+			return $"+{modd}";
+
+		}
+		else if(mod < 10){
+			return $"-{modd}";
+		} 
+		else{
+			return "+0";
+		}
+	}
+	};
 }
