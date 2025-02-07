@@ -71,5 +71,31 @@ namespace Tests.ControllerTests
 			objectResult?.StatusCode.Should().Be(404);
 			objectResult?.Value.Should().BeEquivalentTo(testResult.ErrorMessage);
 		}
+
+		[Test]
+		public async Task GetMonsterFromPokemon_InvalidQuery_ReturnsNotFound()
+		{
+			// Arrange
+			var testInvalidQuery = _fixture.Create<string>();
+			var testResult = new Result
+			{
+				IsSuccess = false,
+				StatusCode = HttpStatusCode.NotFound,
+				ErrorMessage = $"PokéAPI Error: Could not find pokemon with index '{testInvalidQuery}'"
+			};
+
+			_mockPokemonService
+				.Setup(p => p.GetDungemonFromPokemonAsync(testInvalidQuery))
+				.ReturnsAsync(testResult);
+
+			// Act
+			var result = await _controller.GetMonsterFromPokemon(testInvalidQuery);
+
+			// Assert
+			result.Should().BeOfType<ObjectResult>();
+			var objectResult = result as ObjectResult;
+			objectResult?.StatusCode.Should().Be(404);
+			objectResult?.Value.Should().BeEquivalentTo(testResult.ErrorMessage);
+		}
 	}
 }
