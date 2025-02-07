@@ -58,7 +58,9 @@ namespace DungeDexBE.Repositories
 				SpecialAttack = ((int)pokemonStats[3]!["base_stat"]!),
 				SpecialDefense = ((int)pokemonStats[4]!["base_stat"]!),
 				Speed = ((int)pokemonStats[5]!["base_stat"]!),
-				Type1 = pokemonTypes[0]!["type"]!["name"]!.ToString()
+				Type1 = pokemonTypes[0]!["type"]!["name"]!.ToString(),
+				Cry = jObj!["cries"]!["latest"]!.Value<string>()!,
+				pokemonId = (int)jObj["id"]!
 			};
 
 			if (pokemonTypes.Count == 2) pokemon.Type2 = pokemonTypes[1]["type"]!["name"]!.ToString();
@@ -83,7 +85,7 @@ namespace DungeDexBE.Repositories
 				pokemon.ImageLink = jObj!["sprites"]!["front_default"]!.Value<string>()!;
 			}
 
-			pokemon.Cry = jObj!["cries"]!["latest"]!.Value<string>()!;
+			
 
 			return pokemon;
 		}
