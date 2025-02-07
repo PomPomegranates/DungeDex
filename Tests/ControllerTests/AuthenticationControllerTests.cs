@@ -77,6 +77,24 @@ namespace Tests.ControllerTests
 
 			// Assert
 			result.Should().BeOfType<UnauthorizedResult>();
+		}	
+		
+		[Test]
+		public async Task Login_IncorrectUsername_ReturnsUnauthorized()
+		{
+			// Arrange
+			var testLoginModel = new LoginModel()
+			{
+				UserName = "IncorrectTestUserName",
+				Password = "CorrectTestPassword"
+			};
+			_mockUserManager.Setup(u => u.FindByNameAsync(testLoginModel.UserName)).ReturnsAsync(() => null);
+
+			// Act
+			var result = await _controller.Login(testLoginModel);
+
+			// Assert
+			result.Should().BeOfType<UnauthorizedResult>();
 		}
 	}
 }
