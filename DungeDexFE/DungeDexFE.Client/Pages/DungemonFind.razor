@@ -1,6 +1,12 @@
-﻿@using DungeDexFE.Client.Models
-@rendermode InteractiveWebAssembly
 @page "/dungemon/{Id:int}"
+@rendermode @(new InteractiveWebAssemblyRenderMode(false))
+
+@using System.Security.Claims
+@using System.Net
+
+@inject IHttpClientFactory clientFactory
+@inject AuthStateProvider auth
+@inject NavigationManager nav
 
 <PageTitle>DungéDex : Find</PageTitle>
 
@@ -8,28 +14,43 @@
 {
 	<p>@errorMessage</p>
 }
-else if (PublishedDungemon != null)
+
+@if (Dungemon != null)
 {
-	<h3>@PublishedDungemon.NickName</h3>
-	<DungemonDisplay Dungemon=PublishedDungemon DungemonChanged="DungemonChanged"/>
+	<h3>@Dungemon.NickName</h3>
+	<DungemonDisplay Dungemon=Dungemon DungemonChanged="DungemonChanged"/>
+	<div id="DeleteDungemon">
+		<button @onclick="DeleteDungemonCheck">🗑️</button>
+		<p>@areYouSure</p>
+		<button hidden="@deleteButtonsHidden" @onclick="DeleteDungemon">Yes</button>
+		<button hidden="@deleteButtonsHidden" @onclick="Rehide">No</button>
+	</div>
 }
 
 @code {
 	[Parameter]
 	public int Id { get; set; }
 
-	public Dungemon PublishedDungemon { get; set; } = null!;
+	private string? userId { get; set; } = null!;
+
+	public Dungemon Dungemon { get; set; } = null!;
 
 	private string errorMessage { get; set; } = null!;
+
+	private bool dungemonBelongsToUser = false;
+
+	private string areYouSure = string.Empty;
+
+	private bool deleteButtonsHidden = true;
 
 	protected override async Task OnParametersSetAsync()
 	{
 		try
 		{
-			using var client = new HttpClient();
-			var response = await client.GetAsync($"https://localhost:7298/api/UserDungemon/{Id}");
+			using var client = clientFactory.CreateClient("BackendAPI");
+			var response = await client.GetAsync($"dungemon/{Id}");
 			response.EnsureSuccessStatusCode();
-			PublishedDungemon = await response.Content.ReadFromJsonAsync<Dungemon>() ?? throw new Exception();
+			Dungemon = await response.Content.ReadFromJsonAsync<Dungemon>() ?? throw new Exception();
 		}
 		catch (HttpRequestException hEx)
 		{
@@ -39,11 +60,82 @@ else if (PublishedDungemon != null)
 		{
 			errorMessage = $"There was an issue fetching the Dungémon data: {ex.Message}";
 		}
+
+		deleteButtonsHidden = auth.GetUserId() != Dungemon.UserId;
 	}
 
-	private async Task DungemonChanged(Dungemon updatedDungemon)
+	private void DungemonChanged(Dungemon updatedDungemon)
 	{
-		PublishedDungemon = updatedDungemon;
-		// Make a patch request
+		Dungemon = updatedDungemon;
+	}
+
+	private async Task HandlePatchRequest(MouseEventArgs e)
+	{
+		var authState = await auth.GetAuthenticationStateAsync();
+
+		if (authState.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid) == null)
+		{
+			errorMessage = "You must be signed-in to edit Dungémon.";
+			return;
+		}
+
+		try
+		{
+			using var client = clientFactory.CreateClient("BackendAPI");
+			var response = await client.PatchAsJsonAsync<Dungemon>("dungemon", Dungemon!);
+			response.EnsureSuccessStatusCode();
+			var patchedDungemon = await response.Content.ReadFromJsonAsync<Dungemon>();
+
+			if (patchedDungemon == null)
+			{
+				errorMessage = "There was an error updating the Dungémon.";
+				return;
+			}
+
+			Dungemon = patchedDungemon;
+		}
+		catch (HttpRequestException hex)
+		{
+			if (hex.StatusCode == HttpStatusCode.Unauthorized) errorMessage = "You must be signed-in to publish Dungémon.";
+
+			else errorMessage = hex.Message;
+		}
+		catch (Exception ex)
+		{
+			errorMessage = ex.Message;
+		}
+	}
+
+	private void DeleteDungemonCheck()
+	{
+		areYouSure = "Are you sure?";
+		deleteButtonsHidden = false;
+	}
+
+	private void Rehide()
+	{
+		areYouSure = string.Empty;
+		deleteButtonsHidden = true;
+	}
+
+	private async Task DeleteDungemon(MouseEventArgs e)
+	{
+		try
+		{
+			using var client = clientFactory.CreateClient("BackendAPI");
+			var response = await client.DeleteAsync($"dungemon/{Id}");
+			response.EnsureSuccessStatusCode();
+			areYouSure = "Dungémon deleted.";
+			await Task.Delay(1000);
+			nav.NavigateTo("/");
+		}
+		catch (HttpRequestException hEx)
+		{
+			errorMessage = $"There was an issue retrieving data from the Database: {hEx.Message}";
+		}
+		catch (Exception ex)
+		{
+			errorMessage = $"There was an issue fetching the Dungémon data: {ex.Message}";
+		}
 	}
 }

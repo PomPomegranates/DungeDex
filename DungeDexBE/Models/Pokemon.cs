@@ -4,14 +4,14 @@ namespace DungeDexBE.Models
 {
 	public class Pokemon : IReturnable
 	{
-		public string Name { get; set; }
+		public string Name { get; set; } = null!;
 		public int HP { get; set; }
 		public int Attack { get; set; }
 		public int Defense { get; set; }
 		public int SpecialAttack { get; set; }
 		public int SpecialDefense { get; set; }
 		public int Speed { get; set; }
-		public string ImageLink { get; set; }
+		public string ImageLink { get; set; } = null!;
 		#region stretch
 		//public string Type1 { get; set; }
 		//public string? Type2 { get; set; }

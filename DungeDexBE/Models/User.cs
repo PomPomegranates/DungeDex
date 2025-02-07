@@ -1,10 +1,10 @@
-﻿namespace DungeDexBE.Models
+﻿using Microsoft.AspNetCore.Identity;
+
+namespace DungeDexBE.Models
 {
-    public class User
-    {
-        public  int Id { get; set; }
-        public string UserName { get; set; } = null!;
-        public virtual List<DungeMon> DungeMons { get; set; } = [];
-    }
- }
+	public class User : IdentityUser
+	{
+		public ICollection<Dungemon> Dungemon { get; set; } = [];
+	}
+}
 

@@ -1,75 +1,98 @@
 ﻿using DungeDexBE.Interfaces.RepositoryInterfaces;
 using DungeDexBE.Models;
+using DungeDexBE.Models.Dtos;
+using DungeDexBE.Persistence;
 using Microsoft.EntityFrameworkCore;
 
 namespace DungeDexBE.Repositories
 {
-
-    public class UserDungeMonRepository : IUserDungeMonRepository
+	public class UserDungemonRepository : IUserDungemonRepository
 	{
-		//private readonly IHttpClientFactory _httpClient;
-		private readonly MyDbContext myDbContext;
+		private readonly ApplicationDbContext _db;
 
-		public UserDungeMonRepository(IHttpClientFactory httpClient, MyDbContext myDbContext)
+		public UserDungemonRepository(ApplicationDbContext dbContext)
 		{
-			//_httpClient = httpClient;
-			this.myDbContext = myDbContext;
+			_db = dbContext;
 		}
 
-		public List<DungeMon>? GetMonsters()
+		public async Task<List<Dungemon>?> GetDungemon(DungemonFilterDto filterDto)
 		{
 			try
 			{
+				var dungemon = _db.Dungemon.AsQueryable<Dungemon>();
 
-				return myDbContext.MonsterDb.AsNoTracking().Include(m=> m.Spells).ToList();
-				
+				if (!string.IsNullOrEmpty(filterDto.BasePokemon))
+					dungemon = dungemon.Where(d => d.BasePokemon == filterDto.BasePokemon);
 
+				dungemon = dungemon.Skip(filterDto.Offset).Take(filterDto.Number);
+
+				return await dungemon.Include(d => d.Spells).ToListAsync();
 			}
-			catch { return null; }
+			catch
+			{
+				return null;
+			}
 		}
 
-		public (DungeMon?, string) GetSingularMonster(int id)
+		public async Task<(Dungemon?, string)> GetDungemonById(int id)
 		{
-			var value = myDbContext.MonsterDb.Where(x => (x.Id == id)).FirstOrDefault();
-			try
-			{
+			var value = await _db.Dungemon.Where(x => (x.Id == id)).Include(d => d.Spells).FirstOrDefaultAsync();
 
+			var result = value == null
+				? $"No Userdata for Pokemon Number {id}"
+				: "Success";
 
-				if (value != null)
-				{
-					return (value, "Success");
-				}
-				else
-				{
-					return (null, $"No Userdata for Pokemon Number {id}");
-				}
-			}
-			catch (Exception e)
-			{
-				return (null, e.Message);
-			}
-
-
-
+			return (value, result);
 		}
 
 
-        public (DungeMon, string) PostUserMonster(DungeMon monster)
+		public async Task<(Dungemon, string)> AddDungemon(Dungemon monster)
 		{
 			try
 			{
-				myDbContext.MonsterDb.Add(monster);
-				myDbContext.SaveChanges();
+				await _db.Dungemon.AddAsync(monster);
+				await _db.SaveChangesAsync();
 				return (monster, "Success");
-
 			}
 			catch (Exception e)
 			{
 				return (monster, e.Message);
 			}
-
-
 		}
 
+		public async Task<(Dungemon, string)> UpdateDungemon(Dungemon monster)
+		{
+			try
+			{
+				var monsterToChange = await _db.Dungemon.SingleAsync(x => x.Id == monster.Id);
+				_db.Dungemon.Entry(monsterToChange).CurrentValues.SetValues(monster);
+				await _db.SaveChangesAsync();
+				return (monster, "Success");
+			}
+			catch (Exception e)
+			{
+				return (monster, e.Message);
+			}
+		}
+
+		public async Task<string> DeleteDungemonById(int monsterId, string jwtUserId)
+		{
+			try
+			{
+				var existingMonster = await _db.Dungemon.SingleOrDefaultAsync(m => m.Id == monsterId);
+
+				if (existingMonster == null) return $"No Dungémon with Id {monsterId} could be found.";
+
+				if (existingMonster.UserId != jwtUserId) return $"User Id and Dungémon User Id do not match.";
+
+				_db.Dungemon.Remove(existingMonster);
+				await _db.SaveChangesAsync();
+				return "Success";
+			}
+			catch (Exception e)
+			{
+				return e.Message;
+			}
+		}
 	}
 }

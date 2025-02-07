@@ -5,9 +5,10 @@ namespace DungeDexFE.Client.Models
 	public class Dungemon
 	{
 		public int Id { get; set; }
+		public string UserId { get; set; } = null!;
+		public virtual User? User { get; set; }
 		public string BasePokemon { get; set; } = null!;
 		public string NickName { get; set; } = null!;
-		public int UserId { get; set; }
 		[Range(0f, 100f, ErrorMessage = "Challenge Rating must be between 0 and 100.")]
 		public float ChallengeRating { get; set; }
 		public int ArmorClass { get; set; }
@@ -29,24 +30,24 @@ namespace DungeDexFE.Client.Models
 
 		#region stretch
 
-		public Size Size { get; set; }
-		public string Type { get; set; }
-		public MoveSpeed Speeds { get; set; }
-		public int ProficiencyBonus { get; set; }
-		public List<EAttributes> SavingThrows { get; set; }
-		public string? HitDice { get; set; }
+		//public Size Size { get; set; }
+		//public string Type { get; set; }
+		//public MoveSpeed Speeds { get; set; }
+		//public int ProficiencyBonus { get; set; }
+		//public List<EAttributes> SavingThrows { get; set; }
+		//public string? HitDice { get; set; }
 
-		public List<string> Proficiences { get; set; }
-		public List<Damage> DamageVulnerabilities { get; set; } = [];
-		public List<Damage> DamageResistances { get; set; } = [];
-		public List<Condition> ConditionImmunities { get; set; } = [];
-		public Dictionary<string, string> SpecialAbilities { get; set; }
-		public List<int> AttackIds { get; set; }
-		//Need a table of attacks in our database for this to pull from
-		public EAttributes? SpellcastingAbility { get; set; }
-		public int? SpellSaveDC { get; set; }
-		//public List<LegendaryAction>? LegendaryActions { get; set; }
-		public string Description { get; set; }
+		//public List<string> Proficiences { get; set; }
+		//public List<Damage> DamageVulnerabilities { get; set; } = [];
+		//public List<Damage> DamageResistances { get; set; } = [];
+		//public List<Condition> ConditionImmunities { get; set; } = [];
+		//public Dictionary<string, string> SpecialAbilities { get; set; }
+		//public List<int> AttackIds { get; set; }
+		////Need a table of attacks in our database for this to pull from
+		//public EAttributes? SpellcastingAbility { get; set; }
+		//public int? SpellSaveDC { get; set; }
+		////public List<LegendaryAction>? LegendaryActions { get; set; }
+		//public string Description { get; set; }
 
 		#endregion
 	}

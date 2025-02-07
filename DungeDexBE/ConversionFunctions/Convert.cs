@@ -4,10 +4,10 @@ namespace DungeDexBE.ConversionFunctions
 {
 	public static class Convert
 	{
-		public static DungeMon ToMonster(this Pokemon pokemon)
+		public static Dungemon ToMonster(this Pokemon pokemon)
 		{
 
-			DungeMon monster = new();
+			Dungemon monster = new();
 
 			monster.BasePokemon = pokemon.Name;
 
@@ -20,7 +20,7 @@ namespace DungeDexBE.ConversionFunctions
 			return monster;
 		}
 
-		public static void ConvertBaseStats(Pokemon pokemon, DungeMon monster)
+		public static void ConvertBaseStats(Pokemon pokemon, Dungemon monster)
 		{
 			ConvertAttackToStrength(pokemon, monster);
 			ConvertHPToConstitution(pokemon, monster);
@@ -31,7 +31,7 @@ namespace DungeDexBE.ConversionFunctions
 			ConvertStatstoAC(pokemon, monster);
 			ConvertStatstoHitPoints(pokemon, monster);
 		}
-		public static void ConvertAttackToStrength(Pokemon pokemon, DungeMon monster)
+		public static void ConvertAttackToStrength(Pokemon pokemon, Dungemon monster)
 		{
 			if (pokemon.Attack < 11) monster.Strength = 1;
 			if (pokemon.Attack >= 11 && pokemon.Attack < 17) monster.Strength = 2;
@@ -64,7 +64,7 @@ namespace DungeDexBE.ConversionFunctions
 			if (pokemon.Attack >= 173 && pokemon.Attack < 179) monster.Strength = 29;
 			if (pokemon.Attack >= 179) monster.Strength = 30;
 		}
-		public static void ConvertHPToConstitution(Pokemon pokemon, DungeMon monster)
+		public static void ConvertHPToConstitution(Pokemon pokemon, Dungemon monster)
 		{
 			if (pokemon.HP < 9) monster.Constitution = 1;
 			if (pokemon.HP >= 9 && pokemon.HP < 18) monster.Constitution = 2;
@@ -97,7 +97,7 @@ namespace DungeDexBE.ConversionFunctions
 			if (pokemon.HP >= 239 && pokemon.HP < 247) monster.Constitution = 29;
 			if (pokemon.HP >= 247) monster.Constitution = 30;
 		}
-		public static void ConvertSpeedToDexterity(Pokemon pokemon, DungeMon monster)
+		public static void ConvertSpeedToDexterity(Pokemon pokemon, Dungemon monster)
 		{
 			if (pokemon.Speed < 11) monster.Dexterity = 1;
 			if (pokemon.Speed >= 11 && pokemon.Speed < 17) monster.Dexterity = 2;
@@ -130,7 +130,7 @@ namespace DungeDexBE.ConversionFunctions
 			if (pokemon.Speed >= 169 && pokemon.Speed < 175) monster.Dexterity = 29;
 			if (pokemon.Speed >= 175) monster.Dexterity = 30;
 		}
-		public static void ConvertSpAtkToIntelligence(Pokemon pokemon, DungeMon monster)
+		public static void ConvertSpAtkToIntelligence(Pokemon pokemon, Dungemon monster)
 		{
 			if (pokemon.SpecialAttack < 16) monster.Intelligence = 1;
 			if (pokemon.SpecialAttack >= 16 && pokemon.SpecialAttack < 22) monster.Intelligence = 2;
@@ -163,7 +163,7 @@ namespace DungeDexBE.ConversionFunctions
 			if (pokemon.SpecialAttack >= 178 && pokemon.SpecialAttack < 184) monster.Intelligence = 29;
 			if (pokemon.SpecialAttack >= 184) monster.Intelligence = 30;
 		}
-		public static void ConvertSpDefToWisdom(Pokemon pokemon, DungeMon monster)
+		public static void ConvertSpDefToWisdom(Pokemon pokemon, Dungemon monster)
 		{
 			if (pokemon.SpecialDefense < 27) monster.Wisdom = 1;
 			if (pokemon.SpecialDefense >= 27 && pokemon.SpecialDefense < 34) monster.Wisdom = 2;
@@ -196,7 +196,7 @@ namespace DungeDexBE.ConversionFunctions
 			if (pokemon.SpecialDefense >= 216 && pokemon.SpecialDefense < 223) monster.Wisdom = 29;
 			if (pokemon.SpecialDefense >= 223) monster.Wisdom = 30;
 		}
-		public static void ConvertDefenseToCharisma(Pokemon pokemon, DungeMon monster)
+		public static void ConvertDefenseToCharisma(Pokemon pokemon, Dungemon monster)
 		{
 			if (pokemon.Defense < 12) monster.Charisma = 1;
 			if (pokemon.Defense >= 12 && pokemon.Defense < 19) monster.Charisma = 2;
@@ -229,7 +229,7 @@ namespace DungeDexBE.ConversionFunctions
 			if (pokemon.Defense >= 214 && pokemon.Defense < 222) monster.Charisma = 29;
 			if (pokemon.Defense >= 222) monster.Charisma = 30;
 		}
-		public static void ConvertStatstoHitPoints(Pokemon pokemon, DungeMon monster)
+		public static void ConvertStatstoHitPoints(Pokemon pokemon, Dungemon monster)
 		{
 			float expectedCR = DetermineExpectedCR(pokemon);
 
@@ -342,7 +342,7 @@ namespace DungeDexBE.ConversionFunctions
 
 			monster.HitPoints += monster.Constitution;
 		}
-		public static void ConvertStatstoAC(Pokemon pokemon, DungeMon monster)
+		public static void ConvertStatstoAC(Pokemon pokemon, Dungemon monster)
 		{
 			float expectedCR = DetermineExpectedCR(pokemon);
 

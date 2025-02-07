@@ -1,59 +1,44 @@
 ﻿using DungeDexBE.Interfaces.ServiceInterfaces;
-using DungeDexBE.Services;
+using DungeDexBE.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DungeDexBE.Controllers
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class UserController : ControllerBase
-    {
+	[ApiController]
+	[Authorize]
+	[EnableCors("AllowLocalhost")]
+	[Route("api/[controller]")]
+	public class UserController : ControllerBase
+	{
+		private readonly IUserService _userService;
 
-        private readonly IUserService _userService;
+		public UserController(IUserService userService)
+		{
+			_userService = userService;
+		}
 
-        public UserController(IUserService userService)
-        {
-            _userService = userService;
-        }
+		[HttpGet]
+		public IActionResult GetUsers()
+		{
+			var result = _userService.GetUsers();
 
-        [HttpGet]
-        public IActionResult getUsers()
-        {
-            var result = _userService.getUsers();
+			if (result is null) return BadRequest();
 
-            if (result != null && result.Count > 0)
-            {
-                return Ok(result);
-            }
-            else if (result is null)
-            {
-                return BadRequest();
-            }
-            else if (result.Count == 0)
-            {
-                return NotFound();
-            }
-            else
-            {
-                return BadRequest();
-            }
-        }
+			if (result.Count == 0) return NotFound();
 
-        [HttpGet ("{name}")]
+			return Ok(result);
+		}
 
-        public IActionResult getUserByName(string name)
-        {
-            var result = _userService.getuserByName(name);
+		[HttpGet("{name}")]
+		public IActionResult GetUserByName(string name)
+		{
+			var result = _userService.GetUserByName(name);
 
-            if (result != null)
-            {
-                return Ok(result);
-            }
-            else
-            {
-                return NotFound();
-            }
+			if (result != null) return Ok(result);
 
-        }
-    }
+			return NotFound();
+		}
+	}
 }
