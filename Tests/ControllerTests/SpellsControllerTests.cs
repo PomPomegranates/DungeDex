@@ -41,5 +41,25 @@ namespace Tests.ControllerTests
 			objectResult?.StatusCode.Should().Be(500);
 			objectResult?.Value.Should().Be(expectedErrorMessage);
 		}
+
+		[Test]
+		public async Task GetAllSpellNamesAsync_CannotDeserialize_ReturnsInternalServerError()
+		{
+			// Arrange
+			_mockDndService
+				.Setup(d => d.GetAllSpellNamesAsync())
+				.ReturnsAsync(() => []);
+			
+			var expectedErrorMessage = "There was an issue converting from JSON to SpellDTO.";
+			
+			// Act
+			var result = await _controller.GetAllSpellNamesAsync();
+
+			// Assert
+			result.Should().BeOfType<ObjectResult>();
+			var objectResult = result as ObjectResult;
+			objectResult?.StatusCode.Should().Be(500);
+			objectResult?.Value.Should().Be(expectedErrorMessage);
+		}
 	}
 }
