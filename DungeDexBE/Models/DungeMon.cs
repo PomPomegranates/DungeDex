@@ -2,7 +2,7 @@
 
 namespace DungeDexBE.Models
 {
-    public class DungeMon : IReturnable
+    public class Dungemon : IReturnable
 	{
 		public int Id { get; set; }
 		public string? UserId { get; set; } = null;
