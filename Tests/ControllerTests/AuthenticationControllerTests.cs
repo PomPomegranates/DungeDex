@@ -55,5 +55,28 @@ namespace Tests.ControllerTests
 			var objectResult = result as OkObjectResult;
 			objectResult?.Value.Should().BeEquivalentTo(expected);
 		}
+		
+		[Test]
+		public async Task Login_IncorrectPassword_ReturnsUnauthorized()
+		{
+			// Arrange
+			var testLoginModel = new LoginModel()
+			{
+				UserName = "CorrectTestUserName",
+				Password = "IncorrectTestPassword"
+			};
+			var testUser = new User()
+			{
+				UserName = "CorrectTestUserName"
+			};
+			_mockUserManager.Setup(u => u.FindByNameAsync(testLoginModel.UserName)).ReturnsAsync(testUser);
+			_mockUserManager.Setup(u => u.CheckPasswordAsync(testUser, testLoginModel.Password)).ReturnsAsync(false);
+
+			// Act
+			var result = await _controller.Login(testLoginModel);
+
+			// Assert
+			result.Should().BeOfType<UnauthorizedResult>();
+		}
 	}
 }
