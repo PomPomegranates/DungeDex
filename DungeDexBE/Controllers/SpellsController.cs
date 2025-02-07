@@ -24,7 +24,7 @@ namespace DungeDexBE.Controllers
 		{
 			var result = await _service.GetAllSpellNamesAsync();
 
-			if (result == null) return BadRequest("There was an issue contacting the API.");
+			if (result == null) return StatusCode(500, "There was an issue contacting the API.");
 
 			if (result.Count == 0) return StatusCode(500, "There was an issue converting from JSON to SpellDTO.");
 
