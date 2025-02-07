@@ -7,25 +7,31 @@
 @inject AuthStateProvider auth
 @inject Blazored.SessionStorage.ISessionStorageService sessionStorage
 
-@if (!string.IsNullOrEmpty(username))
-{
-	<p>Welcome, @username!</p>
-	<button @onclick="SignOut">Sign Out!</button>
-}
-else
-{
-	<p>@message</p>
-	<EditForm Model="@loginModel" Context="LoginForm">
-		<InputText @bind-Value="loginModel.UserName" placeholder="Username" />
-		<InputText type="password" @bind-Value="loginModel.Password" placeholder="Password" />
-		<button type="submit" @onclick="(e) => SignIn(e)">Sign In!</button>
-	</EditForm>
-}
+<PageTitle>DungéDex : Account</PageTitle>
 
-@if (!string.IsNullOrEmpty(loginErrorMessage))
-{
-	<p>@loginErrorMessage</p>
-}
+<h3>Account</h3>
+
+<div class="py-4">
+	@if (!string.IsNullOrEmpty(username))
+	{
+		<p>Welcome, @username!</p>
+		<button @onclick="SignOut">Sign Out!</button>
+	}
+	else
+	{
+		<p>@message</p>
+		<EditForm Model="@loginModel" Context="LoginForm">
+			<InputText @bind-Value="loginModel.UserName" placeholder="Username" />
+			<InputText type="password" @bind-Value="loginModel.Password" placeholder="Password" />
+			<button type="submit" @onclick="(e) => SignIn(e)">Sign In!</button>
+		</EditForm>
+	}
+
+	@if (!string.IsNullOrEmpty(loginErrorMessage))
+	{
+		<p>@loginErrorMessage</p>
+	}
+</div>
 
 @code {
 	public Login loginModel = new();

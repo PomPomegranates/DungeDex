@@ -9,35 +9,40 @@
 
 <h3>Browse Dungémon</h3>
 
-@if (!string.IsNullOrEmpty(errorMessage))
-{
-	<p>@errorMessage</p>
-}
-else if (allDungemon != null)
-{
-	<div id="FilterBar" class="py-4">
-		<EditForm Model="filter">
-			<InputText @bind-Value="filter.PokeFilter" placeholder="Base Pokémon" />
-			<button type="submit" @onclick="PopulateTable">Filter</button>
-			<button hidden="@(string.IsNullOrEmpty(filter.PokeFilter))" @onclick="ClearFilter">❌</button>
-		</EditForm>
-	</div>
-
-	<DungemonTable dungemonList="allDungemon" />
-
-	<div style="width: 100%; display: flex; justify-content: space-between">
-
-		<div>
-			<button hidden="@(filter.Offset <= 0)" @onclick="() => filter.TurnPage(-1)">⬅️ Previous</button>
+<div class="py-4">
+	@if (!string.IsNullOrEmpty(errorMessage))
+	{
+		<p>@errorMessage</p>
+	}
+	else if (allDungemon != null)
+	{
+		<div id="FilterBar">
+			<EditForm Model="filter">
+				<InputText @bind-Value="filter.PokeFilter" placeholder="Base Pokémon" />
+				<button type="submit" @onclick="PopulateTable">Filter</button>
+				<button hidden="@(string.IsNullOrEmpty(filter.PokeFilter))" @onclick="ClearFilter">❌</button>
+			</EditForm>
 		</div>
 
-		<div>
-			<button hidden="@(allDungemon.Count <= 20)" @onclick="() => filter.TurnPage(1)">Next ➡️</button>
+		<div class="py-4">
+			<DungemonTable dungemonList="allDungemon"/>
 		</div>
 
-	</div>
+		<div class="py-4">
+			<div style="width: 100%; display: flex; justify-content: space-between">
 
-}
+				<div>
+					<button hidden="@(filter.Offset <= 0)" @onclick="() => filter.TurnPage(-1)">⬅️ Previous</button>
+				</div>
+
+				<div>
+					<button hidden="@(allDungemon.Count <= 20)" @onclick="() => filter.TurnPage(1)">Next ➡️</button>
+				</div>
+
+			</div>
+		</div>
+	}
+</div>
 
 @code {
 	public List<Dungemon> allDungemon { get; set; } = null!;

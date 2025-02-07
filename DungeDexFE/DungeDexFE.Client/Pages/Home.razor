@@ -4,8 +4,12 @@
 
 <PageTitle>DungéDex : Home</PageTitle>
 
+<h3>New Dungémon</h3>
 
-<DungemonSearch OnSearch="HandleSearch" />
+<div class="py-4">
+    <DungemonSearch OnSearch="HandleSearch" />
+</div>
+
 @code
 {
     public void HandleSearch(string newQuery)
