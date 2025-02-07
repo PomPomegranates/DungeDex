@@ -104,7 +104,31 @@ namespace Tests.ControllerTests
 			result.Should().BeOfType<ObjectResult>();
 			var objectResult = result as ObjectResult;
 			objectResult?.StatusCode.Should().Be(404);
-			objectResult?.Value?.Should().Be(expectedResult.ErrorMessage);
+			objectResult?.Value.Should().Be(expectedResult.ErrorMessage);
+		}
+
+		[Test]
+		public async Task GetSpellByNameOrIndex_ValidQuery_ReturnsOkExpectedSpell()
+		{
+			// Arrange
+			var testQuery = _fixture.Create<string>();
+			var testSpell = _fixture.Create<Spell>();
+			var expectedResult = new Result
+			{
+				Value = testSpell
+			};
+
+			_mockDndService
+				.Setup(d => d.GetSpellByNameOrIndex(testQuery))
+				.ReturnsAsync(expectedResult);
+
+			// Act
+			var result = await _controller.GetSpellByNameOrIndex(testQuery);
+
+			// Assert
+			result.Should().BeOfType<OkObjectResult>();
+			var objectResult = result as OkObjectResult;
+			objectResult?.Value.Should().Be(testSpell);
 		}
 	}
 }
