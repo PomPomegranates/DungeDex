@@ -1,12 +1,12 @@
 ﻿
 <label for="HP" style ="   width: 50px;
-  text-align: right;">HP</label>
+  text-align: left;">HP  </label>
 
   	@if(!IsEditing){
-    <p id="hp" style="width: 50px; text-align: center; border: none;"> @Dungemon.HitPoints </p>
+    <p id="hp" style="width: 50px; border: none; display:inline-block;"> @Dungemon.HitPoints </p>
 	}
 	else{
-<InputNumber id="hp" TValue="int" @bind-Value="@Dungemon.HitPoints" disabled="@(!IsEditing)" style="width: 50px; text-align: center; border: none;"  />
+<InputNumber id="hp" TValue="int" @bind-Value="@Dungemon.HitPoints" disabled="@(!IsEditing)" style="width: 50px; border: none;"  />
     }
 
 	<ValidationMessage For="() => Dungemon.HitPoints" />
