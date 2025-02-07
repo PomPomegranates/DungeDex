@@ -21,7 +21,7 @@ namespace DungeDexBE.ConversionFunctions
 			meleeAttack.AttackBonus = Convert.GetModifier(Dungemon.Strength) + Dungemon.ProficiencyBonus;
 
 			//Make Action:
-			Models.Action finalAction = new Models.Action
+			Models.MonsterAction finalAction = new Models.MonsterAction
 			{
 				Name = meleeAttack.Name,
 				Description = meleeAttack.ToString()

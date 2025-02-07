@@ -19,14 +19,14 @@ namespace Tests
 		[Test]
 		public void DetermineProficiencyBonus()
 		{
-			DungeMon dungeMon0 = new DungeMon { ChallengeRating = 0f };
-			DungeMon dungeMon5 = new DungeMon { ChallengeRating = 5f };
-			DungeMon dungeMon9 = new DungeMon { ChallengeRating = 9f };
-			DungeMon dungeMon13 = new DungeMon { ChallengeRating = 13f };
-			DungeMon dungeMon17 = new DungeMon { ChallengeRating = 17f };
-			DungeMon dungeMon21 = new DungeMon { ChallengeRating = 21f };
-			DungeMon dungeMon25 = new DungeMon { ChallengeRating = 25f };
-			DungeMon dungeMon29 = new DungeMon { ChallengeRating = 29f };
+			Dungemon dungeMon0 = new Dungemon { ChallengeRating = 0f };
+			Dungemon dungeMon5 = new Dungemon { ChallengeRating = 5f };
+			Dungemon dungeMon9 = new Dungemon { ChallengeRating = 9f };
+			Dungemon dungeMon13 = new Dungemon { ChallengeRating = 13f };
+			Dungemon dungeMon17 = new Dungemon { ChallengeRating = 17f };
+			Dungemon dungeMon21 = new Dungemon { ChallengeRating = 21f };
+			Dungemon dungeMon25 = new Dungemon { ChallengeRating = 25f };
+			Dungemon dungeMon29 = new Dungemon { ChallengeRating = 29f };
 
 			int expected2 = DungeDexBE.ConversionFunctions.Convert.DetermineProficiencyBonus(dungeMon0.ChallengeRating);
 			int expected3 = DungeDexBE.ConversionFunctions.Convert.DetermineProficiencyBonus(dungeMon5.ChallengeRating);

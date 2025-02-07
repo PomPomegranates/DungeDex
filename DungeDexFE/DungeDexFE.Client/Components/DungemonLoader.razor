@@ -44,9 +44,9 @@ else if (Dungemon != null)
 		{
 			errorMessage = ex.Message;
 		}
-		catch
+		catch (Exception ex)
 		{
-			errorMessage = "Could not process the Pokémonster data. Please try again later.";
+			errorMessage = "Could not process the Dungemon data. Please try again later." + ex.Message;
 		}
 	}
 

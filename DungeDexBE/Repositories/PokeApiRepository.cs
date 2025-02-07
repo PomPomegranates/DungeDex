@@ -83,6 +83,8 @@ namespace DungeDexBE.Repositories
 				pokemon.ImageLink = jObj!["sprites"]!["front_default"]!.Value<string>()!;
 			}
 
+			pokemon.Cry = jObj!["cries"]!["latest"]!.Value<string>()!;
+
 			return pokemon;
 		}
 
