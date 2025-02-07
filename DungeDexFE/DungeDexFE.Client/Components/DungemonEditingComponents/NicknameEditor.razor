@@ -1,0 +1,16 @@
+﻿<InputText class="w-auto" @bind-Value="@Dungemon.NickName" placeholder="@Dungemon.BasePokemon" @onblur="HandleNicknameChange" />
+    
+
+
+@code {
+    [Parameter]
+    public Dungemon Dungemon { get; set; } = null!;
+    [Parameter]
+    public bool IsEditing { get; set; }
+    [Parameter]
+    public EventCallback<Dungemon> DungemonChanged { get; set; }
+    private void HandleNicknameChange()
+    {
+        DungemonChanged.InvokeAsync(Dungemon);
+    }
+}

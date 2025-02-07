@@ -1,0 +1,21 @@
+﻿
+
+<label for="CR" style="width: 50px; text-align: left;">CR</label>
+@if(!IsEditing){
+
+    <p id="cr" style="display:inline-block;"> @Dungemon.ChallengeRating </p>
+}
+else{
+
+
+<InputNumber id="cr" TValue="float" @bind-Value="@Dungemon.ChallengeRating" disabled="@(!IsEditing)" style="width:50px; text-align: center; border: none;" />
+}
+<ValidationMessage For="() => Dungemon.ChallengeRating" />
+
+
+@code {
+    [Parameter]
+    public Dungemon Dungemon { get; set; } = null!;
+    [Parameter]
+    public bool IsEditing { get; set; }
+}

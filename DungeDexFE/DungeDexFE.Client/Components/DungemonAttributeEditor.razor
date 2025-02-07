@@ -1,108 +1,25 @@
-﻿<EditForm model=@Dungemon OnInvalidSubmit=@InvalidFormSubmitted OnValidSubmit=@ValidFormSubmitted>
-
-	<DataAnnotationsValidator />
-	<div class="row row-cols-3 g-2 pb-2 align-items-center">
-
-		<div class="col-1 text-center">
-			<label for="CR">CR</label>
-		</div>
-		<div class="col-1">
-			<InputNumber id="cr" TValue="float" @bind-Value="@Dungemon.ChallengeRating" disabled="@(!_isEditing)" style="width: 100%; text-align: center; border: none;" class="bg-primary" />
-		</div>
-		<div class="col-10">
-			<ValidationMessage For="() => Dungemon.ChallengeRating" />
-		</div>
+﻿@using DungeDexFE.Client.Components.DungemonEditingComponents
 
 
-		<div class="col-1 text-center">
-			<label for="HP">HP</label>
-		</div>
-		<div class="col-1">
-			<InputNumber id="hp" TValue="int" @bind-Value="@Dungemon.HitPoints" disabled="@(!_isEditing)" style="width: 100%; text-align: center; border: none;" class="bg-primary" />
-		</div>
-		<div class="col-10">
-			<ValidationMessage For="() => Dungemon.HitPoints" />
-		</div>
+<EditForm model=@Dungemon OnInvalidSubmit=@InvalidFormSubmitted OnValidSubmit=@ValidFormSubmitted>
 
-
-		<div class="col-1 text-center">
-			<label for="STR">STR</label>
-		</div>
-		<div class="col-1">
-			<InputNumber id="STR" TValue="int" @bind-Value="@Dungemon.Strength" disabled="@(!_isEditing)" style="width: 100%; text-align: center; border: none;" class="bg-primary" />
-		</div>
-		<div class="col-10">
-			<ValidationMessage For="() => Dungemon.Strength" />
-		</div>
-
-
-		<div class="col-1 text-center">
-			<label for="DEX">DEX</label>
-		</div>
-		<div class="col-1">
-			<InputNumber id="DEX" TValue="int" @bind-Value="@Dungemon.Dexterity" disabled="@(!_isEditing)" style="width: 100%; text-align: center; border: none;" class="bg-primary" />
-		</div>
-		<div class="col-10">
-			<ValidationMessage For="() => Dungemon.Dexterity" />
-		</div>
-
-
-		<div class="col-1 text-center">
-			<label for="CON">CON</label>
-		</div>
-		<div class="col-1">
-			<InputNumber id="CON" TValue="int" @bind-Value="@Dungemon.Constitution" disabled="@(!_isEditing)" style="width: 100%; text-align: center; border: none;" class="bg-primary" />
-		</div>
-		<div class="col-10">
-			<ValidationMessage For="() => Dungemon.Constitution" />
-		</div>
-
-
-		<div class="col-1 text-center">
-			<label for="INT">INT</label>
-		</div>
-		<div class="col-1">
-			<InputNumber id="cr" TValue="int" @bind-Value="@Dungemon.Intelligence" disabled="@(!_isEditing)" style="width: 100%; text-align: center; border: none;" class="bg-primary" />
-		</div>
-		<div class="col-10">
-			<ValidationMessage For="() => Dungemon.Intelligence" />
-		</div>
-
-
-		<div class="col-1 text-center">
-			<label for="WIS">WIS</label>
-		</div>
-		<div class="col-1">
-			<InputNumber id="WIS" TValue="int" @bind-Value="@Dungemon.Wisdom" disabled="@(!_isEditing)" style="width: 100%; text-align: center; border: none;" class="bg-primary" />
-		</div>
-		<div class="col-10">
-			<ValidationMessage For="() => Dungemon.Wisdom" />
-		</div>
-
-
-		<div class="col-1 text-center">
-			<label for="CHA">CHA</label>
-		</div>
-		<div class="col-1">
-			<InputNumber id="CHA" TValue="int" @bind-Value="@Dungemon.Charisma" disabled="@(!_isEditing)" style="width: 100%; text-align: center; border: none;" class="bg-primary" />
-		</div>
-		<div class="col-10">
-			<ValidationMessage For="() => Dungemon.Charisma" />
-		</div>
-
-
-		<div class="col-2">
-			@if (_isEditing)
-			{
-				<input type="submit" class="btn-primary" value="Save!" style="width: 100%;"/>
-			}
-			else
-			{
-				<button type="button" class="btn-primary" style="width: 100%;" @onclick="HandleButtonClick">Edit!</button>
-			}
-		</div>
-		<div class="col-10">@_submitResult</div>
+	
+	<div class="grid-container">
 	</div>
+
+		
+
+		
+
+
+		
+
+
+		
+
+
+		
+	
 </EditForm>
 
 @code {
