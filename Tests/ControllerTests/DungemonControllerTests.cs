@@ -171,7 +171,6 @@ namespace Tests.ControllerTests
 		{
 			// Arrange
 			var testDungemon = _fixture.Create<Dungemon>();
-			var testNewId = _fixture.Create<int>();
 			var testUserId = testDungemon.UserId;
 			
 			_mockJwtService
@@ -191,6 +190,32 @@ namespace Tests.ControllerTests
 			result.Should().BeOfType<OkObjectResult>();
 			var objectResult = result as OkObjectResult;
 			objectResult?.Value.Should().Be(expected);
+		}
+
+		[Test]
+		public async Task PatchDungemon_IncorrectUser_ReturnsUnauthorized()
+		{
+			// Arrange
+			var testDungemon = _fixture.Create<Dungemon>();
+			var testUserId = _fixture.Create<string>();
+			while (testUserId == testDungemon.UserId)
+			{
+				testUserId = _fixture.Create<string>();
+			}
+			
+			_mockJwtService
+				.Setup(j => j.ValidateUserIdFromJwt(It.IsAny<HttpRequest>()))
+				.Returns(testUserId);
+
+			var expectedErrorMessage = "You may not edit other users' Dungémon.";
+
+			// Act
+			var result = await _controller.PatchDungemon(testDungemon);
+
+			// Assert
+			result.Should().BeOfType<UnauthorizedObjectResult>();
+			var objectResult = result as UnauthorizedObjectResult;
+			objectResult?.Value.Should().Be(expectedErrorMessage);
 		}
 	}
 }
