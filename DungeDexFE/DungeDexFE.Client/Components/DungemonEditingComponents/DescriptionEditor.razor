@@ -2,13 +2,13 @@
 @if (!IsEditing)
 {
 
-    <p id="description" style="width:500px; text-align: left; border: none;"> @Dungemon.Description </p>
+    <p id="description" style="width:auto; text-align: left; border: none;"> @Dungemon.Description </p>
 }
 else
 {
 
 
-    <InputText id="cr" TValue="float" @bind-Value="@Dungemon.Description" disabled="@(!IsEditing)" style="width:500px; text-align: left; border: none;" />
+    <InputText id="cr" TValue="float" @bind-Value="@Dungemon.Description" disabled="@(!IsEditing)" style="width:auto; text-align: left; border: none;" />
 }
 
 
