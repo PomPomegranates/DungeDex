@@ -23,6 +23,8 @@ namespace DungeDexBE.ConversionFunctions
 
 			monster.GiveMeleeAttack(pokemon);
 
+			monster.Description = pokemon.Description;
+
 			ProficiencyDeciders.UpdateDungemon(monster, pokemon);
 
 			return monster;

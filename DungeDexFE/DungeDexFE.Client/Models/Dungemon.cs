@@ -29,6 +29,7 @@ namespace DungeDexFE.Client.Models
 		public virtual List<MonsterAction> Actions { get; set; } = null!;
         public string Proficiencies { get; set; } = string.Empty;
 		public string Cry { get; set; } = "";
+		public string Description { get; set; } = null!;
 
         #region stretch
 

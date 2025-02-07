@@ -3,6 +3,7 @@ using DungeDexBE.Interfaces.RepositoryInterfaces;
 using DungeDexBE.Models;
 using Microsoft.Identity.Client;
 using Newtonsoft.Json.Linq;
+using System.Text.RegularExpressions;
 
 namespace DungeDexBE.Repositories
 {
@@ -84,6 +85,20 @@ namespace DungeDexBE.Repositories
 			}
 
 			pokemon.Cry = jObj!["cries"]!["latest"]!.Value<string>()!;
+
+			foreach (var obj in speciesPageObj!["flavor_text_entries"]!)
+			{
+				
+				if (obj!["language"]!["name"]!.Value<string>()! == "en")
+				{
+					
+					string flavourText = obj!["flavor_text"]!.Value<string>()!;
+
+					flavourText = flavourText.Replace("\n", " ");
+                    flavourText = flavourText.Replace("\f", " ");
+                    pokemon.Description = flavourText;
+				}
+			}
 
 			return pokemon;
 		}

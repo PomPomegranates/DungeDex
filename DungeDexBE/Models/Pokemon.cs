@@ -17,6 +17,7 @@ namespace DungeDexBE.Models
         public string Shape {  get; set; } = null!;
         public bool IsLegendaryOrMythical {  get; set; }
 		public string Cry { get; set; } = "";
+		public string Description { get; set; } = "";
 
 
         public override string ToString() =>
