@@ -36,7 +36,7 @@ namespace Tests.ControllerTests
 			};
 			var testUser = new User()
 			{
-				UserName = "CorrectTestUserName"
+				UserName = testLoginModel.UserName
 			};
 			var token = "a-valid-and-very-very-secure-json-web-token";
 			var expected = new
@@ -67,7 +67,7 @@ namespace Tests.ControllerTests
 			};
 			var testUser = new User()
 			{
-				UserName = "CorrectTestUserName"
+				UserName = testLoginModel.UserName
 			};
 			_mockUserManager.Setup(u => u.FindByNameAsync(testLoginModel.UserName)).ReturnsAsync(testUser);
 			_mockUserManager.Setup(u => u.CheckPasswordAsync(testUser, testLoginModel.Password)).ReturnsAsync(false);
@@ -95,6 +95,33 @@ namespace Tests.ControllerTests
 
 			// Assert
 			result.Should().BeOfType<UnauthorizedResult>();
+		}
+
+		[Test]
+		public async Task Register_ValidDetails_ReturnsOKSuccess()
+		{
+			// Arrange
+			var testLoginModel = new LoginModel()
+			{
+				UserName = "ValidTestUserName",
+				Password = "ValidTestPassword"
+			};
+			var testIdentityResult = new Mock<IdentityResult>();
+			_mockUserManager
+				.Setup(u => u.CreateAsync(It.IsAny<User>(), testLoginModel.Password))
+				.ReturnsAsync(IdentityResult.Success);
+			var expected = new
+			{
+				Message = "Successfully registered!"
+			};
+
+			// Act
+			var result = await _controller.Register(testLoginModel);
+
+			// Assert
+			result.Should().BeOfType<OkObjectResult>();
+			var objectResult = result as OkObjectResult;
+			objectResult?.Value.Should().BeEquivalentTo(expected);
 		}
 	}
 }
