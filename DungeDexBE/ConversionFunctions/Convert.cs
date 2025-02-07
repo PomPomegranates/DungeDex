@@ -19,7 +19,11 @@ namespace DungeDexBE.ConversionFunctions
 
 			monster.ImageLink = pokemon.ImageLink;
 
+			monster.Cry = pokemon.Cry;
+
 			monster.GiveMeleeAttack(pokemon);
+
+			monster.AssignDungemonType(pokemon);
 
 			ProficiencyDeciders.UpdateDungemon(monster, pokemon);
 

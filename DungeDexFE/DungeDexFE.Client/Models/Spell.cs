@@ -3,7 +3,7 @@
 	public class Spell
 	{
 		public int Id { get; set; }
-		public int MonsterId { get; set; }
+		public int DungemonId { get; set; }
 		public string Name { get; set; } = null!;
 		public string Description { get; set; } = null!;
 
