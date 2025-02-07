@@ -74,5 +74,23 @@ namespace Tests.ControllerTests
 			// Assert
 			result.Should().BeOfType<NotFoundResult>();
 		}
+
+		[Test]
+		public void GetUserByName_UserExists_ReturnsOkExpectedUser()
+		{
+			// Arrange
+			var testUser = _fixture.Create<User>();
+			_mockUserService
+				.Setup(u => u.GetUserByName(testUser.UserName!))
+				.Returns(testUser);
+
+			// Act
+			var result = _controller.GetUserByName(testUser.UserName!);
+
+			// Assert
+			result.Should().BeOfType<OkObjectResult>();
+			var objectResult = result as OkObjectResult;
+			objectResult?.Value.Should().BeEquivalentTo(testUser);
+		}
 	}
 }
