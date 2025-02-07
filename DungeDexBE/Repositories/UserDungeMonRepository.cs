@@ -26,6 +26,7 @@ namespace DungeDexBE.Repositories
 
 				dungemon = dungemon.Skip(filterDto.Offset).Take(filterDto.Number);
 
+
 				return await dungemon.Include(d => d.Spells).ToListAsync();
 			}
 			catch
