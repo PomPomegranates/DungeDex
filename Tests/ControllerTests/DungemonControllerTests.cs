@@ -115,10 +115,11 @@ namespace Tests.ControllerTests
 			// Arrange
 			var testDungemon = _fixture.Create<Dungemon>();
 			var testNewId = _fixture.Create<int>();
+			var testUserId = _fixture.Create<string>();
 
 			_mockJwtService
 				.Setup(j => j.ValidateUserIdFromJwt(It.IsAny<HttpRequest>()))
-				.Returns(testDungemon.UserId);
+				.Returns(testUserId);
 
 			_mockDungemonService
 				.Setup(d => d.AddDungemon(It.IsAny<Dungemon>()))
@@ -127,8 +128,10 @@ namespace Tests.ControllerTests
 					d.Id = testNewId;
 					return (d, "Success");
 				});
+
 			var expectedDungemon = testDungemon;
 			expectedDungemon.Id = testNewId;
+			expectedDungemon.UserId = testUserId;
 
 			// Act
 			var result = await _controller.PostDungemon(testDungemon);
@@ -138,6 +141,29 @@ namespace Tests.ControllerTests
 			var objectResult = result as CreatedAtActionResult;
 			objectResult?.ActionName.Should().Be(nameof(_controller.GetDungemonById));
 			objectResult?.RouteValues.Should().ContainValue(testNewId);
+		}
+
+		[Test]
+		public async Task PostDungemon_UserIsNotSignedIn_ReturnsUnauthorized()
+		{
+			// Arrange
+			var testDungemon = _fixture.Create<Dungemon>();
+			var testNewId = _fixture.Create<int>();
+			
+			_mockJwtService
+				.Setup(j => j.ValidateUserIdFromJwt(It.IsAny<HttpRequest>()))
+				.Returns(() => null);
+
+			var expectedErrorMessage = "You must be signed-in to publish Dungémon.";
+
+
+			// Act
+			var result = await _controller.PostDungemon(testDungemon);
+
+			// Assert
+			result.Should().BeOfType<UnauthorizedObjectResult>();
+			var objectResult = result as UnauthorizedObjectResult;
+			objectResult?.Value.Should().Be(expectedErrorMessage);
 		}
 	}
 }
