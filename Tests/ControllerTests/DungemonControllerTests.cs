@@ -4,9 +4,11 @@ using DungeDexBE.Interfaces.ServiceInterfaces;
 using DungeDexBE.Models;
 using DungeDexBE.Models.Dtos;
 using FluentAssertions;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Client;
 using Moq;
+using NUnit.Framework.Constraints;
 
 namespace Tests.ControllerTests
 {
@@ -105,6 +107,37 @@ namespace Tests.ControllerTests
 			result.Should().BeOfType<OkObjectResult>();
 			var objectResult = result as OkObjectResult;
 			objectResult?.Value.Should().BeEquivalentTo(expectedDungemon);
+		}
+
+		[Test]
+		public async Task PostDungemon_UserIsAuthorized_ValidDungemon_ReturnsCreatedAtAction()
+		{
+			// Arrange
+			var testDungemon = _fixture.Create<Dungemon>();
+			var testNewId = _fixture.Create<int>();
+
+			_mockJwtService
+				.Setup(j => j.ValidateUserIdFromJwt(It.IsAny<HttpRequest>()))
+				.Returns(testDungemon.UserId);
+
+			_mockDungemonService
+				.Setup(d => d.AddDungemon(It.IsAny<Dungemon>()))
+				.ReturnsAsync((Dungemon d) =>
+				{
+					d.Id = testNewId;
+					return (d, "Success");
+				});
+			var expectedDungemon = testDungemon;
+			expectedDungemon.Id = testNewId;
+
+			// Act
+			var result = await _controller.PostDungemon(testDungemon);
+
+			// Assert
+			result.Should().BeOfType<CreatedAtActionResult>();
+			var objectResult = result as CreatedAtActionResult;
+			objectResult?.ActionName.Should().Be(nameof(_controller.GetDungemonById));
+			objectResult?.RouteValues.Should().ContainValue(testNewId);
 		}
 	}
 }
