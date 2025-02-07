@@ -165,5 +165,32 @@ namespace Tests.ControllerTests
 			var objectResult = result as UnauthorizedObjectResult;
 			objectResult?.Value.Should().Be(expectedErrorMessage);
 		}
+
+		[Test]
+		public async Task PatchDungemon_CorrectUser_ReturnsOkUpdatedDungemon()
+		{
+			// Arrange
+			var testDungemon = _fixture.Create<Dungemon>();
+			var testNewId = _fixture.Create<int>();
+			var testUserId = testDungemon.UserId;
+			
+			_mockJwtService
+				.Setup(j => j.ValidateUserIdFromJwt(It.IsAny<HttpRequest>()))
+				.Returns(testUserId);
+
+			_mockDungemonService
+				.Setup(d => d.UpdateDungemon(testDungemon))
+				.ReturnsAsync((testDungemon, "Success"));
+
+			var expected = testDungemon;
+
+			// Act
+			var result = await _controller.PatchDungemon(testDungemon);
+
+			// Assert
+			result.Should().BeOfType<OkObjectResult>();
+			var objectResult = result as OkObjectResult;
+			objectResult?.Value.Should().Be(expected);
+		}
 	}
 }
