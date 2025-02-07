@@ -80,5 +80,31 @@ namespace Tests.ControllerTests
 			var objectResult = result as OkObjectResult;
 			objectResult?.Value.Should().BeEquivalentTo(expectedSpells);
 		}
+
+		[Test]
+		public async Task GetSpellByNameOrIndex_InvalidQuery_ReturnsNotFound()
+		{
+			// Arrange
+			var testInvalidQuery = _fixture.Create<string>();
+			var expectedResult = new Result
+			{
+				IsSuccess = false,
+				StatusCode = System.Net.HttpStatusCode.NotFound,
+				ErrorMessage = $"No spell with index '{testInvalidQuery}' exists."
+			};
+
+			_mockDndService
+				.Setup(d => d.GetSpellByNameOrIndex(testInvalidQuery))
+				.ReturnsAsync(expectedResult);
+
+			// Act
+			var result = await _controller.GetSpellByNameOrIndex(testInvalidQuery);
+
+			// Assert
+			result.Should().BeOfType<ObjectResult>();
+			var objectResult = result as ObjectResult;
+			objectResult?.StatusCode.Should().Be(404);
+			objectResult?.Value?.Should().Be(expectedResult.ErrorMessage);
+		}
 	}
 }
