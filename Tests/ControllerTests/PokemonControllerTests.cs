@@ -21,6 +21,15 @@ namespace Tests.ControllerTests
 			_mockPokemonService = new Mock<IPokemonService>();
 			_controller = new PokemonController(_mockPokemonService.Object);
 			_fixture = new Fixture();
+			_fixture.Behaviors
+				.OfType<ThrowingRecursionBehavior>()
+				.ToList()
+				.ForEach(b => _fixture.Behaviors.Remove(b));
+			_fixture.Behaviors.Add(new OmitOnRecursionBehavior());
+			_fixture.Customize<Dungemon>(d => d
+				.With(d => d.User, () => null)
+				.With(d => d.Spells, () => [])
+				.With(d => d.Actions, () => []));
 		}
 
 		[Test]
@@ -96,6 +105,30 @@ namespace Tests.ControllerTests
 			var objectResult = result as ObjectResult;
 			objectResult?.StatusCode.Should().Be(404);
 			objectResult?.Value.Should().BeEquivalentTo(testResult.ErrorMessage);
+		}
+
+		[Test]
+		public async Task GetMonsterFromPokemon_ValidQuery_ReturnsExpectedDungemon()
+		{
+			// Arrange
+			var testQuery = _fixture.Create<string>();
+			var testDungemon = _fixture.Create<Dungemon>();
+			var testResult = new Result
+			{
+				Value = testDungemon
+			};
+
+			_mockPokemonService
+				.Setup(p => p.GetDungemonFromPokemonAsync(testQuery))
+				.ReturnsAsync(testResult);
+
+			// Act
+			var result = await _controller.GetMonsterFromPokemon(testQuery);
+
+			// Assert
+			result.Should().BeOfType<OkObjectResult>();
+			var objectResult = result as OkObjectResult;
+			objectResult?.Value.Should().BeEquivalentTo(testDungemon);
 		}
 	}
 }
