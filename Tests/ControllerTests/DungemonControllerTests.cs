@@ -68,5 +68,24 @@ namespace Tests.ControllerTests
 			var objectResult = result as OkObjectResult;
 			objectResult?.Value.Should().BeEquivalentTo(expectedDungemon);
 		}
+
+		[Test]
+		public async Task GetDungemonById_NoDungemon_ReturnsNotFound()
+		{
+			// Arrange
+			var testId = _fixture.Create<int>();
+			var expectedErrorMessage = $"No Dungémon with Id '{testId}' exists";
+			_mockDungemonService
+				.Setup(d => d.GetDungemonById(testId))
+				.ReturnsAsync((null, expectedErrorMessage));
+
+			// Act
+			var result = await _controller.GetDungemonById(testId);
+
+			// Assert
+			result.Should().BeOfType<NotFoundObjectResult>();
+			var objectResult = result as NotFoundObjectResult;
+			objectResult?.Value.Should().BeEquivalentTo(expectedErrorMessage);
+		}
 	}
 }

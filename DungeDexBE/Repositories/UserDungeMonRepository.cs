@@ -39,7 +39,7 @@ namespace DungeDexBE.Repositories
 			var value = await _db.Dungemon.Where(x => (x.Id == id)).Include(d => d.Spells).FirstOrDefaultAsync();
 
 			var result = value == null
-				? $"No Userdata for Pokemon Number {id}"
+				? $"No Dungémon with Id '{id}' exists"
 				: "Success";
 
 			return (value, result);

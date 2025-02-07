@@ -45,9 +45,7 @@ namespace DungeDexBE.Controllers
 
 			if (result.Item1 != null) return Ok(result.Item1);
 
-			if (result.Item2.Contains("No Userdata")) return NotFound(result.Item2);
-
-			return BadRequest(result.Item2);
+			return NotFound(result.Item2);
 		}
 
 		[HttpPost]
