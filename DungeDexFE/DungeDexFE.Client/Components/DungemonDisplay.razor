@@ -22,7 +22,12 @@
 
             <div class="PokemonImage">
                 <DungemonImage Dungemon="Dungemon" IsSilent="isSilent"/>
-
+                @if(!isSilent){
+                    <button type="button" @onclick="ChangeAudio"> Mute Audio!</button>
+                }else{
+                    <button type="button" @onclick="ChangeAudio"> Unmute Audio!</button>
+                }
+                
             </div>
 
 
@@ -70,7 +75,9 @@
 
     private bool isSilent = false;
 
-
+    private void ChangeAudio(){
+        isSilent = !isSilent;
+    }
 
     private void SpellsChanged(List<Spell> spells)
     {
