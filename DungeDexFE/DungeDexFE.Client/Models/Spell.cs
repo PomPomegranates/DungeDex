@@ -17,5 +17,15 @@
 		//public AoEType areaOfEffectType { get; set; }
 		//public int areaOfEffectSize { get; set; }
 		#endregion
+
+		public Spell Clone(int newDungemonId)
+		{
+			return new Spell
+			{
+				DungemonId = newDungemonId,
+				Name = Name,
+				Description = Description
+			};
+		}
 	}
 }
