@@ -2,7 +2,7 @@
 
 namespace DungeDexBE.Models
 {
-    public class Dungemon : IReturnable
+	public class Dungemon : IReturnable
 	{
 		public int Id { get; set; }
 		public string? UserId { get; set; } = null;
@@ -12,7 +12,7 @@ namespace DungeDexBE.Models
 		public float ChallengeRating { get; set; }
 		public int ProficiencyBonus { get; set; }
 		public int ArmorClass { get; set; }
-		public int Strength { get; set; } 
+		public int Strength { get; set; }
 		public int Dexterity { get; set; }
 		public int Constitution { get; set; }
 		public int Intelligence { get; set; }
