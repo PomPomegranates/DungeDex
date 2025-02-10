@@ -1,0 +1,16 @@
+﻿<InputText style="width: 150px" @bind-Value="@Dungemon.Type" placeholder="@Dungemon.BasePokemon" @onblur="HandleTypeChange" />
+
+
+
+@code {
+    [Parameter]
+    public Dungemon Dungemon { get; set; } = null!;
+    [Parameter]
+    public bool IsEditing { get; set; }
+    [Parameter]
+    public EventCallback<Dungemon> DungemonChanged { get; set; }
+    private void HandleTypeChange()
+    {
+        DungemonChanged.InvokeAsync(Dungemon);
+    }
+}

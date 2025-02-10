@@ -32,6 +32,7 @@ namespace DungeDexFE.Client.Models
 		public string Proficiencies { get; set; } = string.Empty;
 		public string Cry { get; set; } = "";
 		public string Description { get; set; } = null!;
+		public string Type { get; set; } = null!;
 
 		#region stretch
 
