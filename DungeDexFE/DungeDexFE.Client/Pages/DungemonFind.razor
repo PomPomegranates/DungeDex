@@ -19,11 +19,15 @@
 {
 	<h3>@Dungemon.NickName</h3>
 	<DungemonDisplay Dungemon=Dungemon DungemonChanged="DungemonChanged"/>
-	<div id="DeleteDungemon">
+	<div hidden="@(!dungemonBelongsToUser)" id="DeleteDungemon">
 		<button @onclick="DeleteDungemonCheck">🗑️</button>
 		<p>@areYouSure</p>
 		<button hidden="@deleteButtonsHidden" @onclick="DeleteDungemon">Yes</button>
 		<button hidden="@deleteButtonsHidden" @onclick="Rehide">No</button>
+	</div>
+
+	<div hidden="@(string.IsNullOrEmpty(userId) || dungemonBelongsToUser)" id="ForkDungemon">
+		<button @onclick="HandleForkRequest">➕ Clone This Dungémon!</button>
 	</div>
 }
 
@@ -31,7 +35,7 @@
 	[Parameter]
 	public int Id { get; set; }
 
-	private string? userId { get; set; } = null!;
+	private string? userId { get; set; } = null;
 
 	public Dungemon Dungemon { get; set; } = null!;
 
@@ -45,6 +49,7 @@
 
 	protected override async Task OnParametersSetAsync()
 	{
+		userId = auth.GetUserId();
 		try
 		{
 			using var client = clientFactory.CreateClient("BackendAPI");
@@ -61,7 +66,7 @@
 			errorMessage = $"There was an issue fetching the Dungémon data: {ex.Message}";
 		}
 
-		deleteButtonsHidden = auth.GetUserId() != Dungemon.UserId;
+		dungemonBelongsToUser = userId == Dungemon.UserId;
 	}
 
 	private async Task DungemonChanged(Dungemon updatedDungemon)
@@ -138,5 +143,52 @@
 		{
 			errorMessage = $"There was an issue fetching the Dungémon data: {ex.Message}";
 		}
+	}
+
+	private async Task HandleForkRequest(MouseEventArgs e)
+	{
+		var userId = auth.GetUserId();
+
+		if (string.IsNullOrEmpty(userId)) return;
+
+		var clone = Dungemon.Clone();
+
+		using var client = clientFactory.CreateClient("BackendAPI");
+		var result = await client.PostAsJsonAsync("dungemon", clone);
+
+		if (!result.IsSuccessStatusCode)
+		{
+			errorMessage = "There was an error attempting to clone the Dungémon. Please try again later.";
+			return;
+		}
+
+		var dungemonResponse = await result.Content.ReadFromJsonAsync<Dungemon>();
+
+		if (dungemonResponse is null)
+		{
+			errorMessage = "There was an error attempting to clone the Dungémon. Please try again later.";
+			return;
+		}
+
+		dungemonResponse.Spells = Dungemon.Spells.Select(s => s.Clone(dungemonResponse.Id)).ToList();
+		dungemonResponse.Actions = Dungemon.Actions.Select(s => s.Clone(dungemonResponse.Id)).ToList();
+
+		var patchResponse = await client.PatchAsJsonAsync("dungemon", dungemonResponse);
+
+		if (!patchResponse.IsSuccessStatusCode)
+		{
+			errorMessage = "There was an error cloning properties to the new Dungémon. Please try again later.";
+			return;
+		}
+
+		var updatedDungemon = await patchResponse.Content.ReadFromJsonAsync<Dungemon>();
+
+		if (updatedDungemon is null)
+		{
+			errorMessage = "There was an error cloning properties to the new Dungémon. Please try again later.";
+			return;
+		}
+
+		nav.NavigateTo($"dungemon/{updatedDungemon?.Id}", true);
 	}
 }

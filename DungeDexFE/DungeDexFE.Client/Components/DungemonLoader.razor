@@ -58,9 +58,7 @@ else if (Dungemon != null)
 
 	private async Task PostDungemon(MouseEventArgs e)
 	{
-		var authState = await auth.GetAuthenticationStateAsync();
-
-		if (string.IsNullOrEmpty(authState.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid)?.Value))
+		if (string.IsNullOrEmpty(auth.GetUserId()))
 		{
 			publishErrorMessage = "You must be signed-in to publish Dungémon.";
 			return;

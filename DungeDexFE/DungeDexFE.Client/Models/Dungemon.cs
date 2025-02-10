@@ -51,5 +51,28 @@ namespace DungeDexFE.Client.Models
 		//public string Description { get; set; }
 
 		#endregion
+
+		public Dungemon Clone()
+		{
+			return new Dungemon
+			{
+				UserId = null!,
+				User = null!,
+				BasePokemon = BasePokemon,
+				NickName = NickName,
+				ChallengeRating = ChallengeRating,
+				ArmorClass = ArmorClass,
+				Strength = Strength,
+				Dexterity = Dexterity,
+				Constitution = Constitution,
+				Intelligence = Intelligence,
+				Wisdom = Wisdom,
+				Charisma = Charisma,
+				HitPoints = HitPoints,
+				ImageLink = ImageLink,
+				Proficiencies = Proficiencies,
+				Cry = Cry
+			};
+		}
 	}
 }
