@@ -15,9 +15,9 @@
         <div class="LeftSide">
 
             <div class="TopPart">
-                <ChallengeRatingEditor Dungemon="Dungemon" IsEditing="_isEditing" />
-                <NicknameEditor Dungemon="Dungemon" DungemonChanged="DungemonChanged"/>
-                <HitPointsEditor Dungemon="Dungemon" IsEditing="_isEditing" />
+                <ChallengeRatingEditor  Dungemon="Dungemon" IsEditing="_isEditing" />
+                <NicknameEditor  Dungemon="Dungemon" DungemonChanged="DungemonChanged" />
+                <HitPointsEditor  Dungemon="Dungemon" IsEditing="_isEditing" />
 
             </div>
 
@@ -25,21 +25,34 @@
 
             <div class="PokemonImage">
                 <DungemonImage Dungemon="Dungemon" IsSilent="isSilent"/>
-
+                @if(!isSilent){
+                    <button type="button" @onclick="ChangeAudio"> Mute Audio!</button>
+                }else{
+                    <button type="button" @onclick="ChangeAudio"> Unmute Audio!</button>
+                }
+                
             </div>
 
 
             <div class="attributes">
                 <AttributesEditor Dungemon="Dungemon" IsEditing="_isEditing" />
-            </div>
 
+            </div>
+            <div class="actions">
+                <ActionsEditor Attacks="Dungemon.Actions" IsEditing="_isEditing" AttacksChanged="AttacksChanged"/> 
+                
+            </div>
 
         </div>
         <div class="RightSide">
 
             <SpellEditor Spells="Dungemon.Spells" SpellsChanged="SpellsChanged" />
+            
 
-            <p>Descriptions</p>
+            <ProficienciesEditor Dungemon="Dungemon" IsEditing="_isEditing" />
+
+            <br/>
+            <DescriptionEditor Dungemon="Dungemon" IsEditing ="_isEditing"/>
 
         </div>
     </div>
@@ -61,6 +74,7 @@
 </EditForm>
 
 @code {
+    
     [Parameter]
     public Dungemon Dungemon { get; set; } = null!;
 
@@ -72,6 +86,15 @@
     private string _submitResult = null!;
 
     private bool isSilent = false;
+
+
+    private void ChangeAudio(){
+        isSilent = !isSilent;
+    }
+
+    private void AttacksChanged(List<MonsterAction> attacks){
+        Dungemon.Actions = attacks;
+        DungemonChanged.InvokeAsync(Dungemon);
 
     private bool signedIn = false;
 
@@ -92,6 +115,7 @@
             signedIn = true;
             buttonMessage = "Edit this Dungémon!";
         }
+
     }
 
     private void SpellsChanged(List<Spell> spells)

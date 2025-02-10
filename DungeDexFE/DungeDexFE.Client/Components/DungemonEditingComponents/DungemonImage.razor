@@ -15,9 +15,12 @@
     [Parameter]
     public Dungemon Dungemon { get; set; } = null!;
     [Parameter]
-    public bool IsSilent { get; set; } = false;
+    public bool IsSilent { get; set; }
     public async Task MakeNoise(){
-        await jsRuntime.InvokeAsync<string>("PlayAudio", "cry");
+        if(!IsSilent){
+            await jsRuntime.InvokeAsync<string>("PlayAudio", "cry");
+        }
+        
     }
     
 }
