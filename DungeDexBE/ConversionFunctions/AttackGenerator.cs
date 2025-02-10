@@ -1,7 +1,6 @@
-﻿using DungeDexBE.Models;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
+﻿using DungeDexBE.Enums;
+using DungeDexBE.Models;
 using DungeDexBE.Models.Dtos;
-using DungeDexBE.Enums;
 
 namespace DungeDexBE.ConversionFunctions
 {
@@ -31,8 +30,8 @@ namespace DungeDexBE.ConversionFunctions
 
 			//Give to Dungemon:
 			Dungemon.Actions.Add(finalAction);
-			
-	}
+
+		}
 
 		public static List<ActionDTO> MeleeAttackBases = new List<ActionDTO>
 		{
@@ -120,7 +119,7 @@ namespace DungeDexBE.ConversionFunctions
 				case 15f:
 				case 16f:
 				case 24f:
-				
+
 					List<string> cr7Damages = new List<string>
 					{
 						"3d6", "3d8", "2d10"
@@ -164,5 +163,5 @@ namespace DungeDexBE.ConversionFunctions
 		}
 	}
 
-	
+
 }

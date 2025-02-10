@@ -1,4 +1,5 @@
-﻿using DungeDexBE.Interfaces.RepositoryInterfaces;
+﻿using DungeDexBE.Controllers;
+using DungeDexBE.Interfaces.RepositoryInterfaces;
 using DungeDexBE.Models;
 using DungeDexBE.Models.Dtos;
 using DungeDexBE.Persistence;
@@ -67,7 +68,36 @@ namespace DungeDexBE.Repositories
 			{
 				var monsterToChange = await _db.Dungemon.SingleAsync(x => x.Id == monster.Id);
 				_db.Dungemon.Entry(monsterToChange).CurrentValues.SetValues(monster);
-				await _db.SaveChangesAsync();
+
+				foreach (var spell in monster.Spells)
+				{
+					var dbSpell = _db.Spells.FirstOrDefault(s  => s.Id == spell.Id);
+					spell.DungemonId = monster.Id;
+					if (dbSpell != null)
+					{
+						_db.Spells.Entry(dbSpell).CurrentValues.SetValues(spell);
+					}
+					else
+					{
+						_db.Spells.Add(spell);
+					}
+				}
+
+                foreach (var action in monster.Actions)
+                {
+                    var dbAction = _db.Actions.FirstOrDefault(a => a.Id == action.Id);
+                    action.DungemonId = monster.Id;
+                    if (dbAction != null)
+                    {
+                        _db.Actions.Entry(dbAction).CurrentValues.SetValues(action);
+                    }
+                    else
+                    {
+                        _db.Actions.Add(action);
+                    }
+                }
+
+                await _db.SaveChangesAsync();
 				return (monster, "Success");
 			}
 			catch (Exception e)

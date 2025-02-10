@@ -4,12 +4,9 @@ using DungeDexBE.Interfaces.ServiceInterfaces;
 using DungeDexBE.Models;
 using DungeDexBE.Models.Dtos;
 using FluentAssertions;
-using Humanizer;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Identity.Client;
 using Moq;
-using NUnit.Framework.Constraints;
 
 namespace Tests.ControllerTests
 {
@@ -35,8 +32,8 @@ namespace Tests.ControllerTests
 			_fixture.Customize<Dungemon>(d => d
 				.With(d => d.User, _fixture.Create<User>())
 				.With(d => d.Spells, _fixture.CreateMany<Spell>(2).ToList())
-				.With(d => d.Actions, _fixture.CreateMany<DungeDexBE.Models.MonsterAction>(4).ToList()));
-				
+				.With(d => d.Actions, _fixture.CreateMany<MonsterAction>(4).ToList()));
+
 		}
 
 		[Test]
@@ -150,7 +147,7 @@ namespace Tests.ControllerTests
 			// Arrange
 			var testDungemon = _fixture.Create<Dungemon>();
 			var testNewId = _fixture.Create<int>();
-			
+
 			_mockJwtService
 				.Setup(j => j.ValidateUserIdFromJwt(It.IsAny<HttpRequest>()))
 				.Returns(() => null);
@@ -173,7 +170,7 @@ namespace Tests.ControllerTests
 			// Arrange
 			var testDungemon = _fixture.Create<Dungemon>();
 			var testUserId = testDungemon.UserId;
-			
+
 			_mockJwtService
 				.Setup(j => j.ValidateUserIdFromJwt(It.IsAny<HttpRequest>()))
 				.Returns(testUserId);
@@ -203,7 +200,7 @@ namespace Tests.ControllerTests
 			{
 				testUserId = _fixture.Create<string>();
 			}
-			
+
 			_mockJwtService
 				.Setup(j => j.ValidateUserIdFromJwt(It.IsAny<HttpRequest>()))
 				.Returns(testUserId);
@@ -224,7 +221,7 @@ namespace Tests.ControllerTests
 		{
 			// Arrange
 			var testDungemon = _fixture.Create<Dungemon>();
-			
+
 			_mockJwtService
 				.Setup(j => j.ValidateUserIdFromJwt(It.IsAny<HttpRequest>()))
 				.Returns(() => null);

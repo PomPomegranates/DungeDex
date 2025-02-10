@@ -37,7 +37,7 @@ namespace Tests
 			expected5.Should().Be(5);
 			expected6.Should().Be(6);
 			expected7.Should().Be(7);
-			expected8.Should().Be(8);	
+			expected8.Should().Be(8);
 			expected9.Should().Be(9);
 		}
 	}

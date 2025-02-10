@@ -1,0 +1,73 @@
+﻿<h2>Actions</h2>
+
+
+@if(!IsEditing){
+    @foreach (var attack in Attacks)
+    {
+        <ActionsDisplay Attack="attack" IsEditing="IsEditing" Attacks="Attacks" />
+
+        <br />
+        <br />
+    }
+} else{
+
+    @foreach (var attack in Attacks)
+    {
+
+        <ActionsDisplay Attack="attack" IsEditing="IsEditing" Attacks="Attacks" RemoveAttack="RemoveAttack" />
+
+        <br />
+        <br />
+        
+    }
+
+    <button id="addingAction" @onclick = "AddNew">Add New</button>
+
+}
+
+
+
+
+
+
+@code {
+    [Parameter] 
+    public required List<MonsterAction> Attacks { get; set; }
+
+    [Parameter]
+    public required bool IsEditing { get; set; }
+
+    [Parameter]
+    public EventCallback<List<MonsterAction>> AttacksChanged { get; set; }
+
+    public MonsterAction newAttack { get; set; } = new();
+
+    public bool isAddActive =  false;
+
+    public void RemoveAttack(MonsterAction attack)
+    {
+        Attacks.Remove(attack);
+         AttacksChanged.InvokeAsync(Attacks);
+    }
+
+    public void AddNew(){
+        IsEditing = true;
+
+        Attacks.Add(newAttack);
+        AttacksChanged.InvokeAsync(Attacks);
+    }
+
+
+    public void ToggleAdd()
+    {
+        isAddActive = !isAddActive;
+    }
+   // @if(IsEditing){
+   //  <button @onclick="ToggleAdd">Add Attack</button>
+   //  @if(isAddActive){
+   //      <ActionsDisplay Attack="newAttack" IsEditing="IsEditing" Attacks="Attacks" />
+   //  }
+// }
+
+
+}

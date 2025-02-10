@@ -1,0 +1,68 @@
+﻿@using System.Text.Json;
+
+@if(!IsEditing){
+	<div>
+		@if (isExpanded)
+		{
+
+			<p> @Attack.Name</p>
+			<p> @Attack.Description</p>
+
+			@if (isAdded)
+			{
+				<button @onclick="ToggleIsExpanded">Hide</button>
+			}
+		}
+		else
+		{
+			@if (@Attack.Name != string.Empty){
+				<button @onclick="ToggleIsExpanded">@Attack.Name</button>
+			} else{
+				<button @onclick="ToggleIsExpanded">Unnamed Attack</button>
+			}
+
+
+		}
+
+	</div>
+} else{
+	<div>
+		<p>Name:</p>
+		<InputText id="AttackName" TValue="float" @bind-Value="@Attack.Name"  style="width:auto; text-align: left; border: none;" />
+		<p>Description:</p>
+		<InputTextArea id="AttackDescription" TValue="float" @bind-Value="@Attack.Description" style="width:auto; text-align: left; border: none;"/>
+	</div>
+	<button id="removingAction" @onclick="HandleRemoveAttack">Remove this action</button>
+
+}
+
+
+@code {
+	[Parameter]
+	public List<MonsterAction> Attacks { get; set; } = null!;
+	[Parameter]
+	public MonsterAction Attack { get; set; } = null!;
+	[Parameter]
+	public bool IsEditing { get; set; }
+
+	[Parameter]
+	public EventCallback<MonsterAction> RemoveAttack { get; set; }
+
+	[Parameter]
+	public bool isExpanded { get; set; } = false;
+
+	[Parameter]
+	public bool isAdded { get; set; } = true;
+
+	private async Task HandleRemoveAttack(MouseEventArgs e){
+		await RemoveAttack.InvokeAsync(Attack);
+	}
+
+	private void ToggleIsExpanded()
+	{
+		isExpanded = !isExpanded;
+	}
+
+	
+	
+}

@@ -1,14 +1,17 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using DungeDexBE.Interfaces.ServiceInterfaces;
 using DungeDexBE.Models;
+using DungeDexBE.Models.Dtos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace DungeDexBE.Controllers
 {
 	[Route("api/[controller]")]
+	[Route("api/users")]
 	[EnableCors("AllowLocalhost")]
 	[ApiController]
 	public class AuthenticationController : ControllerBase
@@ -45,7 +48,7 @@ namespace DungeDexBE.Controllers
 			return BadRequest(result.Errors);
 		}
 
-		[HttpGet("currentUser")]	
+		[HttpGet("currentUser")]
 		public IActionResult GetCurrentUser()
 		{
 			try
@@ -61,6 +64,27 @@ namespace DungeDexBE.Controllers
 			{
 				Console.WriteLine(ex.Message);
 				return Unauthorized("Invalid session token.");
+			}
+		}
+
+		[HttpGet("{userName}")]
+		public async Task<IActionResult> GetUserByUserName(string userName)
+		{
+			try
+			{
+				var user = await _userManager.Users
+					.Include(u => u.Dungemons)
+					.FirstOrDefaultAsync(u => u.UserName == userName);
+
+				if (user == null) return NotFound($"No user with username '{userName}' could be found.");
+
+				var response = user.ToDto();
+
+				return Ok(response);
+			}
+			catch (Exception ex)
+			{
+				return StatusCode(500, ex.Message);
 			}
 		}
 	}

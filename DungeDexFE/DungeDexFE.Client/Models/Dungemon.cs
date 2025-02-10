@@ -23,33 +23,59 @@ namespace DungeDexFE.Client.Models
 		public int Wisdom { get; set; }
 		[Range(0, 30, ErrorMessage = "Charisma must be between 0 and 30")]
 		public int Charisma { get; set; }
+		[Range(1, 9999, ErrorMessage = "Dexterity must be between 0 and 9999")]
 		public int HitPoints { get; set; }
 		public string ImageLink { get; set; } = null!;
+		public string SpriteLink { get; set; } = null!;
 		public virtual List<Spell> Spells { get; set; } = null!;
 		public virtual List<MonsterAction> Actions { get; set; } = null!;
-        public string Proficiencies { get; set; } = string.Empty;
+		public string Proficiencies { get; set; } = string.Empty;
 		public string Cry { get; set; } = "";
+		public string Description { get; set; } = null!;
 
-        #region stretch
+		#region stretch
 
-  //      public Size Size { get; set; }
+		//      public Size Size { get; set; }
 		//public string Type { get; set; }
 		//public MoveSpeed Speeds { get; set; }
 		//public int ProficiencyBonus { get; set; }
 		//public List<EAttributes> SavingThrows { get; set; }
 		//public string? HitDice { get; set; }
 
-		
+
 		//public List<Damage> DamageVulnerabilities { get; set; } = [];
 		//public List<Damage> DamageResistances { get; set; } = [];
 		//public List<Condition> ConditionImmunities { get; set; } = [];
 		//public Dictionary<string, string> SpecialAbilities { get; set; }
-		
+
 		//public EAttributes? SpellcastingAbility { get; set; }
 		//public int? SpellSaveDC { get; set; }
 		////public List<LegendaryAction>? LegendaryActions { get; set; }
 		//public string Description { get; set; }
 
 		#endregion
+
+		public Dungemon Clone()
+		{
+			return new Dungemon
+			{
+				UserId = null!,
+				User = null!,
+				BasePokemon = BasePokemon,
+				NickName = NickName,
+				ChallengeRating = ChallengeRating,
+				ArmorClass = ArmorClass,
+				Strength = Strength,
+				Dexterity = Dexterity,
+				Constitution = Constitution,
+				Intelligence = Intelligence,
+				Wisdom = Wisdom,
+				Charisma = Charisma,
+				HitPoints = HitPoints,
+				ImageLink = ImageLink,
+				Proficiencies = Proficiencies,
+				Cry = Cry
+			};
+		}
 	}
 }

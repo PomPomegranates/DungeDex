@@ -1,0 +1,83 @@
+﻿@page "/register"
+
+@rendermode @(new InteractiveWebAssemblyRenderMode(false));
+
+@inject NavigationManager Nav
+@inject IHttpClientFactory ClientFactory
+
+<PageTitle>DungéDex : Register</PageTitle>
+
+<h3>DungéMaster Register</h3>
+
+<div class="my-4">
+	<p>@message</p>
+	
+	<div class="my-4">
+		<EditForm Model="@loginModel" Context="LoginForm">
+			<InputText @bind-Value="loginModel.UserName" placeholder="Username" />
+			<InputText type="password" @bind-Value="loginModel.Password" placeholder="Password" />
+			<button type="submit" @onclick="Register">Sign In!</button>
+		</EditForm>
+	</div>
+
+	@if (errorMessages.Count > 0)
+	{
+		<div class="my-4">
+			<ul class="text-danger">
+				@foreach(var error in errorMessages)
+				{
+					<li>@error.Description</li>
+				}
+			</ul>
+		</div>
+	}
+</div>
+
+
+@code {
+	private Login loginModel { get; set; } = new();
+
+	private string message { get; set; } = "Use the form below to register a new DungéDex account.";
+
+	private List<IdentityError> errorMessages = [];
+
+	private async Task Register(MouseEventArgs e)
+	{
+		try
+		{
+			using var client = ClientFactory.CreateClient("BackendAPI");
+			var result = await client.PostAsJsonAsync("authentication/register", loginModel);
+			if (!result.IsSuccessStatusCode)
+			{
+				errorMessages = await result.Content.ReadFromJsonAsync<List<IdentityError>>()
+					?? throw new Exception("Unable to retrieve error messages.");
+				Refresh("Unable to register this account. See error messages below for more information.");
+				return;
+			}
+			errorMessages = [];
+			Refresh("Successfully registered! Redirecting to sign in page...");
+			await Task.Delay(3000);
+			Nav.NavigateTo("login", false);
+		}
+		catch (Exception ex)
+		{
+			Refresh($"An error occurred while trying to register: {ex.Message}");
+		}
+	}
+
+	private class IdentityError
+	{
+		public string Code { get; set; } = null!;
+		public string Description { get; set; } = null!;
+	}
+
+	private void Refresh(string? newMessage = null)
+	{
+		if (!string.IsNullOrEmpty(newMessage))
+		{
+			message = newMessage;
+		}
+		loginModel = new();
+		StateHasChanged();
+	}
+}

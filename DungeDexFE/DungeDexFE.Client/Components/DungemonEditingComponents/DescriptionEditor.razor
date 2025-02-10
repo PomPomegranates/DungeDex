@@ -1,0 +1,20 @@
+﻿<h3>Description</h3>
+@if (!IsEditing)
+{
+
+    <p id="description" style="width:auto; text-align: left; border: none;"> @Dungemon.Description </p>
+}
+else
+{
+
+
+    <InputTextArea id="description" TValue="float" @bind-Value="@Dungemon.Description" disabled="@(!IsEditing)" style="width:auto; text-align: left; border: none;" />
+}
+
+
+@code {
+    [Parameter]
+    public Dungemon Dungemon { get; set; } = null!;
+    [Parameter]
+    public bool IsEditing { get; set; }
+}

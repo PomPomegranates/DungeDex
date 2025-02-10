@@ -1,7 +1,6 @@
 ﻿using System.Net;
 using DungeDexBE.Interfaces.RepositoryInterfaces;
 using DungeDexBE.Models;
-using Microsoft.Identity.Client;
 using Newtonsoft.Json.Linq;
 
 namespace DungeDexBE.Repositories
@@ -85,7 +84,29 @@ namespace DungeDexBE.Repositories
 				pokemon.ImageLink = jObj!["sprites"]!["front_default"]!.Value<string>()!;
 			}
 
-			
+
+			pokemon.SpriteLink = jObj!["sprites"]!["front_default"]!.Value<string>()!;
+
+
+			pokemon.Cry = jObj!["cries"]!["latest"]!.Value<string>()!;
+
+			foreach (var obj in speciesPageObj!["flavor_text_entries"]!)
+			{
+				Random rand = new();
+				if (obj!["language"]!["name"]!.Value<string>()! == "en")
+				{
+
+					string flavourText = obj!["flavor_text"]!.Value<string>()!;
+
+					flavourText = flavourText.Replace("\n", " ");
+					flavourText = flavourText.Replace("\f", " ");
+					pokemon.Description = flavourText;
+					if (rand.Next(1, 3) == 2)
+					{
+						break;
+					}
+				}
+			}
 
 			return pokemon;
 		}
