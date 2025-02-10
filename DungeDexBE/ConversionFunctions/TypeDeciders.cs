@@ -30,7 +30,7 @@ namespace DungeDexBE.ConversionFunctions
 			}
 			else
 			{
-				dungemon.Type = possibleTypes[random.Next(PossibleNonSpecificTypes.Count)];
+				dungemon.Type = PossibleNonSpecificTypes[random.Next(PossibleNonSpecificTypes.Count)];
 			}
 		}
 
