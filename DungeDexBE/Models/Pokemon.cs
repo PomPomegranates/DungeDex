@@ -14,17 +14,17 @@ namespace DungeDexBE.Models
 		public string ImageLink { get; set; } = null!;
 		public string SpriteLink { get; set; } = null!;
 		public string Type1 { get; set; } = null!;
-        public string? Type2 { get; set; } = null!;
-        public string Shape {  get; set; } = null!;
-        public bool IsLegendaryOrMythical {  get; set; }
+		public string? Type2 { get; set; } = null!;
+		public string Shape { get; set; } = null!;
+		public bool IsLegendaryOrMythical { get; set; }
 		public string Cry { get; set; } = "";
 		public string Description { get; set; } = "";
 
-		public int pokemonId {  get; set; }
+		public int pokemonId { get; set; }
 
 
 
-        public override string ToString() =>
+		public override string ToString() =>
 			$"Name:\t{Name}\nHP:\t{HP}Attack:\t{Attack}\nDefense:\t{Defense}\nSpecialAttack:\t{SpecialAttack}\nSpecialDefense:\t{SpecialDefense}\nSpeed:\t{Speed}";
 	}
 }

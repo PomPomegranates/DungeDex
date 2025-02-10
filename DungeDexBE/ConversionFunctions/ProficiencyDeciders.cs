@@ -115,7 +115,7 @@ namespace DungeDexBE.ConversionFunctions
 			return result;
 
 		}
-		
+
 		private static Random random = new Random();
 
 		public static void AssignAthleticsbyChance(List<string> possibleList, Dungemon dungemon, Pokemon pokemon)
@@ -148,9 +148,9 @@ namespace DungeDexBE.ConversionFunctions
 		}
 		public static void AssignHistorybyChance(List<string> possibleList, Dungemon dungemon, Pokemon pokemon)
 		{
-			if (pokemon.IsLegendaryOrMythical) 
-			{ 
-				if (random.Next(2) == 1) possibleList.Add("History"); 
+			if (pokemon.IsLegendaryOrMythical)
+			{
+				if (random.Next(2) == 1) possibleList.Add("History");
 			}
 		}
 		public static void AssignIntimidationbyChance(List<string> possibleList, Dungemon dungemon, Pokemon pokemon)

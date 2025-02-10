@@ -12,7 +12,7 @@ namespace DungeDexFE
 			// Add services to the container.
 			builder.Services.AddAuthorizationCore();
 			builder.Services.AddScoped<AuthStateProvider>();
-			
+
 			builder.Services.AddRazorComponents()
 				.AddInteractiveServerComponents()
 				.AddInteractiveWebAssemblyComponents();
