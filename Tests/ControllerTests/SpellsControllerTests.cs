@@ -1,6 +1,5 @@
 ﻿using AutoFixture;
 using DungeDexBE.Controllers;
-using DungeDexBE.Interfaces.RepositoryInterfaces;
 using DungeDexBE.Interfaces.ServiceInterfaces;
 using DungeDexBE.Models;
 using FluentAssertions;
@@ -30,9 +29,9 @@ namespace Tests.ControllerTests
 			_mockDndService
 				.Setup(d => d.GetAllSpellNamesAsync())
 				.ReturnsAsync(() => null);
-			
+
 			var expectedErrorMessage = "There was an issue contacting the API.";
-			
+
 			// Act
 			var result = await _controller.GetAllSpellNamesAsync();
 
@@ -50,9 +49,9 @@ namespace Tests.ControllerTests
 			_mockDndService
 				.Setup(d => d.GetAllSpellNamesAsync())
 				.ReturnsAsync(() => []);
-			
+
 			var expectedErrorMessage = "There was an issue converting from JSON to SpellDTO.";
-			
+
 			// Act
 			var result = await _controller.GetAllSpellNamesAsync();
 
@@ -71,7 +70,7 @@ namespace Tests.ControllerTests
 			_mockDndService
 				.Setup(d => d.GetAllSpellNamesAsync())
 				.ReturnsAsync(expectedSpells);
-			
+
 			// Act
 			var result = await _controller.GetAllSpellNamesAsync();
 

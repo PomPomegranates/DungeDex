@@ -69,10 +69,10 @@ namespace DungeDexBE.ConversionFunctions
 		private static void ElementalCheck(List<string> possibleTypes, Pokemon pokemon)
 		{
 			if (pokemon.Type1 == "fire" || pokemon.Type2 == "fire"
-				|| pokemon.Type1 == "rock" || pokemon.Type2 == "rock" 
-				|| pokemon.Type1 == "ground" || pokemon.Type2 == "ground" 
-				|| pokemon.Type1 == "water" || pokemon.Type2 == "water" 
-				|| pokemon.Type1 == "flying" || pokemon.Type2 == "flying") 
+				|| pokemon.Type1 == "rock" || pokemon.Type2 == "rock"
+				|| pokemon.Type1 == "ground" || pokemon.Type2 == "ground"
+				|| pokemon.Type1 == "water" || pokemon.Type2 == "water"
+				|| pokemon.Type1 == "flying" || pokemon.Type2 == "flying")
 				possibleTypes.Add("Elemental");
 		}
 
