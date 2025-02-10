@@ -4,12 +4,11 @@
     display: grid;
     grid-template-columns: repeat(6, 1fr); /* 6 columns with equal width */
     grid-template-rows: repeat(3, auto); /* 2 rows, with height based on content */
-    width: 50%; /* Take up 50% of the viewport width */
-    height: 50%;
+    width: 60%; /* Take up 50% of the viewport width */
+    height: 60%;
     gap: 5px; /* Space between grid items */
     
 }
-
 
 .grid-item {
     text-align: center;

@@ -20,11 +20,16 @@ namespace DungeDexBE.Models
 		public int Charisma { get; set; }
 		public int HitPoints { get; set; }
 		public string ImageLink { get; set; } = null!;
+		public string SpriteLink { get; set; } = null!;
 		public virtual List<Spell> Spells { get; set; } = [];
 		public virtual List<MonsterAction> Actions { get; set; } = [];
 		public string Proficiencies { get; set; } = string.Empty;
 		public string Cry { get; set; } = "";
+
+		public string Description { get; set; } = "";
+
 		public string Type { get; set; } = string.Empty;
+
 		#region stretch
 		//public Size Size { get; set; }
 		//public string Type { get; set; }

@@ -1,0 +1,21 @@
+﻿<br />
+<h3>Proficiencies</h3>
+@if (!IsEditing)
+{
+
+    <p id="proficiencies" style="width:auto; text-align: left; border: none;"> @Dungemon.Proficiencies </p>
+}
+else
+{
+
+
+    <InputTextArea id="proficiencies" TValue="float" @bind-Value="@Dungemon.Proficiencies" disabled="@(!IsEditing)" style="width:auto; text-align: left; border: none;" />
+}
+
+
+@code {
+    [Parameter]
+    public Dungemon Dungemon { get; set; } = null!;
+    [Parameter]
+    public bool IsEditing { get; set; }
+}
