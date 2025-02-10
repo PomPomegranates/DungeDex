@@ -4,12 +4,13 @@ namespace DungeDexFE.Client.Models
 	public class Dungemon
 	{
 		public int Id { get; set; }
-		public string UserId { get; set; } = null!;
-		public virtual User? User { get; set; }
+		public string? UserId { get; set; } = null;
+		public User? User { get; set; } = null;
 		public string BasePokemon { get; set; } = null!;
-		public string NickName { get; set; } = null!;
+		public string NickName { get; set; } = string.Empty;
 		[Range(0f, 100f, ErrorMessage = "Challenge Rating must be between 0 and 100.")]
 		public float ChallengeRating { get; set; }
+		public int ProficiencyBonus { get; set; }
 		public int ArmorClass { get; set; }
 		[Range(0, 30, ErrorMessage = "Strength must be between 0 and 30")]
 		public int Strength { get; set; }
@@ -25,14 +26,14 @@ namespace DungeDexFE.Client.Models
 		public int Charisma { get; set; }
 		[Range(1, 9999, ErrorMessage = "Dexterity must be between 0 and 9999")]
 		public int HitPoints { get; set; }
-		public string ImageLink { get; set; } = null!;
-		public string SpriteLink { get; set; } = null!;
-		public virtual List<Spell> Spells { get; set; } = null!;
-		public virtual List<MonsterAction> Actions { get; set; } = null!;
+		public string ImageLink { get; set; } = string.Empty;
+		public string SpriteLink { get; set; } = string.Empty;
+		public List<Spell> Spells { get; set; } = [];
+		public List<MonsterAction> Actions { get; set; } = [];
 		public string Proficiencies { get; set; } = string.Empty;
 		public string Cry { get; set; } = "";
-		public string Description { get; set; } = null!;
-		public string Type { get; set; } = null!;
+		public string Description { get; set; } = string.Empty;
+		public string Type { get; set; } = string.Empty;
 
 		#region stretch
 
@@ -61,7 +62,7 @@ namespace DungeDexFE.Client.Models
 			return new Dungemon
 			{
 				UserId = null!,
-				User = null!,
+				User = null,
 				BasePokemon = BasePokemon,
 				NickName = NickName,
 				ChallengeRating = ChallengeRating,
@@ -74,8 +75,12 @@ namespace DungeDexFE.Client.Models
 				Charisma = Charisma,
 				HitPoints = HitPoints,
 				ImageLink = ImageLink,
+				SpriteLink = SpriteLink,
 				Proficiencies = Proficiencies,
-				Cry = Cry
+				Cry = Cry,
+				ProficiencyBonus = ProficiencyBonus,
+				Description = Description,
+				Type = Type
 			};
 		}
 	}
