@@ -6,26 +6,56 @@
 
 <h1>DungéDex</h1>
 <div class="gridContainer">
-    <div class="LeftSide">
-        <DungemonSearch OnSearch="HandleSearch" />
-    </div>
 
-    <div class="RightSide" id="about-section">
-        <h4>Welcome to DungéDex!</h4>
+    <div class="LeftSide">
+        <h2>Welcome to DungéDex!</h2>
         <p>
             Hey Dungeon Masters! Are your players ready to become Dungémon Masters? Your veteran players are probably expecting Oozes, Owlbears, and Orcs, but are they expecting Omastar?
             Make bespoke 5e compatible monsters out of any Pokémon! Save them to your account and edit them to your liking.
             Search for a Pokémon or hit "Randomise" now to get started. Select Browse Dungémon to see what the community has already created!
         </p>
-    </div>
-</div>
+        <p> Use to either search for the pokemon you want or to select a random pokemon</p>
+        <p>if the pokemon has forms please write the specific form (eg giratina-origin)</p>
+        <DungemonSearch OnSearch="HandleSearch" />
 
+
+ 
+    </div>
+
+    <div class="RightSide">
+    
+        <DungemonDisplay Dungemon="monster1" />
+    </div>
+
+
+</div>
+<footer id="footer">Pokémon and Pokémon character names are trademarks of Nintendo. Dungeons And Dragons and associated content is the property of Wizards of the Coast, and is used here under the creative commons license.</footer>
 @code
 {
+  
+    Dungemon monster1 = new Dungemon
+        {
+            BasePokemon = "Lilligant",
+            NickName = "Lilly",
+            ChallengeRating = 12,
+            ArmorClass = 12,
+            HitPoints = 100,
+            Strength = 14,
+            Constitution = 13,
+            Wisdom = 14,
+            Intelligence = 12,
+            Dexterity = 18,
+            Charisma = 9,
+            Spells = [new() { Name = "Goodberry", Description = "Up to ten berries appear in your hand and are infused with magic for the duration. A creature can use its action to eat one berry. Eating a berry restores 1 hit point, and the berry provides enough nourishment to sustain a creature for a day." }],
+            Cry = "",
+            ImageLink = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/shiny/186.png"
+        };
     public void HandleSearch(string newQuery)
     {
         nav.NavigateTo($"/dungemon/new/{newQuery}", false);
     }
+
+   
 }
 
 
