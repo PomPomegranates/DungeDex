@@ -15,8 +15,6 @@ namespace DungeDexBE.Services
 
 		}
 
-
-
 		public List<User>? GetUsers()
 		{
 

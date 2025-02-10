@@ -20,6 +20,9 @@ namespace DungeDexBE.Models
 		public string Cry { get; set; } = "";
 		public string Description { get; set; } = "";
 
+		public int pokemonId {  get; set; }
+
+
 
         public override string ToString() =>
 			$"Name:\t{Name}\nHP:\t{HP}Attack:\t{Attack}\nDefense:\t{Defense}\nSpecialAttack:\t{SpecialAttack}\nSpecialDefense:\t{SpecialDefense}\nSpeed:\t{Speed}";

@@ -1,6 +1,9 @@
 ﻿@using System.Text.Json;
 @using System.Linq.Expressions
 @using DungeDexFE.Client.Components.DungemonEditingComponents
+@using System.Security.Claims
+@using System.Net
+@inject AuthStateProvider auth
 
 
 <EditForm model=@Dungemon OnInvalidSubmit=@InvalidFormSubmitted OnValidSubmit=@ValidFormSubmitted>
@@ -61,7 +64,7 @@
         }
         else
         {
-            <button type="button" class="btn-primary" style="width: 100%;" @onclick="HandleButtonClick">Edit!</button>
+            <button type="button" disabled="@(!signedIn)" class="btn-primary" style="width: 100%;" @onclick="HandleButtonClick">@buttonMessage</button>
         }
     </div>
     <div class="grid-item" spaceId="submit">@_submitResult</div>
@@ -84,6 +87,7 @@
 
     private bool isSilent = false;
 
+
     private void ChangeAudio(){
         isSilent = !isSilent;
     }
@@ -91,6 +95,27 @@
     private void AttacksChanged(List<MonsterAction> attacks){
         Dungemon.Actions = attacks;
         DungemonChanged.InvokeAsync(Dungemon);
+
+    private bool signedIn = false;
+
+    private string buttonMessage = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await auth.GetAuthenticationStateAsync();
+
+        if (String.IsNullOrEmpty(auth.GetUserId()))
+        {
+            signedIn = false;
+            buttonMessage = "Sign in to Edit.";
+            return;
+        }
+        else
+        {
+            signedIn = true;
+            buttonMessage = "Edit this Dungémon!";
+        }
+
     }
 
     private void SpellsChanged(List<Spell> spells)
@@ -103,21 +128,17 @@
         _isEditing = true;
     }
 
+    public async Task ValidFormSubmitted(EditContext editContext)
+    {
+    await DungemonChanged.InvokeAsync(Dungemon);
 
+    _submitResult = "Dungémon updated!";
 
+    _isEditing = false;
+    }
 
-
-        public async Task ValidFormSubmitted(EditContext editContext)
-        {
-        await DungemonChanged.InvokeAsync(Dungemon);
-
-        _submitResult = "Dungémon updated!";
-
-        _isEditing = false;
-        }
-
-        public void InvalidFormSubmitted(EditContext editContext)
-        {
-        _submitResult = "Please enter valid values.";
-        }
+    public void InvalidFormSubmitted(EditContext editContext)
+    {
+    _submitResult = "Please enter valid values.";
+    }
 }

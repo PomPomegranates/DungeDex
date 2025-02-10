@@ -9,10 +9,5 @@ namespace DungeDexBE.Models
 		public HttpStatusCode? StatusCode { get; set; }
 		public IReturnable? Value { get; set; }
 		public string? ErrorMessage { get; set; }
-
-		internal object ToMonster()
-		{
-			throw new NotImplementedException();
-		}
 	}
 }

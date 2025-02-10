@@ -1,0 +1,9 @@
+﻿.dungemon-row
+{
+    transition: background-color linear 1s;
+}
+
+.dungemon-row:hover
+{
+    background-color: #ffffff50
+}

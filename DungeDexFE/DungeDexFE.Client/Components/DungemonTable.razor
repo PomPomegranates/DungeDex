@@ -18,8 +18,10 @@
 
 			@foreach (var dungemon in dungemonList)
 			{
-				<tr style="cursor: pointer;" @onclick="() => HandleRowClick(dungemon.Id)">
+
+				<tr style="cursor: pointer;" @onclick="() => HandleRowClick(dungemon.Id!)">
 					<td><img src="@dungemon.SpriteLink" width="30"/></td>
+
 					<td>@(string.IsNullOrEmpty(dungemon.NickName) ? dungemon.BasePokemon : dungemon.NickName)</td>
 					<td>@dungemon.ChallengeRating</td>
 					<td>@dungemon.BasePokemon</td>
