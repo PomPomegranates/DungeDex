@@ -230,8 +230,10 @@ namespace DungeDexBE
 					Actions = [VenusaurAction],
 					Spells = [spell1, spell2],
 					Cry = "https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/3.ogg",
+					Proficiencies= "Medicine +6",
+					Description= "The plant blooms when it is absorbing solar energy. It stays on the move to seek sunlight."
 
-				};
+                };
 
 				var monster3 = new Dungemon
 				{
