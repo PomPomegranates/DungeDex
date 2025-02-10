@@ -98,7 +98,7 @@ namespace DungeDexBE.Repositories
 					string flavourText = obj!["flavor_text"]!.Value<string>()!;
 
 					flavourText = flavourText.Replace("\n", " ");
-                    flavourText = flavourText.Replace("\f", "");
+                    flavourText = flavourText.Replace("\f", " ");
                     pokemon.Description = flavourText;
 					if (rand.Next(1,3) == 2)
 					{

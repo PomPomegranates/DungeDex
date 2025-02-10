@@ -35,7 +35,10 @@
                 <AttributesEditor Dungemon="Dungemon" IsEditing="_isEditing" />
 
             </div>
-
+            <div class="actions">
+                <ActionsEditor Attacks="Dungemon.Actions" IsEditing="_isEditing" AttacksChanged="AttacksChanged"/> 
+                
+            </div>
 
         </div>
         <div class="RightSide">
@@ -65,6 +68,7 @@
 </EditForm>
 
 @code {
+    // <EditAttacks Attacks="Dungemon.Actions" IsEditing="_isEditing" />
     [Parameter]
     public Dungemon Dungemon { get; set; } = null!;
 
@@ -79,6 +83,11 @@
 
     private void ChangeAudio(){
         isSilent = !isSilent;
+    }
+
+    private void AttacksChanged(List<MonsterAction> attacks){
+        Dungemon.Actions = attacks;
+        DungemonChanged.InvokeAsync(Dungemon);
     }
 
     private void SpellsChanged(List<Spell> spells)
