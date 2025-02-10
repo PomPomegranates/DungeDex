@@ -7,11 +7,11 @@
 @inject AuthStateProvider auth
 @inject Blazored.SessionStorage.ISessionStorageService sessionStorage
 
-<PageTitle>DungéDex : Account</PageTitle>
+<PageTitle>DungéDex : Login</PageTitle>
 
-<h3>Account</h3>
+<h3>DungéMaster Login</h3>
 
-<div class="py-4">
+<div class="my-4">
 	@if (!string.IsNullOrEmpty(username))
 	{
 		<p>Welcome, @username!</p>
@@ -20,11 +20,15 @@
 	else
 	{
 		<p>@message</p>
-		<EditForm Model="@loginModel" Context="LoginForm">
-			<InputText @bind-Value="loginModel.UserName" placeholder="Username" />
-			<InputText type="password" @bind-Value="loginModel.Password" placeholder="Password" />
-			<button type="submit" @onclick="(e) => SignIn(e)">Sign In!</button>
-		</EditForm>
+		<div class="my-4">
+			<EditForm Model="@loginModel" Context="LoginForm">
+				<InputText @bind-Value="loginModel.UserName" placeholder="Username" />
+				<InputText type="password" @bind-Value="loginModel.Password" placeholder="Password" />
+				<button type="submit" @onclick="(e) => SignIn(e)">Sign In!</button>
+			</EditForm>
+		</div>
+
+		<a class="my-4" href="register">Register</a>
 	}
 
 	@if (!string.IsNullOrEmpty(loginErrorMessage))
@@ -36,7 +40,7 @@
 @code {
 	public Login loginModel = new();
 	public string? username = null;
-	private string? message = "You are not logged in.";
+	private string? message = "Use the form below to sign in or the register link to start your DungéMaster journey!";
 	private string? loginErrorMessage = null;
 
 	protected override async Task OnInitializedAsync()
