@@ -1,0 +1,46 @@
+﻿@page "/new-dungemon"
+
+@rendermode @(new InteractiveWebAssemblyRenderMode(false))
+
+@inject AuthStateProvider Auth
+
+<PageTitle>DungéDex : New Dungémon</PageTitle>
+
+<h3>New Dungemon</h3>
+
+@if (string.IsNullOrEmpty(UserId))
+{
+	<div class="my-4">
+	<p class="text-danger">You must be logged in to save Dungémon.</p>
+	<p class="my-4"><a href="/login">Click here</a> to login or sign-up.</p>
+	</div>
+}
+
+<div class="my-4">
+	<DungemonSearch OnSearch="OnSearch" />
+
+	@if (!string.IsNullOrEmpty(PokemonIdOrName))
+	{
+		<div class="my-4">
+			<DungemonLoader idOrName="@PokemonIdOrName" />
+		</div>
+	}
+</div>
+
+
+@code 
+{
+	public string PokemonIdOrName { get; set; } = null!;
+	public string? UserId { get; set; } = null;
+
+	protected override void OnInitialized()
+	{
+		UserId = Auth.GetUserId();
+	}
+
+	public void OnSearch(string searchTerm)
+	{
+		PokemonIdOrName = searchTerm;
+		StateHasChanged();
+	}
+}

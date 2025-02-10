@@ -2,7 +2,7 @@
 @rendermode InteractiveAuto
 
 <InputText @bind-Value="_inputText" @oninput="InputTextChanged"/>
-<button @onclick="(e) => HandleSearch(e)">@(string.IsNullOrEmpty(_inputText) ? "Randomise!" : "Build Dungémon!")</button>
+<button @onclick="HandleSearch">@(string.IsNullOrEmpty(_inputText) ? "Randomise!" : "Build Dungémon!")</button>
 
 @code {
     [Parameter]
@@ -10,7 +10,7 @@
 
     private string? _inputText { get; set; }
 
-    private async Task HandleSearch(MouseEventArgs e)
+    private async Task HandleSearch()
     {
         var searchString = string.Empty;
 
