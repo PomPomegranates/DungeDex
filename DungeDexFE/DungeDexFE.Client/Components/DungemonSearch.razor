@@ -1,8 +1,6 @@
 ﻿@inject NavigationManager nav
 @rendermode InteractiveAuto
 
-<h3>New Dungémon</h3>
-
 <InputText @bind-Value="_inputText" @oninput="InputTextChanged"/>
 <button @onclick="(e) => HandleSearch(e)">@(string.IsNullOrEmpty(_inputText) ? "Randomise!" : "Build Dungémon!")</button>
 

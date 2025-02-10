@@ -3,7 +3,7 @@
 	public class Spell
 	{
 		public int Id { get; set; }
-		public int MonsterId { get; set; }
+		public int DungemonId { get; set; }
 		public string Name { get; set; } = null!;
 		public string Description { get; set; } = null!;
 
@@ -17,5 +17,15 @@
 		//public AoEType areaOfEffectType { get; set; }
 		//public int areaOfEffectSize { get; set; }
 		#endregion
+
+		public Spell Clone(int newDungemonId)
+		{
+			return new Spell
+			{
+				DungemonId = newDungemonId,
+				Name = Name,
+				Description = Description
+			};
+		}
 	}
 }

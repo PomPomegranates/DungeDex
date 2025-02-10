@@ -5,31 +5,31 @@
 
 <EditForm model=@Dungemon OnInvalidSubmit=@InvalidFormSubmitted OnValidSubmit=@ValidFormSubmitted>
     <DataAnnotationsValidator />
-   
+
     <div class="gridContainer" style="background-color:rgba(230,206,158,0); border: 5px outset grey; border-radius: 2rem; position:relative "  >
-     
+
 
         <div class="LeftSide">
-          
+
             <div class="TopPart">
                 <ChallengeRatingEditor Dungemon="Dungemon" IsEditing="_isEditing" />
-                 <NicknameEditor Dungemon="Dungemon" DungemonChanged="DungemonChanged"/>
-                 <HitPointsEditor Dungemon="Dungemon" IsEditing="_isEditing" />
+                <NicknameEditor Dungemon="Dungemon" DungemonChanged="DungemonChanged"/>
+                <HitPointsEditor Dungemon="Dungemon" IsEditing="_isEditing" />
 
             </div>
-       
-        
-        
+
+
+
             <div class="PokemonImage">
-                <DungemonImage Dungemon="Dungemon"/>
-                
+                <DungemonImage Dungemon="Dungemon" IsSilent="isSilent"/>
+
             </div>
-         
-         
+
+
             <div class="attributes">
                 <AttributesEditor Dungemon="Dungemon" IsEditing="_isEditing" />
             </div>
-      
+
 
         </div>
         <div class="RightSide">
@@ -41,19 +41,19 @@
         </div>
     </div>
 
-<div class="grid-item" spaceId="25">
-    @if (_isEditing)
-    {
-        <input type="submit" class="btn-primary" value="Save!" style="width: 100%;" />
-    }
-    else
-    {
-        <button type="button" class="btn-primary" style="width: 100%;" @onclick="HandleButtonClick">Edit!</button>
-    }
-</div>
-<div class="grid-item" spaceId="submit">@_submitResult</div>
-        
-    
+    <div class="grid-item" spaceId="25">
+        @if (_isEditing)
+        {
+            <input type="submit" class="btn-primary" value="Save!" style="width: 100%;" />
+        }
+        else
+        {
+            <button type="button" class="btn-primary" style="width: 100%;" @onclick="HandleButtonClick">Edit!</button>
+        }
+    </div>
+    <div class="grid-item" spaceId="submit">@_submitResult</div>
+
+
 
 </EditForm>
 
@@ -67,6 +67,10 @@
     private bool _isEditing { get; set; } = false;
 
     private string _submitResult = null!;
+
+    private bool isSilent = false;
+
+
 
     private void SpellsChanged(List<Spell> spells)
     {

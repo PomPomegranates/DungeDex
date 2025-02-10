@@ -14,9 +14,9 @@ namespace DungeDexBE.Controllers
 		private readonly IDungemonService _dungemonService;
 		private readonly IJwtService _jwtService;
 
-		public DungemonController(IDungemonService dungemonService, IJwtService jwtService)
+		public DungemonController(IDungemonService DungemonService, IJwtService jwtService)
 		{
-			_dungemonService = dungemonService;
+			_dungemonService = DungemonService;
 			_jwtService = jwtService;
 		}
 
@@ -45,9 +45,7 @@ namespace DungeDexBE.Controllers
 
 			if (result.Item1 != null) return Ok(result.Item1);
 
-			if (result.Item2.Contains("No Userdata")) return NotFound(result.Item2);
-
-			return BadRequest(result.Item2);
+			return NotFound(result.Item2);
 		}
 
 		[HttpPost]
@@ -91,6 +89,8 @@ namespace DungeDexBE.Controllers
 			var result = await _dungemonService.DeleteDungemonById(dungemonId, jwtUserId);
 
 			if (result == "Success") return NoContent();
+
+			if (result == "User Id and Dungémon User Id do not match.")	return Unauthorized(result);
 
 			return NotFound(result);
 		}

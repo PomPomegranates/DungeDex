@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using DungeDexFE.Client.Enums;
 namespace DungeDexFE.Client.Models
 {
 	public class Dungemon
@@ -27,28 +26,53 @@ namespace DungeDexFE.Client.Models
 		public int HitPoints { get; set; }
 		public string ImageLink { get; set; } = null!;
 		public virtual List<Spell> Spells { get; set; } = null!;
+		public virtual List<MonsterAction> Actions { get; set; } = null!;
+        public string Proficiencies { get; set; } = string.Empty;
+		public string Cry { get; set; } = "";
 
-		#region stretch
+        #region stretch
 
-		//public Size Size { get; set; }
+  //      public Size Size { get; set; }
 		//public string Type { get; set; }
 		//public MoveSpeed Speeds { get; set; }
 		//public int ProficiencyBonus { get; set; }
 		//public List<EAttributes> SavingThrows { get; set; }
 		//public string? HitDice { get; set; }
 
-		//public List<string> Proficiences { get; set; }
+		
 		//public List<Damage> DamageVulnerabilities { get; set; } = [];
 		//public List<Damage> DamageResistances { get; set; } = [];
 		//public List<Condition> ConditionImmunities { get; set; } = [];
 		//public Dictionary<string, string> SpecialAbilities { get; set; }
-		//public List<int> AttackIds { get; set; }
-		////Need a table of attacks in our database for this to pull from
+		
 		//public EAttributes? SpellcastingAbility { get; set; }
 		//public int? SpellSaveDC { get; set; }
 		////public List<LegendaryAction>? LegendaryActions { get; set; }
 		//public string Description { get; set; }
 
 		#endregion
+
+		public Dungemon Clone()
+		{
+			return new Dungemon
+			{
+				UserId = null!,
+				User = null!,
+				BasePokemon = BasePokemon,
+				NickName = NickName,
+				ChallengeRating = ChallengeRating,
+				ArmorClass = ArmorClass,
+				Strength = Strength,
+				Dexterity = Dexterity,
+				Constitution = Constitution,
+				Intelligence = Intelligence,
+				Wisdom = Wisdom,
+				Charisma = Charisma,
+				HitPoints = HitPoints,
+				ImageLink = ImageLink,
+				Proficiencies = Proficiencies,
+				Cry = Cry
+			};
+		}
 	}
 }

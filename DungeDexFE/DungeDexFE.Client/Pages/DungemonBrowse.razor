@@ -9,68 +9,67 @@
 
 <h3>Browse Dungémon</h3>
 
-@if (!string.IsNullOrEmpty(errorMessage))
-{
-	<p>@errorMessage</p>
-}
-else if (allDungemon != null)
-{
-	<div id="FilterBar">
-		<InputText @bind-Value="pokeFilter" placeholder="Pokémon" />
-		<button @onclick="PopulateTable">Filter By Pokémon</button>
-		<button hidden=@filterEmpty @onclick="WipeFilter">❌</button>
-	</div>
-	<DungemonTable dungemonList="allDungemon" />
-	<button hidden=@atStart @onclick="PreviousPage">⬅️ Previous</button>
-	<button hidden=@lessThan20 @onclick="NextPage">Next ➡️</button>
-}
+<div class="py-4">
+	@if (!string.IsNullOrEmpty(errorMessage))
+	{
+		<p>@errorMessage</p>
+	}
+	else if (allDungemon != null)
+	{
+		<div id="FilterBar">
+			<EditForm Model="filter">
+				<InputText @bind-Value="filter.PokeFilter" placeholder="Base Pokémon" />
+				<button type="submit" @onclick="PopulateTable">Filter</button>
+				<button hidden="@(string.IsNullOrEmpty(filter.PokeFilter))" @onclick="ClearFilter">❌</button>
+			</EditForm>
+		</div>
+
+		<div class="py-4">
+			<DungemonTable dungemonList="allDungemon"/>
+		</div>
+
+		<div class="py-4">
+			<div style="width: 100%; display: flex; justify-content: space-between">
+
+				<div>
+					<button hidden="@(filter.Offset <= 0)" @onclick="() => filter.TurnPage(-1)">⬅️ Previous</button>
+				</div>
+
+				<div>
+					<button hidden="@(allDungemon.Count <= 20)" @onclick="() => filter.TurnPage(1)">Next ➡️</button>
+				</div>
+
+			</div>
+		</div>
+	}
+</div>
 
 @code {
 	public List<Dungemon> allDungemon { get; set; } = null!;
 
+	public FilterModel filter { get; set; } = new();
+
 	private string errorMessage { get; set; } = null!;
-
-	private int currentOffset = 0;
-
-	private bool atStart = true;
-
-	private bool lessThan20 = true;
-
-	private string pokeFilter = string.Empty;
-
-	private bool filterEmpty = true;
-
-	private bool initialisedFilter = true;
 
 	protected override async Task OnInitializedAsync()
 	{
 		await PopulateTable();
 	}
 
-	private async Task NextPage(MouseEventArgs e)
+	private async Task ClearFilter()
 	{
-		currentOffset += 20;
-		atStart = false;
-		await PopulateTable();
-	}
-
-	private async Task PreviousPage(MouseEventArgs e)
-	{
-		currentOffset -= 20;
-		if (currentOffset == 0)
-		{
-			atStart = true;
-		}
+		filter.Reset();
 		await PopulateTable();
 	}
 
 	private async Task PopulateTable()
 	{
-		if (!String.IsNullOrEmpty(pokeFilter)) filterEmpty = false; else filterEmpty = true;
+		var queryString = filter.GetQueryString();
+
 		try
 		{
 			using var client = clientFactory.CreateClient("BackendAPI");
-			allDungemon = await client.GetFromJsonAsync<List<Dungemon>>($"dungemon?number=20&offset={currentOffset}")
+			allDungemon = await client.GetFromJsonAsync<List<Dungemon>>($"dungemon{queryString}")
 				?? throw new Exception("Unable to convert the server response into Dungémon.");
 		}
 		catch (HttpRequestException ex)
@@ -82,10 +81,35 @@ else if (allDungemon != null)
 			errorMessage = "An error occurred while fetching the Dungémon data: " + ex.Message;
 		}
 	}
-	private async Task WipeFilter()
+
+	private async Task TurnPage(int value)
 	{
-		pokeFilter = String.Empty;
-		initialisedFilter = true;
+		if ((value == -1 && filter.Offset <= 0) || (value == 1 && allDungemon.Count < 20)) return;
+		filter.TurnPage(value);
 		await PopulateTable();
+	}
+
+	public class FilterModel
+	{
+		public string? PokeFilter { get; set; } = null!;
+		public int Offset { get; set; } = 0;
+		public int Number { get; set; } = 20;
+
+		public string GetQueryString()
+		{
+			return string.IsNullOrEmpty(PokeFilter)
+				? $"?number={Number}&offset={Offset}"
+				: $"?number={Number}&offset={Offset}&basePokemon={PokeFilter}";
+		}
+
+		public void Reset()
+		{
+			PokeFilter = null;
+		}
+
+		public void TurnPage(int value)
+		{
+			Offset += value * 20;
+		}
 	}
 }

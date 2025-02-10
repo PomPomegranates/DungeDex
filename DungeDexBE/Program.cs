@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
+using static System.Net.WebRequestMethods;
 
 namespace DungeDexBE
 {
@@ -175,7 +176,8 @@ namespace DungeDexBE
 					Intelligence = 12,
 					Dexterity = 18,
 					Charisma = 9,
-					Spells = [spell1, spell3],
+                    Spells = [spell1, spell3],
+					Cry = "",
 					ImageLink = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/shiny/186.png"
 				};
 
@@ -195,7 +197,9 @@ namespace DungeDexBE
 					Dexterity = 18,
 					Charisma = 9,
 					Spells = [spell1, spell2],
-					ImageLink = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/shiny/186.png"
+					Cry = "",
+
+                    ImageLink = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/shiny/186.png"
 				};
 
 				var monster3 = new Dungemon
@@ -214,7 +218,8 @@ namespace DungeDexBE
 					Dexterity = 18,
 					Charisma = 9,
 					Spells = [spell2, spell3],
-					ImageLink = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/shiny/186.png"
+                    Cry = "",
+                    ImageLink = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/shiny/186.png"
 				};
 
 				await db.Dungemon.AddRangeAsync(monster1, monster2, monster3);

@@ -8,6 +8,7 @@ namespace DungeDexBE.Persistence
 	{
 		public DbSet<Dungemon> Dungemon { get; set; }
 		public DbSet<Spell> Spells { get; set; }
+		public DbSet<Models.MonsterAction> Actions { get; set; }
 
 		public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
@@ -15,7 +16,7 @@ namespace DungeDexBE.Persistence
 		{
 			builder.Entity<User>(entity =>
 			{
-				entity.HasMany(u => u.Dungemon).WithOne(d => d.User).HasForeignKey(d => d.UserId).OnDelete(DeleteBehavior.Cascade);
+				entity.HasMany(u => u.Dungemons).WithOne(d => d.User).HasForeignKey(d => d.UserId).OnDelete(DeleteBehavior.Cascade);
 			});
 
 			builder.Entity<Dungemon>(entity =>
@@ -23,6 +24,7 @@ namespace DungeDexBE.Persistence
 				entity.Property(d => d.Id).ValueGeneratedOnAdd();
 				entity.HasKey(d => d.Id);
 				entity.HasMany(d => d.Spells).WithOne().HasForeignKey(s => s.DungemonId);
+				entity.HasMany(d => d.Actions).WithOne().HasForeignKey(s => s.DungemonId);
 				entity.Property(d => d.HitPoints).IsRequired();
 				entity.Property(d => d.Strength).IsRequired();
 				entity.Property(d => d.Constitution).IsRequired();
@@ -36,7 +38,7 @@ namespace DungeDexBE.Persistence
 				entity.Property(d => d.ImageLink).IsRequired();
 				entity.Property(d => d.NickName).IsRequired();
 				entity.Property(d => d.UserId).IsRequired();
-				entity.HasOne(d => d.User).WithMany(u => u.Dungemon).HasForeignKey(d => d.UserId).OnDelete(DeleteBehavior.NoAction);
+				entity.HasOne(d => d.User).WithMany(u => u.Dungemons).HasForeignKey(d => d.UserId).OnDelete(DeleteBehavior.NoAction);
 			});
 
 			builder.Entity<Spell>(entity =>

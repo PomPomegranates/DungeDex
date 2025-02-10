@@ -16,7 +16,7 @@ namespace DungeDexFE.Client.Services
 			var token = await _sessionStorage.GetItemAsStringAsync("Jwt", cancellationToken);
 
 			if (token != null) requestMessage.Headers.Add("Authorization", $"Bearer {token}");
-			
+
 			var response = await base.SendAsync(requestMessage, cancellationToken);
 
 			return response;

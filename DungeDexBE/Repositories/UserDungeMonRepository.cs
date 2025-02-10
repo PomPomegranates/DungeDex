@@ -26,7 +26,8 @@ namespace DungeDexBE.Repositories
 
 				dungemon = dungemon.Skip(filterDto.Offset).Take(filterDto.Number);
 
-				return await dungemon.Include(d => d.Spells).ToListAsync();
+
+				return await dungemon.Include(d => d.Spells).Include(d => d.Actions).ToListAsync();
 			}
 			catch
 			{
@@ -36,10 +37,10 @@ namespace DungeDexBE.Repositories
 
 		public async Task<(Dungemon?, string)> GetDungemonById(int id)
 		{
-			var value = await _db.Dungemon.Where(x => (x.Id == id)).Include(d => d.Spells).FirstOrDefaultAsync();
+			var value = await _db.Dungemon.Where(x => (x.Id == id)).Include(d => d.Spells).Include(d => d.Actions).FirstOrDefaultAsync();
 
 			var result = value == null
-				? $"No Userdata for Pokemon Number {id}"
+				? $"No Dungémon with Id '{id}' exists"
 				: "Success";
 
 			return (value, result);
@@ -81,9 +82,9 @@ namespace DungeDexBE.Repositories
 			{
 				var existingMonster = await _db.Dungemon.SingleOrDefaultAsync(m => m.Id == monsterId);
 
-				if (existingMonster == null) return $"No Dungémon with Id {monsterId} could be found.";
+				if (existingMonster == null) return $"No Dungémon with Id '{monsterId}' could be found.";
 
-				if (existingMonster.UserId != jwtUserId) return $"User Id and Dungémon User Id do not match.";
+				if (existingMonster.UserId != jwtUserId) return "User Id and Dungémon User Id do not match.";
 
 				_db.Dungemon.Remove(existingMonster);
 				await _db.SaveChangesAsync();

@@ -13,13 +13,22 @@ namespace DungeDexBE.ConversionFunctions
 
 			ConvertBaseStats(pokemon, monster);
 
-			monster.ChallengeRating = DetermineExpectedCR(pokemon);
+			monster.ChallengeRating = DetermineExpectedCR(pokemon); // Will need to be moved from here once all stats are available for correct CR
+
+			monster.ProficiencyBonus = DetermineProficiencyBonus(monster.ChallengeRating);
 
 			monster.ImageLink = pokemon.ImageLink;
 
+			monster.Cry = pokemon.Cry;
+
+			monster.GiveMeleeAttack(pokemon);
+
+			monster.AssignDungemonType(pokemon);
+
+			ProficiencyDeciders.UpdateDungemon(monster, pokemon);
+
 			return monster;
 		}
-
 		public static void ConvertBaseStats(Pokemon pokemon, Dungemon monster)
 		{
 			ConvertAttackToStrength(pokemon, monster);
@@ -434,7 +443,36 @@ namespace DungeDexBE.ConversionFunctions
 
 			return expectedCR;
 		}
+		public static int GetModifier(int attribute)
+		{
+			return (int)Math.Floor(((double)attribute / 2) - 5);
+		}
 
 		//public static void SetFinalCR(Pokemon pokemon, Monster monster) {} Needs attack data before actionable
+		public static int DetermineProficiencyBonus(float CR)
+		{
+			switch (CR)
+			{
+				case 5f: case 6f: case 7f: case 8f:
+					return 3;
+				case 9f: case 10f: case 11f: case 12f:
+					return 4;
+				case 13f: case 14f: case 15f: case 16f:
+					return 5;
+				case 17f: case 18f: case 19f: case 20f:
+					return 6;
+				case 21f: case 22f: case 23f: case 24f:
+					return 7;
+				case 25f: case 26f: case 27f: case 28f:
+					return 8;
+				case 29f: case 30f:
+					return 9;
+				case 0f: case 0.125f: case 0.25f: case 0.5f:
+				case 1f: case 2f: case 3f: case 4f:
+				default:
+					return 2;
+			}
+		}
+
 	}
 }

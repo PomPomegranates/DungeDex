@@ -7,25 +7,31 @@
 @inject AuthStateProvider auth
 @inject Blazored.SessionStorage.ISessionStorageService sessionStorage
 
-@if (!string.IsNullOrEmpty(username))
-{
-	<p>Welcome, @username!</p>
-	<button @onclick="SignOut">Sign Out!</button>
-}
-else
-{
-	<p>@message</p>
-	<EditForm Model="@loginModel" Context="LoginForm">
-		<InputText @bind-Value="loginModel.UserName" placeholder="Username" />
-		<InputText type="password" @bind-Value="loginModel.Password" placeholder="Password" />
-		<button type="submit" @onclick="(e) => SignIn(e)">Sign In!</button>
-	</EditForm>
-}
+<PageTitle>DungéDex : Account</PageTitle>
 
-@if (!string.IsNullOrEmpty(loginErrorMessage))
-{
-	<p>@loginErrorMessage</p>
-}
+<h3>Account</h3>
+
+<div class="py-4">
+	@if (!string.IsNullOrEmpty(username))
+	{
+		<p>Welcome, @username!</p>
+		<button @onclick="SignOut">Sign Out!</button>
+	}
+	else
+	{
+		<p>@message</p>
+		<EditForm Model="@loginModel" Context="LoginForm">
+			<InputText @bind-Value="loginModel.UserName" placeholder="Username" />
+			<InputText type="password" @bind-Value="loginModel.Password" placeholder="Password" />
+			<button type="submit" @onclick="(e) => SignIn(e)">Sign In!</button>
+		</EditForm>
+	}
+
+	@if (!string.IsNullOrEmpty(loginErrorMessage))
+	{
+		<p>@loginErrorMessage</p>
+	}
+</div>
 
 @code {
 	public Login loginModel = new();
@@ -35,16 +41,13 @@ else
 
 	protected override async Task OnInitializedAsync()
 	{
-		username = auth.GetUserName();
-
-		if (string.IsNullOrEmpty(username) && !(await sessionStorage.ContainKeyAsync("Jwt"))) return;
-
-		using var client = clientFactory.CreateClient("BackendAPI");
-		var result = await client.GetFromJsonAsync<UserClaims>("authentication/CurrentUser");
-
-		if (result == null) return;
-
-		await auth.ChangeUserAsync(result);
+		var authUsername = auth.GetUserName(); 
+		if (!string.IsNullOrEmpty(authUsername))
+		{
+			username = authUsername;
+			return;
+		}
+		await TryVerifyUserFromJwt();
 	}
 
 	private async Task SignIn(MouseEventArgs e)
@@ -60,25 +63,36 @@ else
 		}
 
 		var jwt = await result.Content.ReadFromJsonAsync<Jwt>();
-		if (jwt is null) return;
+		if (jwt is null)
+		{
+			loginErrorMessage = "There was a problem getting the session token from the server. Please try again later.";
+			return;
+		}
 		await sessionStorage.SetItemAsStringAsync("Jwt", jwt.Token);
 
-		var authResult = await client.GetFromJsonAsync<UserClaims>("authentication/CurrentUser");
-		if (authResult == null) return;
-
-		await auth.ChangeUserAsync(authResult);
-		username = auth.GetUserName();
-		ClearLoginModel();
+		await TryVerifyUserFromJwt();
 	}
 
 	private async Task SignOut(MouseEventArgs e)
 	{
 		ClearLoginModel();
-		await sessionStorage.RemoveItemAsync("Jwt");
+		await sessionStorage.ClearAsync();
 		username = null;
 		await auth.Logout();
 		StateHasChanged();
 	}
 
 	private void ClearLoginModel() => loginModel = new();
+
+	private async Task TryVerifyUserFromJwt()
+	{
+		if (!await sessionStorage.ContainKeyAsync("Jwt")) return;
+		using var client = clientFactory.CreateClient("BackendAPI");
+		var userClaims = await client.GetFromJsonAsync<UserClaims>("authentication/CurrentUser");
+		if (userClaims == null) return;
+		await auth.ChangeUserAsync(userClaims);
+		username = auth.GetUserName();
+		ClearLoginModel();
+		loginErrorMessage = null;
+	}
 }

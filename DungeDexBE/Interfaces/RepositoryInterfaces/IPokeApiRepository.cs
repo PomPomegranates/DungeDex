@@ -1,11 +1,13 @@
 ﻿using DungeDexBE.Models;
+using Newtonsoft.Json.Linq;
 
 namespace DungeDexBE.Interfaces.RepositoryInterfaces
 {
 	public interface IPokeApiRepository
 	{
 		Task<Result> GetPokemon(string pokemonName);
-		Pokemon ConvertJsonToPokemon(string json);
+		Task<Pokemon> ConvertJsonToPokemon(string json);
+		Task<JObject?> GetEquivalentSpecies(JObject jObj);
 
 
 	}
