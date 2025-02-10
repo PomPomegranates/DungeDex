@@ -75,6 +75,8 @@
 		await sessionStorage.SetItemAsStringAsync("Jwt", jwt.Token);
 
 		await TryVerifyUserFromJwt();
+
+		StateHasChanged();
 	}
 
 	private async Task SignOut(MouseEventArgs e)

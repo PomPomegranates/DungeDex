@@ -85,8 +85,6 @@ namespace DungeDexBE
 			builder.Services.AddScoped<IDNDService, DNDService>();
 			builder.Services.AddScoped<IUserDungemonRepository, UserDungemonRepository>();
 			builder.Services.AddScoped<IDungemonService, DungemonService>();
-			builder.Services.AddScoped<IUserRepository, UserRepository>();
-			builder.Services.AddScoped<IUserService, UserService>();
 
 			builder.Services.AddEndpointsApiExplorer();
 			builder.Services.AddSwaggerGen();
@@ -241,6 +239,7 @@ namespace DungeDexBE
 					BasePokemon = "Bayleef",
 					NickName = "Baybeee",
 					UserId = user2.Id,
+					User = user2,
 					ChallengeRating = 12,
 					ArmorClass = 12,
 					HitPoints = 100,

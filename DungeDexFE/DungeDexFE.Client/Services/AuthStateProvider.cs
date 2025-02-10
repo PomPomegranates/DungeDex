@@ -13,9 +13,9 @@ namespace DungeDexFE.Client.Services
 			_currentUser = GetAnonymous();
 		}
 
-		public override Task<AuthenticationState> GetAuthenticationStateAsync()
+		public override async Task<AuthenticationState> GetAuthenticationStateAsync()
 		{
-			return Task.FromResult(new AuthenticationState(_currentUser));
+			return await Task.FromResult(new AuthenticationState(_currentUser));
 		}
 
 		public async Task<AuthenticationState> ChangeUserAsync(UserClaims userClaims)
@@ -37,13 +37,13 @@ namespace DungeDexFE.Client.Services
 		public string? GetUserId()
 		{
 			var claim = _currentUser.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid);
-			return claim != null ? claim.Value : null;
+			return claim?.Value;
 		}
 
 		public string? GetUserName()
 		{
 			var claim = _currentUser.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name);
-			return claim != null ? claim.Value : null;
+			return claim?.Value;
 		}
 
 		private ClaimsPrincipal GetUser(UserClaims userClaims)
