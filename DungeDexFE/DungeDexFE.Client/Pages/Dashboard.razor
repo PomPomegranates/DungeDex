@@ -1,0 +1,66 @@
+﻿@page "/dashboard"
+
+@rendermode @(new InteractiveWebAssemblyRenderMode(false))
+
+@inject AuthStateProvider Auth
+@inject NavigationManager Nav
+@inject IHttpClientFactory ClientFactory
+
+<PageTitle>DungéDex : Dashboard</PageTitle>
+
+<h3>My DungéDashboard</h3>
+
+<div class="my-4">
+	@if (_user is null)
+	{
+		<h3>You must be logged in to view your dashboard.</h3>
+		<p class="my-4"><a href="/login">Click here</a> to login or sign-up.</p>
+	}
+	else
+	{
+		@if (string.IsNullOrEmpty(_errorMessage))
+		{
+			<UserDisplay user="@_user" />
+		}
+		else
+		{
+			<p>@_errorMessage</p>
+		}
+	}
+</div>
+
+@code
+{
+	private string? _errorMessage = null;
+
+	private User? _user = null!;
+
+	protected override async Task OnInitializedAsync()
+	{
+		var username = Auth.GetUserName();
+
+		if (string.IsNullOrEmpty(username)) return;
+
+		using var client = ClientFactory.CreateClient("BackendAPI");
+
+		var result = await client.GetAsync($"users/{username}");
+
+		if (!result.IsSuccessStatusCode)
+		{
+			_errorMessage = await result.Content.ReadAsStringAsync();
+			return;
+		}
+
+		_errorMessage = null;
+
+		var user = await result.Content.ReadFromJsonAsync<User>();
+
+		if (user is null)
+		{
+			_errorMessage = "There was an error getting your user data.";
+			return;
+		}
+
+		_user = user;
+	}
+}

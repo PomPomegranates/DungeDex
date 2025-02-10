@@ -85,8 +85,6 @@ namespace DungeDexBE
 			builder.Services.AddScoped<IDNDService, DNDService>();
 			builder.Services.AddScoped<IUserDungemonRepository, UserDungemonRepository>();
 			builder.Services.AddScoped<IDungemonService, DungemonService>();
-			builder.Services.AddScoped<IUserRepository, UserRepository>();
-			builder.Services.AddScoped<IUserService, UserService>();
 
 			builder.Services.AddEndpointsApiExplorer();
 			builder.Services.AddSwaggerGen();
@@ -167,6 +165,7 @@ namespace DungeDexBE
 					BasePokemon = "Lilligant",
 					NickName = "Lilly",
 					UserId = user1.Id,
+					User = user1,
 					ChallengeRating = 12,
 					ArmorClass = 12,
 					HitPoints = 100,
@@ -187,6 +186,7 @@ namespace DungeDexBE
 					BasePokemon = "Venusaur",
 					NickName = "Jimmy",
 					UserId = user1.Id,
+					User = user1,
 					ChallengeRating = 12,
 					ArmorClass = 12,
 					HitPoints = 100,
@@ -208,6 +208,7 @@ namespace DungeDexBE
 					BasePokemon = "Bayleaf",
 					NickName = "Baybeee",
 					UserId = user2.Id,
+					User = user2,
 					ChallengeRating = 12,
 					ArmorClass = 12,
 					HitPoints = 100,

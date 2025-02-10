@@ -1,3 +1,4 @@
+using DungeDexFE.Client.Services;
 using DungeDexFE.Components;
 
 namespace DungeDexFE
@@ -9,6 +10,9 @@ namespace DungeDexFE
 			var builder = WebApplication.CreateBuilder(args);
 
 			// Add services to the container.
+			builder.Services.AddAuthorizationCore();
+			builder.Services.AddScoped<AuthStateProvider>();
+			
 			builder.Services.AddRazorComponents()
 				.AddInteractiveServerComponents()
 				.AddInteractiveWebAssemblyComponents();
