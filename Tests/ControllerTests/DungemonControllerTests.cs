@@ -35,7 +35,7 @@ namespace Tests.ControllerTests
 			_fixture.Customize<Dungemon>(d => d
 				.With(d => d.User, _fixture.Create<User>())
 				.With(d => d.Spells, _fixture.CreateMany<Spell>(2).ToList())
-				.With(d => d.Actions, _fixture.CreateMany<DungeDexBE.Models.Action>(4).ToList()));
+				.With(d => d.Actions, _fixture.CreateMany<DungeDexBE.Models.MonsterAction>(4).ToList()));
 				
 		}
 
