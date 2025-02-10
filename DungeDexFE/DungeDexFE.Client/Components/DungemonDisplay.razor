@@ -30,7 +30,7 @@
                 }else{
                     <button type="button" @onclick="ChangeAudio"> Unmute Audio!</button>
                 }
-                
+
             </div>
 
 
@@ -40,14 +40,14 @@
             </div>
             <div class="actions">
                 <ActionsEditor Attacks="Dungemon.Actions" IsEditing="_isEditing" AttacksChanged="AttacksChanged"/> 
-                
+
             </div>
 
         </div>
         <div class="RightSide">
 
             <SpellEditor Spells="Dungemon.Spells" SpellsChanged="SpellsChanged" />
-            
+
 
             <ProficienciesEditor Dungemon="Dungemon" IsEditing="_isEditing" />
 
@@ -74,7 +74,7 @@
 </EditForm>
 
 @code {
-    
+
     [Parameter]
     public Dungemon Dungemon { get; set; } = null!;
 
@@ -92,9 +92,7 @@
         isSilent = !isSilent;
     }
 
-    private void AttacksChanged(List<MonsterAction> attacks){
-        Dungemon.Actions = attacks;
-        DungemonChanged.InvokeAsync(Dungemon);
+  
 
     private bool signedIn = false;
 
@@ -117,11 +115,15 @@
         }
 
     }
-
-    private void SpellsChanged(List<Spell> spells)
+    private async Task AttacksChanged(List<MonsterAction> attacks)
+    {
+        Dungemon.Actions = attacks;
+        await DungemonChanged.InvokeAsync(Dungemon);
+    }
+    private async Task SpellsChanged(List<Spell> spells)
     {
         Dungemon.Spells = spells;
-        DungemonChanged.InvokeAsync(Dungemon);
+        await DungemonChanged.InvokeAsync(Dungemon);
     }
     private void HandleButtonClick(MouseEventArgs e)
     {

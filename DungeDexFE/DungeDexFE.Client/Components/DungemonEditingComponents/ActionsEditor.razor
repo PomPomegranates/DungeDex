@@ -47,7 +47,7 @@
     public void RemoveAttack(MonsterAction attack)
     {
         Attacks.Remove(attack);
-        AttacksChanged.InvokeAsync(Attacks);
+         AttacksChanged.InvokeAsync(Attacks);
     }
 
     public void AddNew(){
