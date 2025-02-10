@@ -3,79 +3,66 @@
 @using DungeDexFE.Client.Components.DungemonEditingComponents
 @using System.Security.Claims
 @using System.Net
-@inject AuthStateProvider auth
 
+@inject AuthStateProvider auth
 
 <EditForm model=@Dungemon OnInvalidSubmit=@InvalidFormSubmitted OnValidSubmit=@ValidFormSubmitted>
     <DataAnnotationsValidator />
 
     <div class="gridContainer" style="background-color:rgba(230,206,158,0); border: 5px outset grey; border-radius: 2rem; position:relative "  >
 
-
         <div class="LeftSide">
-
             <div class="TopPart">
                 <TypeEditor Dungemon="Dungemon" IsEditing="_isEditing" DungemonChanged="DungemonChanged" />
                 <ChallengeRatingEditor  Dungemon="Dungemon" IsEditing="_isEditing" />
                 <NicknameEditor  Dungemon="Dungemon" DungemonChanged="DungemonChanged" />
                 <HitPointsEditor  Dungemon="Dungemon" IsEditing="_isEditing" />
-
             </div>
-
-
 
             <div class="PokemonImage">
                 <DungemonImage Dungemon="Dungemon" IsSilent="isSilent"/>
-                @if(!isSilent){
-                    <button type="button" @onclick="ChangeAudio"> Mute Audio!</button>
-                }else{
-                    <button type="button" @onclick="ChangeAudio"> Unmute Audio!</button>
-                }
-
+                <button type="button" @onclick="ChangeAudio">@(isSilent ? "Unmute Audio!" : "Mute Audo!")</button>
             </div>
-
 
             <div class="attributes">
                 <AttributesEditor Dungemon="Dungemon" IsEditing="_isEditing" />
-
             </div>
+
             <div class="actions">
                 <ActionsEditor Attacks="Dungemon.Actions" IsEditing="_isEditing" AttacksChanged="AttacksChanged"/> 
-
             </div>
-
         </div>
+
         <div class="RightSide">
-
             <SpellEditor Spells="Dungemon.Spells" SpellsChanged="SpellsChanged" />
-
-
             <ProficienciesEditor Dungemon="Dungemon" IsEditing="_isEditing" />
-
             <br/>
             <DescriptionEditor Dungemon="Dungemon" IsEditing ="_isEditing"/>
-
         </div>
     </div>
 
     <div class="grid-item" spaceId="25">
-        @if (_isEditing)
+
+        @if (isUsersDungemon)
         {
-            <input type="submit" class="btn-primary" value="Save!" style="width: 100%;" />
+            @if (_isEditing)
+            {
+                <button type="button" class="btn-primary" value="Save!" style="width: 100%;" @onclick="HandleButtonClick">Save!</button>
+            }
+            else
+            {
+                <button type="button" class="btn-primary" value="Save!" style="width: 100%;" @onclick="HandleButtonClick">Edit this Dungémon!</button>
+            }
         }
-        else
-        {
-            <button type="button" disabled="@(!signedIn)" class="btn-primary" style="width: 100%;" @onclick="HandleButtonClick">@buttonMessage</button>
-        }
+
     </div>
+
     <div class="grid-item" spaceId="submit">@_submitResult</div>
-
-
 
 </EditForm>
 
-@code {
-
+@code 
+{
     [Parameter]
     public Dungemon Dungemon { get; set; } = null!;
 
@@ -84,64 +71,61 @@
 
     private bool _isEditing { get; set; } = false;
 
-    private string _submitResult = null!;
+    private bool isUsersDungemon { get; set; } = false;
 
-    private bool isSilent = false;
+    private string _submitResult { get; set; } = null!;
+
+    private bool isSilent { get; set; } = false;
 
 
-    private void ChangeAudio(){
+    private void ChangeAudio()
+    {
         isSilent = !isSilent;
     }
 
-  
-
-    private bool signedIn = false;
-
-    private string buttonMessage = string.Empty;
-
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnParametersSetAsync()
     {
-        var authState = await auth.GetAuthenticationStateAsync();
+        await auth.GetAuthenticationStateAsync();
+        var userId = auth.GetUserId();
 
-        if (String.IsNullOrEmpty(auth.GetUserId()))
-        {
-            signedIn = false;
-            buttonMessage = "Sign in to Edit.";
-            return;
-        }
-        else
-        {
-            signedIn = true;
-            buttonMessage = "Edit this Dungémon!";
-        }
-
+        isUsersDungemon = !string.IsNullOrEmpty(userId) && userId == Dungemon.UserId;
     }
+
     private async Task AttacksChanged(List<MonsterAction> attacks)
     {
         Dungemon.Actions = attacks;
         await DungemonChanged.InvokeAsync(Dungemon);
     }
+
     private async Task SpellsChanged(List<Spell> spells)
     {
         Dungemon.Spells = spells;
         await DungemonChanged.InvokeAsync(Dungemon);
     }
-    private void HandleButtonClick(MouseEventArgs e)
+
+    private async Task HandleButtonClick(MouseEventArgs e)
     {
-        _isEditing = true;
+        if (!_isEditing)
+        {
+            _isEditing = true;
+            return;
+        }
+
+        _isEditing = false;
+        await DungemonChanged.InvokeAsync(Dungemon);
     }
 
     public async Task ValidFormSubmitted(EditContext editContext)
     {
-    await DungemonChanged.InvokeAsync(Dungemon);
+        await DungemonChanged.InvokeAsync(Dungemon);
 
-    _submitResult = "Dungémon updated!";
+        _submitResult = "Dungémon updated!";
 
-    _isEditing = false;
+        _isEditing = false;
     }
 
     public void InvalidFormSubmitted(EditContext editContext)
     {
-    _submitResult = "Please enter valid values.";
+        _submitResult = "Please enter valid values.";
     }
 }

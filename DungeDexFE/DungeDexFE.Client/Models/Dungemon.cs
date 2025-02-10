@@ -61,8 +61,6 @@ namespace DungeDexFE.Client.Models
 		{
 			return new Dungemon
 			{
-				UserId = null!,
-				User = null,
 				BasePokemon = BasePokemon,
 				NickName = NickName,
 				ChallengeRating = ChallengeRating,

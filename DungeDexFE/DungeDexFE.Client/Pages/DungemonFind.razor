@@ -152,7 +152,7 @@
 		if (string.IsNullOrEmpty(userId)) return;
 
 		var clone = Dungemon.Clone();
-
+		clone.UserId = userId;
 		using var client = clientFactory.CreateClient("BackendAPI");
 		var result = await client.PostAsJsonAsync("dungemon", clone);
 
@@ -171,7 +171,7 @@
 		}
 
 		dungemonResponse.Spells = Dungemon.Spells.Select(s => s.Clone(dungemonResponse.Id)).ToList();
-		dungemonResponse.Actions = Dungemon.Actions.Select(s => s.Clone(dungemonResponse.Id)).ToList();
+		dungemonResponse.Actions = Dungemon.Actions.Select(a => a.Clone(dungemonResponse.Id)).ToList();
 
 		var patchResponse = await client.PatchAsJsonAsync("dungemon", dungemonResponse);
 
@@ -189,6 +189,6 @@
 			return;
 		}
 
-		nav.NavigateTo($"dungemon/{updatedDungemon?.Id}", true);
+		nav.NavigateTo($"dungemon/{updatedDungemon?.Id}", false);
 	}
 }
