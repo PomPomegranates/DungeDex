@@ -17,11 +17,12 @@
                 <ChallengeRatingEditor  Dungemon="Dungemon" IsEditing="_isEditing" />
                 <NicknameEditor  Dungemon="Dungemon" DungemonChanged="DungemonChanged" />
                 <HitPointsEditor  Dungemon="Dungemon" IsEditing="_isEditing" />
+                <ArmorClassEditor Dungemon="Dungemon" IsEditing="_isEditing"></ArmorClassEditor>
             </div>
 
             <div class="PokemonImage">
                 <DungemonImage Dungemon="Dungemon" IsSilent="isSilent"/>
-                <button type="button" @onclick="ChangeAudio">@(isSilent ? "Unmute Audio!" : "Mute Audo!")</button>
+                <button type="button" @onclick="ChangeAudio">@(isSilent ? "Unmute Audio!" : "Mute Audio!")</button>
             </div>
 
             <div class="attributes">

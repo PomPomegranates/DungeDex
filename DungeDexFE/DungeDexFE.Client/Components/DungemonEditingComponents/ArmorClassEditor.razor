@@ -18,7 +18,7 @@
     public bool IsEditing { get; set; }
     [Parameter]
     public EventCallback<Dungemon> DungemonChanged { get; set; }
-    private void HandleNicknameChange()
+    private void HandleArmorClassChange()
     {
         DungemonChanged.InvokeAsync(Dungemon);
     }
