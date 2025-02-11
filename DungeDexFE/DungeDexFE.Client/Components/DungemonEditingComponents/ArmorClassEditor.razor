@@ -1,0 +1,25 @@
+﻿
+<label for="AC" style ="   width: 50px;
+  text-align: left;">AC  </label>
+
+  	@if(!IsEditing){
+    <p id="ac" style="width: 50px; border: none; display:inline-block;"> @Dungemon.ArmorClass </p>
+	}
+	else{
+<InputNumber id="ac" TValue="int" @bind-Value="@Dungemon.ArmorClass" disabled="@(!IsEditing)" style="width: 50px; border: none;"  />
+    }
+
+	<ValidationMessage For="() => Dungemon.ArmorClass" />
+
+@code {
+    [Parameter]
+    public Dungemon Dungemon { get; set; } = null!;
+    [Parameter]
+    public bool IsEditing { get; set; }
+    [Parameter]
+    public EventCallback<Dungemon> DungemonChanged { get; set; }
+    private void HandleNicknameChange()
+    {
+        DungemonChanged.InvokeAsync(Dungemon);
+    }
+}
