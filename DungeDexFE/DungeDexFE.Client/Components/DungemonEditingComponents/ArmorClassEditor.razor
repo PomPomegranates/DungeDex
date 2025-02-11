@@ -1,12 +1,13 @@
-﻿<label for="type" style="width: 50px; text-align: left;">Type</label>
+﻿<label for="ac" style="width: 50px; text-align: left;">AC</label>
 
-<InputText id="type" 
-    style="width: 150px"
-    placeholder="Monster Type" 
+<InputNumber TValue="int" id="ac"
     disabled="@(!IsEditing)"
-    @bind-Value="@Dungemon.Type" 
-    @onblur="TypeChanged" />
+    style="width:50px; text-align: right; border: none;"
+    placeholder="AC"
+    @bind-Value="Dungemon.ArmorClass"
+    @onblur="ArmorClassChanged" />
 
+<ValidationMessage For="() => Dungemon.ArmorClass" />
 
 @code {
     [Parameter, EditorRequired]
@@ -18,8 +19,9 @@
     [Parameter, EditorRequired]
     public EventCallback<Dungemon> DungemonChanged { get; set; }
 
-    private async Task TypeChanged()
+    private async Task ArmorClassChanged()
     {
         await DungemonChanged.InvokeAsync(Dungemon);
     }
 }
+

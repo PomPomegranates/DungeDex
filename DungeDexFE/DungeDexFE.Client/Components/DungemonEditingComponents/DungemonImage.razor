@@ -1,26 +1,32 @@
 ﻿@inject IJSRuntime jsRuntime
+
 <script id="soundPlay">
     window.PlayAudio = (cry) => {
-    let dungemonCry = document.getElementById(cry);
-    dungemonCry.volume = 0.02;
-    dungemonCry.play();
-    } </script>
+        let dungemonCry = document.getElementById(cry);
+        dungemonCry.volume = 0.02;
+        dungemonCry.play();
+    } 
+</script>
+
 <img src="@Dungemon.ImageLink" style="height: 250px;" @onmouseover="MakeNoise" />
 <audio id ="cry" src="@Dungemon.Cry" type="audio/ogg"/>
 <br />
-<p></p>
-<h5 >@Dungemon.BasePokemon</h5>
+<br />
+<h5 class="fst-italic">@Dungemon.BasePokemon</h5>
 
-@code {
-    [Parameter]
+@code 
+{
+    [Parameter, EditorRequired]
     public Dungemon Dungemon { get; set; } = null!;
-    [Parameter]
+
+    [Parameter, EditorRequired]
     public bool IsSilent { get; set; }
-    public async Task MakeNoise(){
-        if(!IsSilent){
+
+    public async Task MakeNoise()
+    {
+        if(!IsSilent)
+        {
             await jsRuntime.InvokeAsync<string>("PlayAudio", "cry");
         }
-        
     }
-    
 }

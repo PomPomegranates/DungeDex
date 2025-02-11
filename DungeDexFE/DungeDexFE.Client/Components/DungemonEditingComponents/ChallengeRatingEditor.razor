@@ -1,21 +1,26 @@
-﻿
+﻿<label for="CR" style="width: 50px; text-align: left;">CR</label>
 
-<label for="CR" style="width: 50px; text-align: left;">CR</label>
-@if(!IsEditing){
+<InputNumber TValue="float" id="cr"
+    disabled="@(!IsEditing)"
+    style="width:50px; text-align: center; border: none;"
+    placeholder="CR"
+    @bind-Value="Dungemon.ChallengeRating"
+    @onblur="ChallengeRatingChanged" />
 
-    <p id="cr" style="width:50px;  border: none; display:inline-block;"> @Dungemon.ChallengeRating </p>
-}
-else{
-
-
-<InputNumber id="cr" TValue="float" @bind-Value="@Dungemon.ChallengeRating" disabled="@(!IsEditing)" style="width:50px; text-align: center; border: none;" />
-}
 <ValidationMessage For="() => Dungemon.ChallengeRating" />
 
-
 @code {
-    [Parameter]
+    [Parameter, EditorRequired]
     public Dungemon Dungemon { get; set; } = null!;
-    [Parameter]
+
+    [Parameter, EditorRequired]
     public bool IsEditing { get; set; }
+
+    [Parameter, EditorRequired]
+    public EventCallback<Dungemon> DungemonChanged { get; set; }
+
+    private async Task ChallengeRatingChanged()
+    {
+        await DungemonChanged.InvokeAsync(Dungemon);
+    }
 }

@@ -13,45 +13,114 @@
 
         <div class="LeftSide">
             <div class="TopPart">
-                <TypeEditor Dungemon="Dungemon" IsEditing="_isEditing" DungemonChanged="DungemonChanged" />
-                <ChallengeRatingEditor  Dungemon="Dungemon" IsEditing="_isEditing" />
-                <NicknameEditor  Dungemon="Dungemon" DungemonChanged="DungemonChanged" />
-                <HitPointsEditor  Dungemon="Dungemon" IsEditing="_isEditing" />
+
+                <NicknameEditor 
+                Dungemon="Dungemon" 
+                IsEditing="IsEditing"
+                DungemonChanged="UpdateDungemon" />
+                <br />
+
+                <TypeEditor 
+                Dungemon="Dungemon" 
+                IsEditing="IsEditing"
+                DungemonChanged="UpdateDungemon" />
+                <br />
+
+                <ChallengeRatingEditor 
+                Dungemon="Dungemon" 
+                IsEditing="IsEditing"
+                DungemonChanged="UpdateDungemon" />
+                <br />
+
+
+                <HitPointsEditor 
+                Dungemon="Dungemon" 
+                IsEditing="IsEditing"
+                DungemonChanged="UpdateDungemon" />
+                <br />
+
+                <ArmorClassEditor
+                Dungemon="Dungemon"
+                IsEditing="IsEditing"
+                DungemonChanged="UpdateDungemon" />
             </div>
 
             <div class="PokemonImage">
-                <DungemonImage Dungemon="Dungemon" IsSilent="isSilent"/>
-                <button type="button" @onclick="ChangeAudio">@(isSilent ? "Unmute Audio!" : "Mute Audo!")</button>
+
+                <DungemonImage Dungemon="Dungemon" IsSilent="_isSilent"/>
+
+                @if (_isSilent)
+                {
+                    <button type="button" @onclick="ChangeAudio">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-volume-up" viewBox="0 0 16 16">
+                            <path d="M11.536 14.01A8.47 8.47 0 0 0 14.026 8a8.47 8.47 0 0 0-2.49-6.01l-.708.707A7.48 7.48 0 0 1 13.025 8c0 2.071-.84 3.946-2.197 5.303z" />
+                            <path d="M10.121 12.596A6.48 6.48 0 0 0 12.025 8a6.48 6.48 0 0 0-1.904-4.596l-.707.707A5.48 5.48 0 0 1 11.025 8a5.48 5.48 0 0 1-1.61 3.89z" />
+                            <path d="M10.025 8a4.5 4.5 0 0 1-1.318 3.182L8 10.475A3.5 3.5 0 0 0 9.025 8c0-.966-.392-1.841-1.025-2.475l.707-.707A4.5 4.5 0 0 1 10.025 8M7 4a.5.5 0 0 0-.812-.39L3.825 5.5H1.5A.5.5 0 0 0 1 6v4a.5.5 0 0 0 .5.5h2.325l2.363 1.89A.5.5 0 0 0 7 12zM4.312 6.39 6 5.04v5.92L4.312 9.61A.5.5 0 0 0 4 9.5H2v-3h2a.5.5 0 0 0 .312-.11" />
+                        </svg>
+                    </button>
+                }
+                else
+                {
+                    <button type="button" @onclick="ChangeAudio">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-volume-mute" viewBox="0 0 16 16">
+                            <path d="M6.717 3.55A.5.5 0 0 1 7 4v8a.5.5 0 0 1-.812.39L3.825 10.5H1.5A.5.5 0 0 1 1 10V6a.5.5 0 0 1 .5-.5h2.325l2.363-1.89a.5.5 0 0 1 .529-.06M6 5.04 4.312 6.39A.5.5 0 0 1 4 6.5H2v3h2a.5.5 0 0 1 .312.11L6 10.96zm7.854.606a.5.5 0 0 1 0 .708L12.207 8l1.647 1.646a.5.5 0 0 1-.708.708L11.5 8.707l-1.646 1.647a.5.5 0 0 1-.708-.708L10.793 8 9.146 6.354a.5.5 0 1 1 .708-.708L11.5 7.293l1.646-1.647a.5.5 0 0 1 .708 0" />
+                        </svg>
+                    </button>
+                }
+
             </div>
 
             <div class="attributes">
-                <AttributesEditor Dungemon="Dungemon" IsEditing="_isEditing" />
+                <AttributesEditor 
+                Dungemon="Dungemon" 
+                IsEditing="IsEditing"
+                DungemonChanged="UpdateDungemon" />
             </div>
 
+            <hr />
+
             <div class="actions">
-                <ActionsEditor Attacks="Dungemon.Actions" IsEditing="_isEditing" AttacksChanged="AttacksChanged"/> 
+                <ActionsEditor 
+                Dungemon="Dungemon" 
+                IsEditing="IsEditing" 
+                ActionsChanged="UpdateActions" /> 
             </div>
         </div>
 
         <div class="RightSide">
-            <SpellEditor Spells="Dungemon.Spells" SpellsChanged="SpellsChanged" />
-            <ProficienciesEditor Dungemon="Dungemon" IsEditing="_isEditing" />
-            <br/>
-            <DescriptionEditor Dungemon="Dungemon" IsEditing ="_isEditing"/>
+
+            <SpellEditor 
+            Dungemon="Dungemon" 
+            IsEditing="IsEditing" 
+            DungemonChanged="UpdateDungemon" />
+
+            <hr />
+
+            <ProficienciesEditor 
+            Dungemon="Dungemon" 
+            IsEditing="IsEditing" 
+            DungemonChanged="UpdateDungemon" />
+
+            <hr />
+
+            <DescriptionEditor 
+            Dungemon="Dungemon" 
+            IsEditing ="IsEditing" 
+            DungemonChanged="UpdateDungemon"/>
         </div>
     </div>
 
     <div class="grid-item" spaceId="25">
 
-        @if (isUsersDungemon)
+        @if (_isUsersDungemon)
         {
-            @if (_isEditing)
+            @if (IsEditing)
             {
-                <button type="button" class="btn-primary" value="Save!" style="width: 100%;" @onclick="HandleButtonClick">Save!</button>
+                <button type="button" class="btn btn-success" style="width: 100%;" @onclick="EditButtonClicked">Save Dungémon!</button>
             }
             else
             {
-                <button type="button" class="btn-primary" value="Save!" style="width: 100%;" @onclick="HandleButtonClick">Edit this Dungémon!</button>
+                <button type="button" class="btn btn-danger" style="width: 100%;" @onclick="EditButtonClicked">Edit Dungémon!</button>
             }
         }
 
@@ -69,18 +138,22 @@
     [Parameter]
     public EventCallback<Dungemon> DungemonChanged { get; set; }
 
-    private bool _isEditing { get; set; } = false;
+    public bool IsEditing { get; set; } = false;
 
-    private bool isUsersDungemon { get; set; } = false;
+    private bool _isUsersDungemon { get; set; } = false;
 
     private string _submitResult { get; set; } = null!;
 
-    private bool isSilent { get; set; } = false;
+    private bool _isSilent { get; set; } = false;
 
+    private void UpdateDungemon(Dungemon dungemon)
+    {
+        Dungemon = dungemon;
+    }
 
     private void ChangeAudio()
     {
-        isSilent = !isSilent;
+        _isSilent = !_isSilent;
     }
 
     protected override async Task OnParametersSetAsync()
@@ -88,40 +161,48 @@
         await auth.GetAuthenticationStateAsync();
         var userId = auth.GetUserId();
 
-        isUsersDungemon = !string.IsNullOrEmpty(userId) && userId == Dungemon.UserId;
+        _isUsersDungemon = !string.IsNullOrEmpty(userId) && userId == Dungemon.UserId;
     }
 
-    private async Task AttacksChanged(List<MonsterAction> attacks)
+    private void UpdateActions(List<MonsterAction> actions)
     {
-        Dungemon.Actions = attacks;
-        await DungemonChanged.InvokeAsync(Dungemon);
+        var existingIds = Dungemon.Actions.Select(a => a.Id).ToList();
+        var updatedActions = new List<MonsterAction>();
+        actions.ForEach(a =>
+        {
+            if (!existingIds.Contains(a.Id)) a.Id = default(int);
+
+            updatedActions.Add(a);
+        });
+
+        Dungemon.Actions = updatedActions;
     }
 
-    private async Task SpellsChanged(List<Spell> spells)
+    private void SpellsChanged(List<Spell> spells)
     {
         Dungemon.Spells = spells;
-        await DungemonChanged.InvokeAsync(Dungemon);
     }
 
-    private async Task HandleButtonClick(MouseEventArgs e)
+    private async Task EditButtonClicked(MouseEventArgs e)
     {
-        if (!_isEditing)
+        if (IsEditing)
         {
-            _isEditing = true;
-            return;
+            IsEditing = false;
+            await DungemonChanged.InvokeAsync(Dungemon);
         }
-
-        _isEditing = false;
-        await DungemonChanged.InvokeAsync(Dungemon);
+        else
+        {
+            IsEditing = true;
+        }
     }
 
     public async Task ValidFormSubmitted(EditContext editContext)
     {
+        IsEditing = false;
+
         await DungemonChanged.InvokeAsync(Dungemon);
-
+       
         _submitResult = "Dungémon updated!";
-
-        _isEditing = false;
     }
 
     public void InvalidFormSubmitted(EditContext editContext)

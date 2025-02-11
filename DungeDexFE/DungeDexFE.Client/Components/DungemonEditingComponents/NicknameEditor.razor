@@ -1,16 +1,26 @@
-﻿<InputText style="width: 150px" @bind-Value="@Dungemon.NickName" placeholder="@Dungemon.BasePokemon" @onblur="HandleNicknameChange" />
-    
+﻿<label for="nickname" style="width: 50px; text-align: left;">Name</label>
 
+<InputText id="nickname"
+style="width: 150px;"
+placeholder="Nickname"
+disabled="@(!IsEditing)"
+@bind-Value="Dungemon.NickName"
+@onblur="NicknameChanged" />
 
-@code {
-    [Parameter]
+@code 
+{
+    [Parameter, EditorRequired]
     public Dungemon Dungemon { get; set; } = null!;
-    [Parameter]
+
+    [Parameter, EditorRequired]
     public bool IsEditing { get; set; }
-    [Parameter]
+
+    [Parameter, EditorRequired]
     public EventCallback<Dungemon> DungemonChanged { get; set; }
-    private void HandleNicknameChange()
+
+    private void NicknameChanged()
     {
+        if (string.IsNullOrEmpty(Dungemon.NickName)) Dungemon.NickName = Dungemon.BasePokemon;
         DungemonChanged.InvokeAsync(Dungemon);
     }
 }

@@ -15,4 +15,10 @@
     <PackageReference Include="Microsoft.Extensions.Http" Version="9.0.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="Components\DungemonEditingComponents\ArmorClassEditor.razor">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </Content>
+  </ItemGroup>
+
 </Project>

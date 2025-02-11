@@ -1,21 +1,24 @@
-﻿<br />
-<h3>Proficiencies</h3>
-@if (!IsEditing)
+﻿<h3>Proficiencies</h3>
+
+<InputText id="proficiencies" style="width:100%; text-align: left; border: none;"
+@bind-Value="@Dungemon.Proficiencies"
+@onblur="ChangeProficiencies"
+disabled="@(!IsEditing)" />
+
+
+@code 
 {
+	[Parameter]
+	public Dungemon Dungemon { get; set; } = null!;
 
-    <p id="proficiencies" style="width:auto; text-align: left; border: none;"> @Dungemon.Proficiencies </p>
-}
-else
-{
+	[Parameter]
+	public bool IsEditing { get; set; }
 
+	[Parameter]
+	public EventCallback<Dungemon> DungemonChanged { get; set; }
 
-    <InputTextArea id="proficiencies" TValue="float" @bind-Value="@Dungemon.Proficiencies" disabled="@(!IsEditing)" style="width:100%; text-align: left; border: none;" />
-}
-
-
-@code {
-    [Parameter]
-    public Dungemon Dungemon { get; set; } = null!;
-    [Parameter]
-    public bool IsEditing { get; set; }
+	private async Task ChangeProficiencies(FocusEventArgs e)
+	{
+		await DungemonChanged.InvokeAsync(Dungemon);
+	}
 }
