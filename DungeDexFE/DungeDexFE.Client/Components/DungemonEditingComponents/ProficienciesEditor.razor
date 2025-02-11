@@ -1,16 +1,16 @@
 ﻿<br />
-<h3>Proficiencies</h3>
+<h3>Proficiencies:</h3>
 <br />
 @if (!IsEditing)
 {
 
-    <p id="proficiencies" style="width:auto; text-align: left; border: none;"> @Dungemon.Proficiencies </p>
+    <p id="proficiencies" style="font-size:1.2rem; width:auto; text-align: left; border: none;"> @Dungemon.Proficiencies </p>
 }
 else
 {
 
 
-    <InputTextArea id="proficiencies" TValue="float" @bind-Value="@Dungemon.Proficiencies" disabled="@(!IsEditing)" style="width:100%; text-align: left; border: none;" />
+    <InputTextArea  id="proficiencies" TValue="float" @bind-Value="@Dungemon.Proficiencies" disabled="@(!IsEditing)" style="font-size:1.5rem; width:100%; text-align: left; border: none;" />
 }
 
 
