@@ -9,7 +9,6 @@
 }
 
 .HomeLeftSide {
-   border:solid;
     grid-column-start: 1;
     grid-column-end: 2;
     justify-content: start;
