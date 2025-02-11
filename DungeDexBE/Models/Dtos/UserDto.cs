@@ -4,7 +4,7 @@
 	{
 		public string Id { get; set; } = null!;
 		public string UserName { get; set; } = null!;
-		public ICollection<Dungemon> Dungemons { get; set; } = [];
+		public ICollection<Dungemon> Dungemon { get; set; } = [];
 	}
 
 	public static class UserExtensions
@@ -15,7 +15,7 @@
 			{
 				Id = user.Id,
 				UserName = user.UserName ?? string.Empty,
-				Dungemons = user.Dungemons
+				Dungemon = user.Dungemon
 			};
 		}
 	}
