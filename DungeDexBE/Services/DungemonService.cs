@@ -7,9 +7,9 @@ namespace DungeDexBE.Services
 {
 	public class DungemonService : IDungemonService
 	{
-		private readonly IUserDungemonRepository _userDungemonRepository;
+		private readonly IDungemonRepository _userDungemonRepository;
 
-		public DungemonService(IUserDungemonRepository userDungemonRepository)
+		public DungemonService(IDungemonRepository userDungemonRepository)
 		{
 			_userDungemonRepository = userDungemonRepository;
 		}
