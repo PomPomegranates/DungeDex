@@ -3,14 +3,36 @@
 @rendermode InteractiveAuto
 
 <PageTitle>DungéDex : Home</PageTitle>
+<style>
+    .HomeGridContainer {
+        display: grid;
+        display: inline-grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+        width: 80%;
+        height: 80%;
+    }
 
+    .HomeLeftSide {
+        grid-column-start: 1;
+        grid-column-end: 2;
+        justify-content: start;
+        padding: 10px;
+    }
+
+    .HomeRightSide {
+        grid-column-start: 2;
+        grid-column-end: 3;
+        justify-content: end;
+        padding: 10px;
+    }
+
+</style>
 <h1>DungéDex</h1>
-<div class="gridContainer">
-
-    <div class="RightSide">
-        <DungemonDisplay Dungemon="monster1" />
-    </div>
-    <div class="LeftSide">
+<link rel="stylesheet" href="Home.razor.css">
+<div class="HomeGridContainer" >
+ 
+    <div class="HomeLeftSide" >
         <h2>Welcome to DungéDex!</h2>
         <p>
             Hey Dungeon Masters! Are your players ready to become Dungémon Masters? Your veteran players are probably expecting Oozes, Owlbears, and Orcs, but are they expecting Omastar?
@@ -24,6 +46,10 @@
 
  
     </div>
+    <div class="HomeRightSide">
+        <DungemonDisplay Dungemon="monster1" />
+    </div>
+
     <br />
     <br />
     <br />
