@@ -16,17 +16,17 @@ namespace DungeDexBE.ConversionFunctions
 
 			if (proficiencies.Contains("Athletics"))
 			{
-				result += $"Athletics +{Convert.GetModifier(dungemon.Strength) + dungemon.ProficiencyBonus},";
+				result += $"Athletics +{Convert.GetModifier(dungemon.Strength) + dungemon.ProficiencyBonus}, ";
 			}
 
 			if (proficiencies.Contains("Acrobatics"))
 			{
-				result += $"Acrobatics +{Convert.GetModifier(dungemon.Dexterity) + dungemon.ProficiencyBonus},";
+				result += $"Acrobatics +{Convert.GetModifier(dungemon.Dexterity) + dungemon.ProficiencyBonus}, ";
 			}
 
 			if (proficiencies.Contains("Arcana"))
 			{
-				result += $"Arcana +{Convert.GetModifier(dungemon.Intelligence) + dungemon.ProficiencyBonus},";
+				result += $"Arcana +{Convert.GetModifier(dungemon.Intelligence) + dungemon.ProficiencyBonus}, ";
 			}
 
 			if (proficiencies.Contains("Deception"))
