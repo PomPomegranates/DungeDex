@@ -93,8 +93,7 @@
 
 	private async Task DungemonChanged(Dungemon updatedDungemon)
 	{
-		Dungemon = updatedDungemon;
-		await HandlePatchRequest();
+		await HandlePatchRequest(updatedDungemon);
 	}
 
 	private async Task HandlePatchRequest(Dungemon? dungemon = null)

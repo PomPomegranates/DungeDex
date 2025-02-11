@@ -4,7 +4,10 @@
 @using System.Security.Claims
 @using System.Net
 
+@rendermode InteractiveWebAssembly
+
 @inject AuthStateProvider auth
+
 
 <EditForm model=@Dungemon OnInvalidSubmit=@InvalidFormSubmitted OnValidSubmit=@ValidFormSubmitted>
     <DataAnnotationsValidator />
@@ -81,18 +84,22 @@
 
             <div class="actions">
                 <ActionsEditor 
-                Dungemon="Dungemon" 
+                Actions="Dungemon.Actions"
                 IsEditing="IsEditing" 
-                ActionsChanged="UpdateActions" /> 
+                ChangeAction="ChangeAction"
+                AddNewAction="AddNewAction"
+                DeleteAction="DeleteAction"/> 
             </div>
         </div>
 
         <div class="RightSide">
 
             <SpellEditor 
-            Dungemon="Dungemon" 
-            IsEditing="IsEditing" 
-            DungemonChanged="UpdateDungemon" />
+            Spells="Dungemon.Spells"
+            IsEditing="IsEditing"
+            SpellChanged="ChangeSpell"
+            AddNewSpell="AddNewSpell"
+            DeleteSpell="DeleteSpell" />
 
             <hr />
 
@@ -116,11 +123,11 @@
         {
             @if (IsEditing)
             {
-                <button type="button" class="btn btn-success" style="width: 100%;" @onclick="EditButtonClicked">Save Dungémon!</button>
+                <button type="submit" class="btn btn-success" style="width: 100%;">Save Dungémon!</button>
             }
             else
             {
-                <button type="button" class="btn btn-danger" style="width: 100%;" @onclick="EditButtonClicked">Edit Dungémon!</button>
+                <button type="sun" class="btn btn-danger" style="width: 100%;" @onclick="ToggleIsEditing">Edit Dungémon!</button>
             }
         }
 
@@ -144,7 +151,14 @@
 
     private string _submitResult { get; set; } = null!;
 
-    private bool _isSilent { get; set; } = false;
+    private bool _isSilent = false;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await auth.GetAuthenticationStateAsync();
+        var userId = auth.GetUserId();
+        _isUsersDungemon = !string.IsNullOrEmpty(userId) && userId == Dungemon.UserId;
+    }
 
     private void UpdateDungemon(Dungemon dungemon)
     {
@@ -156,53 +170,55 @@
         _isSilent = !_isSilent;
     }
 
-    protected override async Task OnParametersSetAsync()
+    private void AddNewAction()
     {
-        await auth.GetAuthenticationStateAsync();
-        var userId = auth.GetUserId();
-
-        _isUsersDungemon = !string.IsNullOrEmpty(userId) && userId == Dungemon.UserId;
-    }
-
-    private void UpdateActions(List<MonsterAction> actions)
-    {
-        var existingIds = Dungemon.Actions.Select(a => a.Id).ToList();
-        var updatedActions = new List<MonsterAction>();
-        actions.ForEach(a =>
+        Dungemon.Actions.Add(new()
         {
-            if (!existingIds.Contains(a.Id)) a.Id = default(int);
-
-            updatedActions.Add(a);
+            DungemonId = Dungemon.Id,
+            Name = "New Action",
+            Description = "New Description"
         });
-
-        Dungemon.Actions = updatedActions;
+        UpdateDungemon(Dungemon);
     }
 
-    private void SpellsChanged(List<Spell> spells)
+    public void ChangeAction(MonsterAction action)
     {
-        Dungemon.Spells = spells;
+        var index = Dungemon.Actions.FindIndex(a => a.ClientId == action.ClientId);
+        Dungemon.Actions.RemoveAt(index);
+        Dungemon.Actions.Insert(index, action);
     }
 
-    private async Task EditButtonClicked(MouseEventArgs e)
+    public void DeleteAction(MonsterAction action)
     {
-        if (IsEditing)
-        {
-            IsEditing = false;
-            await DungemonChanged.InvokeAsync(Dungemon);
-        }
-        else
-        {
-            IsEditing = true;
-        }
+        var actionToDelete = Dungemon.Actions.First(a => a.ClientId == action.ClientId);
+        Dungemon.Actions.Remove(actionToDelete);
+    }
+
+    private void ToggleIsEditing() => IsEditing = !IsEditing;
+
+    public void ChangeSpell(Spell spell)
+    {
+        var index = Dungemon.Spells.FindIndex(s => s.ClientId == spell.ClientId);
+        Dungemon.Spells.RemoveAt(index);
+        Dungemon.Spells.Insert(index, spell);
+    }
+
+    public void AddNewSpell(Spell spell)
+    {
+        Dungemon.Spells.Add(spell);
+    }
+
+    public void DeleteSpell(Spell spell)
+    {
+        var spellToDelete = Dungemon.Spells.First(s => s.ClientId == spell.ClientId);
+        Dungemon.Spells.Remove(spellToDelete);
     }
 
     public async Task ValidFormSubmitted(EditContext editContext)
     {
-        IsEditing = false;
-
         await DungemonChanged.InvokeAsync(Dungemon);
-       
         _submitResult = "Dungémon updated!";
+        ToggleIsEditing();
     }
 
     public void InvalidFormSubmitted(EditContext editContext)

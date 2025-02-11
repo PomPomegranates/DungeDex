@@ -1,16 +1,18 @@
 ﻿@using System.Text.Json;
 
+@rendermode InteractiveWebAssembly
+
 <div>
 	@if (isExpanded)
 	{
 		<InputText id="AttackName" style="width:auto; text-align: left; border: none;" 
+		placeholder="Action Name"
 		@bind-Value="Action.Name"
-		@onblur="ChangeAction"
 		disabled="@(!IsEditing)"/>
 
 		<InputTextArea id="AttackDescription" style="width:100%; text-align: left; border: none;"
-		@bind-Value="Action.Description"
-		@onblur="ChangeAction"
+		placeholder="Action Description"
+		@bind-Value="Action.Name"
 		disabled="@(!IsEditing)"/>
 
 		<button @onclick="ToggleIsExpanded">
@@ -19,7 +21,7 @@
 			</svg> Less
 		</button>
 	}
-	else
+	else 
 	{
 		<button @onclick="ToggleIsExpanded">
 			<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrows-expand-vertical" viewBox="0 0 16 16">

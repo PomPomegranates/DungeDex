@@ -4,13 +4,13 @@
 	@if (isExpanded)
 	{
 		<InputText id="SpellName" style="width:auto; text-align: left; border: none;" 
-		@bind-Value="@_spell.Name" 
+		@bind-Value="@Spell.Name" 
 		@onblur="ChangeSpell"
 		disabled="@(!IsEditing)"/>
 
 
 		<InputTextArea id="SpellDescription" style="width:100%; text-align: left; border: none;"
-		@bind-Value="@_spell.Description"
+		@bind-Value="@Spell.Description"
 		@onblur="ChangeSpell"
 		disabled="@(!IsEditing)"/>
 
@@ -46,7 +46,6 @@
 @code {
 	[Parameter]
 	public Spell Spell { get; set; } = null!;
-	private Spell _spell = null!;
 
 	[Parameter]
 	public bool IsEditing { get; set; }
@@ -55,14 +54,9 @@
 	public EventCallback<Spell> SpellDeleted { get; set; }
 
 	[Parameter]
-	public EventCallback<(Spell, Spell)> SpellChanged { get; set; }
+	public EventCallback<Spell> SpellChanged { get; set; }
 
 	public bool isExpanded = false;
-
-	protected override void OnParametersSet()
-	{
-		_spell = Spell.Clone(Spell.DungemonId);
-	}
 
 	private async Task DeleteSpell(MouseEventArgs e)
 	{
@@ -71,7 +65,7 @@
 
 	private async Task ChangeSpell(FocusEventArgs e)
 	{
-		await SpellChanged.InvokeAsync((Spell, _spell));
+		await SpellChanged.InvokeAsync(Spell);
 	}
 
 	private void ToggleIsExpanded()
