@@ -1,20 +1,23 @@
-﻿<br/>
-@if (!IsEditing)
-{
+﻿
 
-    <p id="description" style=" font-size:1.6rem; width:auto; text-align: left; border: none;"> @Dungemon.Description </p>
-}
-else
-{
-
-
-    <InputTextArea id="description" TValue="float" @bind-Value="@Dungemon.Description" disabled="@(!IsEditing)" style="font-size:1.6rem; width:100%; text-align: left; border: none;" />
-}
+<InputTextArea id="description" style="width:100%; text-align: left; border: none;" 
+@bind-Value="@Dungemon.Description" 
+@onblur="DescriptionChanged"
+disabled="@(!IsEditing)" />
 
 
 @code {
-    [Parameter]
-    public Dungemon Dungemon { get; set; } = null!;
-    [Parameter]
-    public bool IsEditing { get; set; }
+	[Parameter]
+	public Dungemon Dungemon { get; set; } = null!;
+
+	[Parameter]
+	public bool IsEditing { get; set; }
+
+	[Parameter]
+	public EventCallback<Dungemon> DungemonChanged { get; set; }
+
+	private async Task DescriptionChanged(FocusEventArgs e)
+	{
+		await DungemonChanged.InvokeAsync(Dungemon);
+	}
 }

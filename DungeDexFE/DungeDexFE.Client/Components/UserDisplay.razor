@@ -1,16 +1,16 @@
 ﻿@rendermode InteractiveWebAssembly
 
-@if (user is not null)
+@if (User is not null)
 {
-	<h3>@user.UserName</h3>
+	<h3>@User.UserName</h3>
 
-	@if (user.Dungemon.Count > 0)
+	@if (User.Dungemon.Count > 0)
 	{
 		<hr />
 
 		<div class="my-4">
-			<h5>@(user.UserName)'s Dungémon</h5>
-			<DungemonTable dungemonList="user.Dungemon" />
+			<h5>@(User.UserName)'s Dungémon</h5>
+			<DungemonTable dungemonList="User.Dungemon" />
 		</div>
 	}
 }
@@ -18,5 +18,5 @@
 @code 
 {
 	[Parameter, EditorRequired]
-	public User user { get; set; } = null!;
+	public User User { get; set; } = null!;
 }

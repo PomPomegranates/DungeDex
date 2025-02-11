@@ -1,16 +1,25 @@
-﻿<InputText style="width: 150px" @bind-Value="@Dungemon.Type" placeholder="@Dungemon.BasePokemon" @onblur="HandleTypeChange" />
+﻿<label for="type" style="width: 50px; text-align: left;">Type</label>
 
+<InputText id="type" 
+    style="width: 150px"
+    placeholder="Monster Type" 
+    disabled="@(!IsEditing)"
+    @bind-Value="@Dungemon.Type" 
+    @onblur="TypeChanged" />
 
 
 @code {
-    [Parameter]
+    [Parameter, EditorRequired]
     public Dungemon Dungemon { get; set; } = null!;
-    [Parameter]
+
+    [Parameter, EditorRequired]
     public bool IsEditing { get; set; }
-    [Parameter]
+
+    [Parameter, EditorRequired]
     public EventCallback<Dungemon> DungemonChanged { get; set; }
-    private void HandleTypeChange()
+
+    private async Task TypeChanged()
     {
-        DungemonChanged.InvokeAsync(Dungemon);
+        await DungemonChanged.InvokeAsync(Dungemon);
     }
 }
