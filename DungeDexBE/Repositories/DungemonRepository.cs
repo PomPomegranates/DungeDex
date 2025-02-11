@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DungeDexBE.Repositories
 {
-	public class UserDungemonRepository : IUserDungemonRepository
+	public class DungemonRepository : IDungemonRepository
 	{
 		private readonly ApplicationDbContext _db;
 
-		public UserDungemonRepository(ApplicationDbContext dbContext)
+		public DungemonRepository(ApplicationDbContext dbContext)
 		{
 			_db = dbContext;
 		}

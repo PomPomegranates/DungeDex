@@ -3,7 +3,7 @@ using DungeDexBE.Models.Dtos;
 
 namespace DungeDexBE.Interfaces.RepositoryInterfaces
 {
-	public interface IUserDungemonRepository
+	public interface IDungemonRepository
 	{
 		Task<List<Dungemon>?> GetDungemon(DungemonFilterDto filterDto);
 		Task<(Dungemon?, string)> GetDungemonById(int id);

@@ -4,24 +4,19 @@
 {
 	<h3>@user.UserName</h3>
 
-	@if (user.Dungemons.Count > 0)
+	@if (user.Dungemon.Count > 0)
 	{
+		<hr />
+
 		<div class="my-4">
-			<hr />
 			<h5>@(user.UserName)'s Dungémon</h5>
-			<DungemonTable dungemonList="user.Dungemons" />
+			<DungemonTable dungemonList="user.Dungemon" />
 		</div>
 	}
 }
 
-@code {
-	[Parameter]
+@code 
+{
+	[Parameter, EditorRequired]
 	public User user { get; set; } = null!;
-
-	private List<Dungemon> _userDungemon = [];
-
-	protected override void OnParametersSet()
-	{
-		_userDungemon = user.Dungemons;
-	}
 }

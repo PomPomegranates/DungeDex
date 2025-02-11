@@ -14,7 +14,7 @@ namespace DungeDexBE.Extensions
 			builder.Services.AddScoped<IPokemonService, PokemonService>();
 			builder.Services.AddScoped<IDNDApiRepository, DNDApiRepository>();
 			builder.Services.AddScoped<IDNDService, DNDService>();
-			builder.Services.AddScoped<IUserDungemonRepository, UserDungemonRepository>();
+			builder.Services.AddScoped<IDungemonRepository, DungemonRepository>();
 			builder.Services.AddScoped<IDungemonService, DungemonService>();
 			return builder;
 		}
