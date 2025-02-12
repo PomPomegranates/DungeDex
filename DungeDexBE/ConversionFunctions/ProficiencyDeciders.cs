@@ -127,8 +127,11 @@ namespace DungeDexBE.ConversionFunctions
 		}
 		public static void AssignAcrobaticsbyChance(List<string> possibleList, Dungemon dungemon, Pokemon pokemon)
 		{
-			// What could decide this?
-		}
+            if (pokemon.Type1 == "flying" || pokemon.Type2 == "flying")
+            {
+                if (random.Next(2) == 1) possibleList.Add("Acrobatics");
+            }
+        }
 		public static void AssignArcanabyChance(List<string> possibleList, Dungemon dungemon, Pokemon pokemon)
 		{
 			if (pokemon.Type1 == "psychic"
@@ -199,7 +202,7 @@ namespace DungeDexBE.ConversionFunctions
 		}
 		public static void AssignPersuasionbyChance(List<string> possibleList, Dungemon dungemon, Pokemon pokemon)
 		{
-			if (pokemon.Shape == "upright")
+			if (pokemon.Shape == "upright" || pokemon.Shape == "humanoid")
 			{
 				if (random.Next(2) == 1) possibleList.Add("Persuasion");
 			}
