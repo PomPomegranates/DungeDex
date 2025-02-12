@@ -2,12 +2,18 @@
 @inject NavigationManager nav
 @rendermode InteractiveAuto
 
-<PageTitle>DungéDex : Home</PageTitle>
+<PageTitle >DungéDex : Home</PageTitle>
+<link rel="stylesheet" href="Home.razor.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Felipa&family=IM+Fell+Great+Primer:ital@0;1&display=swap" rel="stylesheet">
 
-<h1>DungéDex</h1>
-<div class="gridContainer">
 
-    <div class="LeftSide">
+<h1 class="felipa-regular">DungéDex</h1>
+
+<div class="HomeGridContainer im-fell-great-primer-regular">
+ 
+    <div class="HomeLeftSide" >
         <h2>Welcome to DungéDex!</h2>
         <p>
             Hey Dungeon Masters! Are your players ready to become Dungémon Masters? Your veteran players are probably expecting Oozes, Owlbears, and Orcs, but are they expecting Omastar?
@@ -15,20 +21,21 @@
             Search for a Pokémon or hit "Randomise" now to get started. Select Browse Dungémon to see what the community has already created!
         </p>
         <p> Use to either search for the pokemon you want or to select a random pokemon</p>
-        <p>if the pokemon has forms please write the specific form (eg giratina-origin)</p>
+        <p>If the pokemon has forms please write the specific form after a hyphen (eg giratina-origin)</p>
         <DungemonSearch OnSearch="HandleSearch" />
 
 
  
     </div>
-    <br />
-    <br />
-    <br />
-
-    <div class="RightSide">
+    <div class="HomeRightSide">
         <DungemonDisplay Dungemon="monster1" />
     </div>
 
+    <br />
+    <br />
+    <br />
+
+    
 
 </div>
 
@@ -37,25 +44,26 @@
  
     Dungemon monster1 = new Dungemon
         {
-            BasePokemon = "Politoed",
-            NickName = "Lilly",
-            ChallengeRating = 12,
-            ArmorClass = 12,
-            HitPoints = 100,
-            Strength = 14,
-            Constitution = 13,
-            Wisdom = 14,
-            Intelligence = 12,
-            Dexterity = 18,
-            Charisma = 9,
-            Spells = [new() { Name = "Goodberry", Description = "Up to ten berries appear in your hand and are infused with magic for the duration. A creature can use its action to eat one berry. Eating a berry restores 1 hit point, and the berry provides enough nourishment to sustain a creature for a day." }],
-            Type = "Mistake",
-            Cry = "https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/186.ogg",
-            ImageLink = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/186.png",
-            SpriteLink = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/186.png",
-            Actions = [new(){Name = "Bonk" , Description = "He bonk"}],
-            Description = "Even veteran Trainers face a challenge in getting its beautiful flower to bloom. This Pokémon is popular with celebrities.",
-            Proficiencies = "Nature +8",
+            BasePokemon = "Lucario",
+            NickName = "Luke",
+            ChallengeRating = 16,
+            ArmorClass = 18,
+            ProficiencyBonus = 5,
+            HitPoints = 305,
+            Strength = 18,
+            Dexterity = 15,
+            Constitution = 9,
+            Intelligence = 18,
+            Wisdom = 8,
+            Charisma = 10,
+            Spells = [new() { Name = "Telepathic Bond", Description = "You forge a telepathic link among up to eight willing creatures of your choice within range, psychically linking each creature to all the others for the duration. Creatures with Intelligence scores of 2 or less aren't affected by this spell." }],
+            Type = "Humanoid",
+            Cry = "https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/448.ogg",
+            ImageLink = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/448.png",
+            SpriteLink = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/448.png",
+            Actions = [new() { Name = "Tackle", Description = "Melee: +9 to hit, reach 5 ft. Hit: 3d8 + 4 Bludgeoning damage." }],
+            Description = "By catching the aura emanating from others, it can read their thoughts and movements.",
+            Proficiencies = "Athletics +9",
         };
     public void HandleSearch(string newQuery)
     {

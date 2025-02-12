@@ -113,7 +113,7 @@ The web API will be accessible at http://localhost:7298
 
 ### Usage
 - The API is easily accessible through the Blazor client application
-- If you would like to test the endpoints, use a tool such as Postman or cURL
+- If you would like to test the endpoints, use a tool such as Postman or cURL. The backend implements Swagger middleware which can also be used to test GET Requests.
 
 ---
 
