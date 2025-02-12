@@ -10,25 +10,51 @@
 
 <PageTitle>DungéDex : Find</PageTitle>
 
-@if (errorMessage != null)
+@if (errorMessage is not null)
 {
 	<p>@errorMessage</p>
 }
 
-@if (Dungemon != null)
+@if (Dungemon is not null)
 {
 	<h3>@Dungemon.NickName</h3>
-	<DungemonDisplay Dungemon=Dungemon DungemonChanged="DungemonChanged"/>
+
+	<DungemonDisplay Dungemon=Dungemon DungemonChanged="DungemonChanged" />
+
 	<div hidden="@(!dungemonBelongsToUser)" id="DeleteDungemon">
-		<button @onclick="DeleteDungemonCheck">🗑️</button>
-		<p>@areYouSure</p>
-		<button hidden="@deleteButtonsHidden" @onclick="DeleteDungemon">Yes</button>
-		<button hidden="@deleteButtonsHidden" @onclick="Rehide">No</button>
+
+		<button @onclick="ToggleDelete">
+			<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+				<path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
+				<path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
+			</svg>
+		</button>
+
+		@if (!string.IsNullOrEmpty(confirmDeleteMessage))
+		{
+			<p>@confirmDeleteMessage</p>
+		}
+
+		@if (!deleteButtonsHidden)
+		{
+			<button @onclick="DeleteDungemon">Yes</button>
+			<button @onclick="ToggleDelete">No</button>
+		}
+
 	</div>
 
-	<div hidden="@(string.IsNullOrEmpty(userId) || dungemonBelongsToUser)" id="ForkDungemon">
-		<button @onclick="HandleForkRequest">➕ Clone This Dungémon!</button>
-	</div>
+	@if (string.IsNullOrEmpty(userId) || !dungemonBelongsToUser)
+	{
+		<div hidden="@(string.IsNullOrEmpty(userId) || dungemonBelongsToUser)" id="ForkDungemon">
+
+			<button @onclick="HandleForkRequest">
+				<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-copy" viewBox="0 0 16 16">
+					<path fill-rule="evenodd" d="M4 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1z" />
+				</svg> Clone This Dungémon!
+			</button>
+
+		</div>
+	}
 }
 
 @code {
@@ -43,52 +69,41 @@
 
 	private bool dungemonBelongsToUser = false;
 
-	private string areYouSure = string.Empty;
+	private string confirmDeleteMessage = null!;
 
 	private bool deleteButtonsHidden = true;
 
 	protected override async Task OnParametersSetAsync()
 	{
 		userId = auth.GetUserId();
+
 		try
 		{
 			using var client = clientFactory.CreateClient("BackendAPI");
 			var response = await client.GetAsync($"dungemon/{Id}");
 			response.EnsureSuccessStatusCode();
 			Dungemon = await response.Content.ReadFromJsonAsync<Dungemon>() ?? throw new Exception();
-		}
-		catch (HttpRequestException hEx)
-		{
-			errorMessage = $"There was an issue retrieving data from the Database: {hEx.Message}";
+			dungemonBelongsToUser = userId == Dungemon.UserId;
 		}
 		catch (Exception ex)
 		{
-			errorMessage = $"There was an issue fetching the Dungémon data: {ex.Message}";
+			errorMessage = $"There was an issue retrieving data from the Database: {ex.Message}";
 		}
-
-		dungemonBelongsToUser = userId == Dungemon.UserId;
 	}
 
 	private async Task DungemonChanged(Dungemon updatedDungemon)
 	{
-		Dungemon = updatedDungemon;
-		await HandlePatchRequest();
+		await HandlePatchRequest(updatedDungemon);
 	}
 
-	private async Task HandlePatchRequest()
+	private async Task HandlePatchRequest(Dungemon? dungemon = null)
 	{
-		var authState = await auth.GetAuthenticationStateAsync();
-
-		if (authState.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid) == null)
-		{
-			errorMessage = "You must be signed-in to edit Dungémon.";
-			return;
-		}
+		if (dungemon is null) dungemon = Dungemon;
 
 		try
 		{
 			using var client = clientFactory.CreateClient("BackendAPI");
-			var response = await client.PatchAsJsonAsync<Dungemon>("dungemon", Dungemon!);
+			var response = await client.PatchAsJsonAsync<Dungemon>("dungemon", dungemon);
 			response.EnsureSuccessStatusCode();
 			var patchedDungemon = await response.Content.ReadFromJsonAsync<Dungemon>();
 
@@ -112,16 +127,12 @@
 		}
 	}
 
-	private void DeleteDungemonCheck()
+	private void ToggleDelete()
 	{
-		areYouSure = "Are you sure?";
-		deleteButtonsHidden = false;
-	}
-
-	private void Rehide()
-	{
-		areYouSure = string.Empty;
-		deleteButtonsHidden = true;
+		confirmDeleteMessage = string.IsNullOrEmpty(confirmDeleteMessage)
+			? "Are you sure?"
+			: string.Empty;
+		deleteButtonsHidden = !deleteButtonsHidden;
 	}
 
 	private async Task DeleteDungemon(MouseEventArgs e)
@@ -131,9 +142,9 @@
 			using var client = clientFactory.CreateClient("BackendAPI");
 			var response = await client.DeleteAsync($"dungemon/{Id}");
 			response.EnsureSuccessStatusCode();
-			areYouSure = "Dungémon deleted.";
-			await Task.Delay(1000);
-			nav.NavigateTo("/");
+			confirmDeleteMessage = "Dungémon deleted. Redirecting to your DungéDashboard";
+			await Task.Delay(3000);
+			nav.NavigateTo("/dashboard");
 		}
 		catch (HttpRequestException hEx)
 		{
@@ -147,15 +158,10 @@
 
 	private async Task HandleForkRequest(MouseEventArgs e)
 	{
-		var userId = auth.GetUserId();
+		var clone = CloneDungemon();
 
-		if (string.IsNullOrEmpty(userId)) return;
-
-		var clone = Dungemon.Clone();
-		clone.UserId = userId;
 		using var client = clientFactory.CreateClient("BackendAPI");
 		var result = await client.PostAsJsonAsync("dungemon", clone);
-
 		if (!result.IsSuccessStatusCode)
 		{
 			errorMessage = "There was an error attempting to clone the Dungémon. Please try again later.";
@@ -163,18 +169,14 @@
 		}
 
 		var dungemonResponse = await result.Content.ReadFromJsonAsync<Dungemon>();
-
 		if (dungemonResponse is null)
 		{
-			errorMessage = "There was an error attempting to clone the Dungémon. Please try again later.";
+			errorMessage = "There was an error reading the API response. Please try again later.";
 			return;
 		}
 
-		dungemonResponse.Spells = Dungemon.Spells.Select(s => s.Clone(dungemonResponse.Id)).ToList();
-		dungemonResponse.Actions = Dungemon.Actions.Select(a => a.Clone(dungemonResponse.Id)).ToList();
-
+		clone = CopyOriginalAttributes(dungemonResponse);
 		var patchResponse = await client.PatchAsJsonAsync("dungemon", dungemonResponse);
-
 		if (!patchResponse.IsSuccessStatusCode)
 		{
 			errorMessage = "There was an error cloning properties to the new Dungémon. Please try again later.";
@@ -182,7 +184,6 @@
 		}
 
 		var updatedDungemon = await patchResponse.Content.ReadFromJsonAsync<Dungemon>();
-
 		if (updatedDungemon is null)
 		{
 			errorMessage = "There was an error cloning properties to the new Dungémon. Please try again later.";
@@ -190,5 +191,19 @@
 		}
 
 		nav.NavigateTo($"dungemon/{updatedDungemon?.Id}", false);
+	}
+
+	private Dungemon CloneDungemon()
+	{
+		var dungemon = Dungemon.Clone();
+		dungemon.UserId = userId;
+		return dungemon;
+	}
+
+	private Dungemon CopyOriginalAttributes(Dungemon dungemon)
+	{
+		dungemon.Spells = Dungemon.Spells.Select(s => s.Clone(dungemon.Id)).ToList();
+		dungemon.Actions = Dungemon.Actions.Select(a => a.Clone(dungemon.Id)).ToList();
+		return dungemon;
 	}
 }

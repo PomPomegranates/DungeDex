@@ -1,25 +1,27 @@
-﻿
-<label for="HP" style ="   width: 50px;
-  text-align: left;">HP  </label>
+﻿<label for="hp" style="width: 50px; text-align: left;">HP</label>
 
-  	@if(!IsEditing){
-    <p id="hp" style="width: 50px; border: none; display:inline-block;"> @Dungemon.HitPoints </p>
-	}
-	else{
-<InputNumber id="hp" TValue="int" @bind-Value="@Dungemon.HitPoints" disabled="@(!IsEditing)" style="width: 50px; border: none;"  />
-    }
+<InputNumber TValue="int" id="hp"
+    disabled="@(!IsEditing)"
+             style="width:50px; text-align: center; border: none;"
+             placeholder="HP"
+             @bind-Value="Dungemon.HitPoints"
+             @onblur="HitPointsChanged" />
 
-	<ValidationMessage For="() => Dungemon.HitPoints" />
+<ValidationMessage For="() => Dungemon.HitPoints" />
 
 @code {
-    [Parameter]
+    [Parameter, EditorRequired]
     public Dungemon Dungemon { get; set; } = null!;
-    [Parameter]
+
+    [Parameter, EditorRequired]
     public bool IsEditing { get; set; }
-    [Parameter]
+
+    [Parameter, EditorRequired]
     public EventCallback<Dungemon> DungemonChanged { get; set; }
-    private void HandleHPChange()
+
+    private async Task HitPointsChanged()
     {
-        DungemonChanged.InvokeAsync(Dungemon);
+        await DungemonChanged.InvokeAsync(Dungemon);
     }
 }
+

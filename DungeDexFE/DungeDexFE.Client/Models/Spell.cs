@@ -1,4 +1,6 @@
-﻿namespace DungeDexFE.Client.Models
+﻿using System.Text.Json.Serialization;
+
+namespace DungeDexFE.Client.Models
 {
 	public class Spell
 	{
@@ -6,6 +8,9 @@
 		public int DungemonId { get; set; }
 		public string Name { get; set; } = null!;
 		public string Description { get; set; } = null!;
+
+		[JsonIgnore(Condition = JsonIgnoreCondition.Always)]
+		public Guid? ClientId = Guid.NewGuid();
 
 		#region stretch
 		//public string Range { get; set; }

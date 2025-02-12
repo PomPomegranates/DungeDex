@@ -1,4 +1,4 @@
-﻿@page "/new-dungemon"
+﻿@page "/dungemon/new"
 
 @rendermode @(new InteractiveWebAssemblyRenderMode(false))
 
@@ -11,8 +11,8 @@
 @if (string.IsNullOrEmpty(UserId))
 {
 	<div class="my-4">
-	<p class="text-danger">You must be logged in to save Dungémon.</p>
-	<p class="my-4"><a href="/login">Click here</a> to login or sign-up.</p>
+		<p class="text-danger">You must be logged in to save Dungémon.</p>
+		<p class="my-4"><a href="/login">Click here</a> to login or sign-up.</p>
 	</div>
 }
 

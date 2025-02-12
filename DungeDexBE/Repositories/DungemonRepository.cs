@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DungeDexBE.Repositories
 {
-	public class UserDungemonRepository : IUserDungemonRepository
+	public class DungemonRepository : IDungemonRepository
 	{
 		private readonly ApplicationDbContext _db;
 
-		public UserDungemonRepository(ApplicationDbContext dbContext)
+		public DungemonRepository(ApplicationDbContext dbContext)
 		{
 			_db = dbContext;
 		}
@@ -69,6 +69,12 @@ namespace DungeDexBE.Repositories
 				var monsterToChange = await _db.Dungemon.SingleAsync(x => x.Id == monster.Id);
 				_db.Dungemon.Entry(monsterToChange).CurrentValues.SetValues(monster);
 
+				var spellIds = monster.Spells.Select(s => s.Id);
+				await _db.Spells
+					.Where(s => s.DungemonId == monster.Id)
+					.Where(s => !spellIds.Contains(s.Id))
+					.ExecuteDeleteAsync();
+
 				foreach (var spell in monster.Spells)
 				{
 					var dbSpell = _db.Spells.FirstOrDefault(s  => s.Id == spell.Id);
@@ -82,6 +88,12 @@ namespace DungeDexBE.Repositories
 						_db.Spells.Add(spell);
 					}
 				}
+
+				var actionIds = monster.Actions.Select(a => a.Id);
+				await _db.Actions
+					.Where(a => a.DungemonId == monster.Id)
+					.Where(a => !actionIds.Contains(a.Id))
+					.ExecuteDeleteAsync();
 
                 foreach (var action in monster.Actions)
                 {

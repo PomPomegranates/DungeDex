@@ -8,24 +8,33 @@
 
 <PageTitle>DungéDex : Dashboard</PageTitle>
 
-<h3>My DungéDashboard</h3>
+<h3>DungéDashboard</h3>
 
 <div class="my-4">
+
 	@if (_user is null)
 	{
+
 		<p class="text-danger">You must be logged in to view your dashboard.</p>
 		<p class="my-4"><a href="/login">Click here</a> to login or sign-up.</p>
+
 	}
 	else
 	{
+
 		@if (string.IsNullOrEmpty(_errorMessage))
 		{
-			<UserDisplay user="@_user" />
+
+			<UserDisplay User="_user" />
+
 		}
 		else
 		{
+
 			<p>@_errorMessage</p>
+
 		}
+
 	}
 </div>
 
@@ -39,28 +48,23 @@
 	{
 		var username = Auth.GetUserName();
 
-		if (string.IsNullOrEmpty(username)) return;
-
-		using var client = ClientFactory.CreateClient("BackendAPI");
-
-		var result = await client.GetAsync($"users/{username}");
-
-		if (!result.IsSuccessStatusCode)
+		if (string.IsNullOrEmpty(username))
 		{
-			_errorMessage = await result.Content.ReadAsStringAsync();
+			_errorMessage = "You must be logged in to view your dashboard.";
 			return;
 		}
 
-		_errorMessage = null;
-
-		var user = await result.Content.ReadFromJsonAsync<User>();
-
-		if (user is null)
+		try
 		{
-			_errorMessage = "There was an error getting your user data.";
-			return;
+			using var client = ClientFactory.CreateClient("BackendAPI");
+			var result = await client.GetAsync($"users/{username}");
+			result.EnsureSuccessStatusCode();
+			_user = await result.Content.ReadFromJsonAsync<User>();
+			Console.WriteLine("");
 		}
-
-		_user = user;
+		catch (Exception ex)
+		{
+			_errorMessage = ex.Message;
+		}
 	}
 }

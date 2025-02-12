@@ -9,7 +9,7 @@
 	<p>An error occurred while fetching the Spell Data:</p>
 	<p>@errorMessage</p>    
 }
-else if (Spells != null)
+else if (Spells is not null)
 {
 	<select @onchange="(x)=>HandleSelect(x)">
 
@@ -22,9 +22,9 @@ else if (Spells != null)
 
 	</select>
 
-	if(Spell != null)
+	if (Spell is not null)
 	{
-		<SpellDisplay Spell="Spell" isExpanded="true" isAdded="false"/>
+		<SpellDisplay Spell="Spell" IsEditing="false" />
 		<button @onclick="() => ConfirmSpell(Spell)">Confirm Spell</button>
 		<button @onclick="HandleCancel">Cancel</button>
 	}
@@ -43,7 +43,8 @@ else
 
 	private string errorMessage { get; set; } = null!;
 
-	public async Task HandleSelect(ChangeEventArgs spellIndex){
+	public async Task HandleSelect(ChangeEventArgs spellIndex)
+	{
 		try
 		{
 			using var client = clientFactory.CreateClient("BackendAPI");

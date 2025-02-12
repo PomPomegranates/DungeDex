@@ -73,7 +73,7 @@ namespace DungeDexBE.Controllers
 			try
 			{
 				var user = await _userManager.Users
-					.Include(u => u.Dungemons)
+					.Include(u => u.Dungemon)
 					.FirstOrDefaultAsync(u => u.UserName == userName);
 
 				if (user == null) return NotFound($"No user with username '{userName}' could be found.");

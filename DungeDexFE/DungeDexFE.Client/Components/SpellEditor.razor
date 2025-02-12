@@ -1,55 +1,61 @@
-﻿<h2>Spells</h2>
-
-@if (Spells.Count == 0)
-{
-    <p>To add spells, click 'Add Spell'.</p>
-}
+﻿<h3>Spells</h3>
 
 @foreach (var spell in Spells)
 {
-    <SpellDisplay Spell="spell" RemoveSpell="RemoveSpell"/>
-    <br /><br />
+	<SpellDisplay Spell="spell" IsEditing="IsEditing" SpellDeleted="() => DeleteSpell.InvokeAsync(spell)" SpellChanged="() => SpellChanged.InvokeAsync(spell)" />
+	<br />
+	<br />
 }
 
-@if (!isAddActive)
+
+@if (IsEditing)
 {
-    <button @onclick="ToggleAdd">Add Spell</button>
-}
-else
-{
-    <SpellLoader AddSpell="AddSpell"/>
+	@if (isAddingSpell)
+	{
+		<SpellLoader AddSpell="AddSpell" />
+	}
+	else
+	{
+		<button @onclick="ToggleAddSpell">
+			<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-square" viewBox="0 0 16 16">
+				<path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z" />
+				<path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+			</svg> New Spell
+		</button>
+	}
 }
 
 
 @code {
-    [Parameter] 
-    public required List<Spell> Spells { get; set; }
+	[Parameter, EditorRequired]
+	public List<Spell> Spells { get; set; } = null!;
 
-    [Parameter]
-    public EventCallback<List<Spell>> SpellsChanged { get; set; }
+	[Parameter]
+	public bool IsEditing { get; set; } = false;
 
-    public bool isAddActive =  false;
+	[Parameter]
+	public EventCallback<Spell> SpellChanged { get; set; }
 
-    public void RemoveSpell(Spell spellToRemove)
-    {
-        Spells.Remove(spellToRemove);
-        SpellsChanged.InvokeAsync(Spells);
-    }
+	[Parameter]
+	public EventCallback<Spell> DeleteSpell { get; set; }
 
-    public void ToggleAdd()
-    {
-        isAddActive = !isAddActive;
-    }
+	[Parameter]
+	public EventCallback<Spell> AddNewSpell { get; set; }
 
-    public void AddSpell(Spell? spellToAdd)
-    {
-        if (spellToAdd != null) 
-        {
-            Spells.Add(spellToAdd);
-            SpellsChanged.InvokeAsync(Spells);
-        }
+	private bool isAddingSpell = false;
 
-        ToggleAdd();
-    }
+	public void ToggleAddSpell()
+	{
+		isAddingSpell = !isAddingSpell;
+	}
 
+	private async Task AddSpell(Spell? spell)
+	{
+		if (spell is not null)
+		{
+			await AddNewSpell.InvokeAsync(spell);
+		}
+
+		ToggleAddSpell();
+	}
 }
