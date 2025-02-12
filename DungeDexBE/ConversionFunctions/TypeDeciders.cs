@@ -43,7 +43,7 @@ namespace DungeDexBE.ConversionFunctions
 
 		private static void AbberationCheck(List<string> possibleTypes, Pokemon pokemon)
 		{
-			if (pokemon.pokemonId <= 789 && pokemon.pokemonId >= 800) possibleTypes.Add("Abberation");
+			if (pokemon.pokemonId >= 789 && pokemon.pokemonId <= 800) possibleTypes.Add("Abberation");
 		}
 
 		private static void BeastCheck(List<string> possibleTypes, Pokemon pokemon)
