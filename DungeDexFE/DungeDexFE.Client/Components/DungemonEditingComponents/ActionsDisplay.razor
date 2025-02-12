@@ -5,12 +5,12 @@
 <div>
 	@if (isExpanded)
 	{
-		<InputText id="AttackName" style="width:auto; text-align: left; border: none;" 
+		<InputText id="AttackName" style="width:100%; text-align: left; border: none;" 
 		placeholder="Action Name"
 		@bind-Value="Action.Name"
 		disabled="@(!IsEditing)"/>
 
-		<InputTextArea id="AttackDescription" style="width:100%; text-align: left; border: none;"
+		<InputTextArea id="AttackDescription" style="width:100%; text-align: left; border: none;" class="my-1"
 		placeholder="Action Description"
 		@bind-Value="Action.Name"
 		disabled="@(!IsEditing)"/>

@@ -3,13 +3,13 @@
 <div>
 	@if (isExpanded)
 	{
-		<InputText id="SpellName" style="width:auto; text-align: left; border: none;" 
+		<InputText id="SpellName" style="width:100%; text-align: left; border: none;"
 		@bind-Value="@Spell.Name" 
 		@onblur="ChangeSpell"
 		disabled="@(!IsEditing)"/>
 
 
-		<InputTextArea id="SpellDescription" style="width:100%; text-align: left; border: none;"
+		<InputTextArea id="SpellDescription" style="width:100%; text-align: left; border: none;" class="my-1" Rows="4"
 		@bind-Value="@Spell.Description"
 		@onblur="ChangeSpell"
 		disabled="@(!IsEditing)"/>
