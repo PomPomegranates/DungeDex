@@ -15,14 +15,13 @@
 .LeftSide {
     grid-column: 1 / 4;
     padding: 10%;
-
-  
 }
 
 .TopPart {
     display: inline-block;
     grid-column: 1 / 4;
 }
+
 .CR{
     grid-column:1 / 1;
 }
@@ -34,7 +33,7 @@
 }
 
 .PokemonImage {
-    padding-left: 10%;
+/*    padding-left: 10%;*/
     grid-column: 1 / 3;
 }
 .attributes {
