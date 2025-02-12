@@ -3,21 +3,15 @@
 @inject IJSRuntime jsRuntime 
 
 <script id="soundPlay"> 
-    try 
-    { 
+
         window.PlayAudio = (cry) => { 
             let dungemonCry = document.getElementById(cry); 
             dungemonCry.volume = 0.02; 
             dungemonCry.play(); 
         }  
-    } 
-    catch 
-    { 
-        return; 
-    } 
 </script> 
 
-<img src="@Dungemon.ImageLink" style="height: 250px;" />
+<img src="@Dungemon.ImageLink" style="height: 250px;" @onmouseover="MakeNoise"/>
 <audio id ="cry" src="@Dungemon.Cry" type="audio/ogg"/>
 <br />
 <br />
